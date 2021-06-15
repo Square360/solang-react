@@ -1,9 +1,12 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+
 import counterReducer from '../features/counter/counterSlice';
+import solangReducer from '../features/ReduxObs/ReduxObsSlice';
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
+    solang: solangReducer
   },
 });
 
