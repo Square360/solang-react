@@ -27,7 +27,16 @@ export const ReduxObs = () => {
       params: {
         s: 'unassigned'
       },
-      filters: [],
+      filters: [
+        {
+          alias: 's',
+          field: 'tm_name',
+          process: (params: SolangParamList, query: any = {}) => {
+            const newQuery = {...query, s: params.s};
+            return newQuery;
+          }
+        }
+      ],
     }));
   }
 
