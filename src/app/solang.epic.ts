@@ -79,12 +79,15 @@ export const sendQueryEpic = (action$: any, state$: any) => action$.pipe(
       mapTo({
         type: resultsReceived.type,
         payload: {
+          appId: action.payload.appId,
           results: [
             {
+              id: 1,
               name: 'Michael',
               surname: 'Barrymore'
             },
             {
+              id:2,
               name: 'Kenny',
               surname: 'Everett'
             }

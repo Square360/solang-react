@@ -16,7 +16,7 @@ export interface SolangApp {
   config?: {},
   params: SolangParamList, // url-like paramerers
   filters?: SolangFilter[]; // A definition of all filters
-  results?: {}, // Define response object
+  results?: any[], // Define response object
   query?: {},
   lastQuery?: {},
 }
@@ -82,7 +82,8 @@ export const reduxObsSlice = createSlice({
     resultsReceived: (state, action: PayloadAction<any>) => {
       console.log('resultsReceived', action);
       let appIndex = state.apps.findIndex(app => app.id === action.payload.appId);
-      //state.apps[appIndex].results = actio
+      console.log(state.apps[appIndex]);
+      state.apps[appIndex].results = action.payload.results;
       // console.log()
     }
   },
