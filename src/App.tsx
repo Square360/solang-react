@@ -1,12 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
-import { ReduxObs } from './features/ReduxObs/ReduxObs';
+import { ReduxObs } from './features/TestSolang/ReduxObs';
 import './App.css';
 import { SolangResults } from "./components/solang-results/solang-results";
 import { useAppSelector } from "./app/hooks";
-import { selectCount } from "./features/counter/counterSlice";
 import { RootState } from "./app/store";
-import { getAppFromState } from "./features/ReduxObs/ReduxObsSlice";
+import { getAppFromState } from "./features/solang/solang.slice";
 import PrettyPrintJson from "./utils/components/PrettyPrintJson/PrettyPrintJson";
 
 function App() {
@@ -26,7 +25,7 @@ function App() {
         </header>
         <ReduxObs></ReduxObs>
         <PrettyPrintJson data={results}></PrettyPrintJson>
-        {/*<SolangResults results={results} isLoading={false}></SolangResults>*/}
+        <SolangResults results={results} isLoading={false}></SolangResults>
       </div>
     );
 }

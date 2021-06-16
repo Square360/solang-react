@@ -1,8 +1,4 @@
-
-/////////////////////
 import React from 'react';
-import { TypedUseSelectorHook, useSelector } from "react-redux";
-import { RootState } from "../../app/store";
 
 interface SolangResultsProps {
   results: any[] | undefined;
@@ -11,10 +7,7 @@ interface SolangResultsProps {
 
 export const SolangResults: React.FC<SolangResultsProps> = ({results, isLoading = false}) => {
 
-  const isEmpty = Array.isArray(results) && results.length > 0;
-
-
-
+  const isEmpty = Array.isArray(results) ? results.length === 0 : false;
 
   return (
     <div className="results">

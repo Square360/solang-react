@@ -4,13 +4,13 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
   createApp,
   getAppFromState,
-  setParams,
-  SolangParamList
-} from './ReduxObsSlice';
+  setParams
+} from '../solang/solang.slice';
 
 import styles from './ReduxObs.module.css';
 
 import { RootState } from "../../app/store";
+import { SolangParamList } from "../solang/solang.types";
 
 export const ReduxObs = () => {
 

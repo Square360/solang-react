@@ -1,20 +1,14 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-
 import { createEpicMiddleware } from 'redux-observable';
-
-import counterReducer from '../features/counter/counterSlice';
-import solangReducer from '../features/ReduxObs/ReduxObsSlice';
-
-
 import { combineEpics } from 'redux-observable';
-import { solangEpic, paramsEpic, buildQueryEpic, sendQueryEpic } from "./solang.epic";
 
+import solangReducer from '../features/solang/solang.slice';
+import { paramsEpic, buildQueryEpic, sendQueryEpic } from "../features/solang/solang.epic";
 
 const epicMiddleware = createEpicMiddleware();
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
     solang: solangReducer
   },
   middleware: [
@@ -23,7 +17,6 @@ export const store = configureStore({
 });
 
 export const rootEpic = combineEpics(
-  solangEpic,
   paramsEpic,
   buildQueryEpic,
   sendQueryEpic

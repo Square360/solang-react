@@ -1,12 +1,12 @@
 import reduxObsSlice, {
   createApp,
   SolangState,
-} from './ReduxObsSlice';
+} from './solang.slice';
 
 describe('solang reducer', () => {
   const initialState: SolangState = {
     config: {},
-    apps: []
+    apps: {}
   };
   it('should handle initial state', () => {
     expect(reduxObsSlice(undefined, { type: 'unknown' })).toEqual({

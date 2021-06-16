@@ -1,30 +1,17 @@
-import {
-  filter,
-  map,
-  mapTo,
-  switchMap,
-  tap,
-  delay,
-} from 'rxjs/operators';
-
-import { of } from 'rxjs';
-
 import { Action, AnyAction } from "@reduxjs/toolkit";
-
-import { setParams, buildQuery, sendQuery, getAppFromState, resultsReceived } from '../features/ReduxObs/ReduxObsSlice';
+import { filter,  map,  mapTo,  switchMap,  tap,  delay } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { ofType } from "redux-observable";
+import { setParams, buildQuery, sendQuery, getAppFromState, resultsReceived } from './solang.slice';
 
-export const solangEpic = (action$: any) => action$.pipe(
-  filter((action: Action)  => action.type === 'PING'),
-  mapTo({ type: 'PONG' })
-);
-
+/**
+ *
+ * @param action$
+ */
 export const paramsEpic = (action$: any) => action$.pipe(
   filter((action: any) => {
     return [
-      'solangSetParams',
-      'solangSetParam',
-      'solangDeleteParam',
+      // ToDo: fill other parameter changing actions here
       setParams.type
     ].indexOf(action.type) >= 0;
   }),
