@@ -5,7 +5,8 @@ import { ofType } from "redux-observable";
 import { setParams, buildQuery, sendQuery, getAppFromState, resultsReceived } from './solang.slice';
 
 /**
- *
+ * paramsEpic executes after any actions which change a solr app's parameters.
+ * This triggers the buildQuery action which in turn triggers the buildQueryEpic.
  * @param action$
  */
 export const paramsEpic = (action$: any) => action$.pipe(
@@ -23,7 +24,12 @@ export const paramsEpic = (action$: any) => action$.pipe(
     }
   }),
 );
-
+/**
+ * buildQueryEpic should be triggered after any change to parameters. It will execute the callback of every registered
+ * filter in the application building the final solr query. Upon completion it triggers sendQuery action.
+ * @param action$
+ * @param state$
+ */
 export const buildQueryEpic = (action$: any, state$: any) => action$.pipe(
   filter((action: Action)  => action.type === buildQuery.type),
   tap(action => console.log('buildQueryEpic', action)),
@@ -41,8 +47,6 @@ export const buildQueryEpic = (action$: any, state$: any) => action$.pipe(
       query = process(params, query)
     });
 
-    console.log('Final query', query);
-
     return {
       type: sendQuery.type,
       payload: {
@@ -53,6 +57,12 @@ export const buildQueryEpic = (action$: any, state$: any) => action$.pipe(
   })
 );
 
+/**
+ * sendQueryEpic fires when the solr query has been changed by sendQuery. Any new (sendQuery) action occurring before
+ * the current query completes will cancel the current query.
+ * @param action$
+ * @param state$
+ */
 export const sendQueryEpic = (action$: any, state$: any) => action$.pipe(
   ofType(sendQuery.type),
   tap(action => console.log('sendQueryEpic', action)),

@@ -1,7 +1,7 @@
 import reduxObsSlice, {
   createApp,
-  SolangState,
 } from './solang.slice';
+import { SolangState } from "./solang.types";
 
 describe('solang reducer', () => {
   const initialState: SolangState = {
