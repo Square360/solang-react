@@ -1,8 +1,18 @@
 
 /**
- * ToDo: Must fill out SolrQuery
+ * ToDo: We still have to expand on the SolrQuery interface
  */
-export interface SolrQuery {}
+export interface SolrQuery {
+  facet?: 'true' | 'false';
+  'facet.field': string[];
+  fq: string[];
+  // Allows for use of field-value-facet parameters while maintaining strict typing. These must be moved into the
+  // top-level of the query before sending to Solr
+  // https://solr.apache.org/guide/8_1/faceting.html#field-value-faceting-parameters
+  // See JSON Facet API for an alternative https://solr.apache.org/guide/8_1/json-facet-api.html
+  legacy: { [key: string]: string | string[] }
+}
+
 
 /**
  * ToDo: Must fill out SolrResults

@@ -96,3 +96,39 @@ export const sendQueryEpic = (action$: any, state$: any) => action$.pipe(
     return searchQuery$;
   })
 );
+
+export const sendQueryEpic = (action$: any, state$: any) => action$.pipe(
+  ofType(sendQuery.type),
+  tap(action => console.log('sendQueryEpic', action)),
+  // Switch Map will auto-cancel any previous instance.
+  switchMap( (action: AnyAction) => {
+    // Create a new observable form the current action
+    const searchQuery$ = of(action.payload).pipe(
+      tap(query => console.log('searchQuery send',query)),
+      delay(5000),
+      tap(query => console.log('searchQuery receive')),
+      mapTo({
+        type: resultsReceived.type,
+        payload: {
+          appId: action.payload.appId,
+          results: [
+            {
+              id: 1,
+              name: 'Michael',
+              surname: 'Barrymore'
+            },
+            {
+              id:2,
+              name: 'Kenny',
+              surname: 'Everett'
+            }
+          ]
+        }
+
+      })
+    );
+    return searchQuery$;
+  })
+);
+
+
