@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createEmptySolrQuery, SolangApp, SolangParamList, SolangState, SolrQuery, SolrResults } from "./solang.types";
 import { facetFilterProcessParams, facetFilterProcessQuery, IFacetFilterState } from "./filters/FacetFilter";
+import { simpleFilterProcessParams, simpleFilterProcessQuery } from "./filters/SimpleFilter";
 
 //////////////////////////////////////
 // Helper Functions
@@ -121,8 +122,7 @@ export const SolangSlice = createSlice({
      * @param action
      */
     sendQuery: (state: SolangState, action: PayloadAction<iSendQueryPayload>) => {
-      const app = state.apps[action.payload.appId];
-      app.query = action.payload.query;
+      console.log('sendQuery reducer', action);
     },
 
     /**
@@ -145,13 +145,22 @@ export const SolangSlice = createSlice({
      * @param state
      * @param action
      */
-    processQueryFacet: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => {
+    processFacetFilter: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => {
       let app = getAppFromState(state, action.payload.appId);
       if (app) {
         facetFilterProcessParams(app.filters[action.payload.filter] as IFacetFilterState, app.params);
         facetFilterProcessQuery(app.filters[action.payload.filter] as IFacetFilterState, app.query || createEmptySolrQuery());
       }
+    },
+
+    processSimpleFilter: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => {
+      let app = getAppFromState(state, action.payload.appId);
+      if (app) {
+        simpleFilterProcessParams(app.filters[action.payload.filter] as IFacetFilterState, app.params);
+        simpleFilterProcessQuery(app.filters[action.payload.filter] as IFacetFilterState, app.query || createEmptySolrQuery());
+      }
     }
+
   }
 });
 
@@ -161,7 +170,8 @@ export const {
   buildQuery,
   sendQuery,
   resultsReceived,
-  processQueryFacet
+  processFacetFilter,
+  processSimpleFilter
 } = SolangSlice.actions;
 
 

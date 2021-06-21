@@ -1,5 +1,5 @@
-import { IFacetOption, IFilterState, IParamProcessor, IQueryProcessor } from "./filter";
-import { SolangParamList, SolrQuery } from "../solang.types";
+import { filterProcessParams, IFacetOption, IFilterState, IParamProcessor, IQueryProcessor } from "./filter";
+import { SolangParamList, SolrQuery, SolrResults } from "../solang.types";
 
 export interface IFacetFilterConfig {
   // solrField determines the field which will be filtered
@@ -25,8 +25,8 @@ export interface IFacetFilterConfig {
 export interface IFacetFilterState extends IFilterState {
   // Filter config
   config: IFacetFilterConfig;
-  // The currently selected options
-  selected: string[];
+  // The currently filter value
+  value: string[];
   // The available facetOptions
   options: IFacetOption[];
   // Boolean indicating whether filter has a selected value - ToDo: do we need hasValue?
@@ -34,24 +34,7 @@ export interface IFacetFilterState extends IFilterState {
 }
 
 export const facetFilterProcessParams = function (filterState: IFacetFilterState, params: SolangParamList) {
-
-  const alias = filterState.config.alias;
-  let selected: string[];
-
-  if ( Array.isArray(  params[ alias ] ) ) {
-    selected = params[ alias ] as string[];
-    filterState.hasValue = true;
-  }
-  else if ( params[ alias ] ) {
-    selected = [ params[ alias ] ] as string[];
-    filterState.hasValue = true;
-  }
-  else {
-    selected = [];
-    filterState.hasValue = false;
-  }
-
-  filterState.selected = selected;
+  filterProcessParams(filterState, params);
 }
 
 export const facetFilterProcessQuery = function (filterState: IFacetFilterState, query: SolrQuery) {
@@ -92,15 +75,62 @@ export function facetFilterAddFacetField ( config: IFacetFilterConfig, query: So
 
 export function facetFilterAddQuery (filterState: IFacetFilterState, query: SolrQuery) {
 
-  const join = (filterState.config.isOr === true) ? ' OR ' : ' ';
+  if (filterState.value.length > 0) {
+    const join = (filterState.config.isOr === true) ? ' OR ' : ' ';
 
-  const options = filterState.selected.map(
-    option => facetFilterProcessOption(filterState.config, option)
-  ).join(join);
+    const options = filterState.value.map(
+      option => facetFilterProcessOption(filterState.config, option)
+    ).join(join);
 
-  query.fq.push(`{!tag='${filterState.config.alias}'}${options}`);
+    query.fq.push(`{!tag='${filterState.config.alias}'}${options}`);
+  }
 
 }
+
+/**
+ * Analyse solr response and extract facet information
+ * @param filterState
+ * @param results
+ */
+export function facetFilterProcessResults (filterState: IFacetFilterState, response: SolrResults) {
+
+  // this.facetOptions = [];
+  //
+  // if ( response.facet_counts && response.facet_counts.facet_fields ) {
+  //   if (response.facet_counts.facet_fields[this.solrField]) {
+  //
+  //     const facetObj = response.facet_counts.facet_fields[this.solrField];
+  //
+  //     // If we are using the "missing" parameter we translate the empty string to the missing key.
+  //     if (this.missing && facetObj[''] !== undefined) {
+  //       facetObj[this.missing] = facetObj[''];
+  //       delete facetObj[''];
+  //     }
+  //
+  //     // Any options NOT within the returned facets must be added
+  //     this.facetSelected.forEach(key => {
+  //       if (!facetObj[key]) {
+  //         facetObj[key] = 0;
+  //       }
+  //     });
+  //
+  //     // Map into a keyed list of facet information
+  //     this.facetOptions = Object.keys(facetObj).map( (key) => {
+  //       // Fill the facet list
+  //       return {
+  //         value: key,
+  //         count: facetObj[key]
+  //       };
+  //     });
+  //   }
+  // }
+
+  // Reverse alpha sort
+  // if (this.sortAlpha === 'reverse') {
+  //   this.facetOptions.reverse();
+  // }
+}
+
 
 /**
  * Processes an option value before adding to query (converts to empty if required)
@@ -112,6 +142,7 @@ function facetFilterProcessOption (config: IFacetFilterConfig, option: string) {
   }
   return `(${config.solrField}:"${option}")`;
 }
+
 
 /**
  * Returns the equivalent filter fragment for selecting items without a value.

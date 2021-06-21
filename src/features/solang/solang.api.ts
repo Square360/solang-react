@@ -8,9 +8,9 @@ export const createSolrQueryObs = function(app: SolangApp) {
 
   const query: SolrQuery = {...app.query};
 
-  prepareQuery(query);
+  const params = prepareQuery(query);
 
-  const urlParams = new URLSearchParams(query as any);
+  const urlParams = new URLSearchParams(params as any);
 
   const queryUrl = `${app.endpoint}select?${urlParams.toString()}`
 
@@ -25,7 +25,9 @@ export const createSolrQueryObs = function(app: SolangApp) {
   return ajax$;
 }
 
-export const prepareQuery = function(params: SolrQuery) {
+export const prepareQuery = function(query: SolrQuery) {
+
+  const params: any = {...query};
 
   if (!params.q) params.q = '*';
 
@@ -36,10 +38,19 @@ export const prepareQuery = function(params: SolrQuery) {
     const json = JSON.stringify(params['json.facet']);
     params['json.facet'] = json;
   }
+
+  if (params.legacy) {
+    Object.keys(params.legacy).forEach( key => {
+      params[key] = params.legacy[key];
+    });
+    delete params.legacy;
+  }
   /**
    * json.nl=arrmap will format as [{"facetValue1": facetCount1}, {"facetValue2": facetCount2}].
    * json.nl=map will format as {"facetValue1": facetCount1, "facetValue2": facetCount2}
    * @type {string}
    */
   params['json.nl'] = 'map';
+
+  return params;
 }

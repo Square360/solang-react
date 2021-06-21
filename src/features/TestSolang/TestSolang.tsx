@@ -5,7 +5,8 @@ import {
   createApp,
   getAppFromState,
   setParams,
-  processQueryFacet
+  processFacetFilter,
+  processSimpleFilter
 } from '../solang/solang.slice';
 
 import styles from './TestSolang.module.css';
@@ -13,7 +14,6 @@ import styles from './TestSolang.module.css';
 import { RootState } from "../../app/store";
 import { createEmptySolrQuery, SolangParamList } from "../solang/solang.types";
 import PrettyPrintJson from "../../utils/components/PrettyPrintJson/PrettyPrintJson";
-import { SolangResults } from "../../components/solang-results/solang-results";
 
 export const TestSolang = () => {
 
@@ -41,17 +41,19 @@ export const TestSolang = () => {
       filters: {
         s: {
           config: {
-            solrField: 'first_name_s',
+            solrField: 'first_name_t',
             alias: 's'
           },
-          processQueryActions: [processQueryFacet.type]
+          processQueryActions: [processSimpleFilter.type],
+          value: []
         },
-        name: { // type: facet filter
+        country: { // type: facet filter
           config: {
             solrField: 'country_s',
             alias: 'country'
           },
-          processQueryActions: [processQueryFacet.type]
+          processQueryActions: [processFacetFilter.type],
+          value: []
         },
       }
 

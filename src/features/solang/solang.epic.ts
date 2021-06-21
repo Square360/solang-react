@@ -1,6 +1,5 @@
 import { Action, AnyAction, PayloadAction } from "@reduxjs/toolkit";
 import { filter,  map,  mapTo,  switchMap,  tap,  delay, mergeMap } from 'rxjs/operators';
-import { of } from 'rxjs';
 import { ofType } from "redux-observable";
 import { setParams, buildQuery, sendQuery, getAppFromState, resultsReceived } from './solang.slice';
 import { createSolrQueryObs } from "./solang.api";
@@ -27,8 +26,6 @@ export const paramsEpic = (action$: any) => {
     }),
   );
 }
-
-
 
 /**
  * sendQueryEpic fires when the solr query has been changed by sendQuery. Any new (sendQuery) action occurring before
@@ -58,36 +55,8 @@ export const sendQueryEpic = (action$: any, state$: any) => {
         );
       }
       else {
-        return of(0);
+        throw(new Error('No solang app!'));
       }
-
-
-      // Create a new observable form the current action
-      // const searchQuery$ = of(action.payload).pipe(
-      //   tap(query => console.log('searchQuery send',query)),
-      //   delay(5000),
-      //   tap(query => console.log('searchQuery receive')),
-      //   map({
-      //     type: resultsReceived.type,
-      //     payload: {
-      //       appId: action.payload.appId,
-      //       results: [
-      //         {
-      //           id: 1,
-      //           name: 'Michael',
-      //           surname: 'Barrymore'
-      //         },
-      //         {
-      //           id:2,
-      //           name: 'Kenny',
-      //           surname: 'Everett'
-      //         }
-      //       ]
-      //     }
-      //
-      //   })
-      // );
-      // return searchQuery$;
     })
   );
 }
