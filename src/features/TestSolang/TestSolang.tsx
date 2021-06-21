@@ -4,15 +4,18 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
   createApp,
   getAppFromState,
-  setParams
+  setParams,
+  processQueryFacet
 } from '../solang/solang.slice';
 
-import styles from './ReduxObs.module.css';
+import styles from './TestSolang.module.css';
 
 import { RootState } from "../../app/store";
-import { SolangParamList } from "../solang/solang.types";
+import { createEmptySolrQuery, SolangParamList } from "../solang/solang.types";
+import PrettyPrintJson from "../../utils/components/PrettyPrintJson/PrettyPrintJson";
+import { SolangResults } from "../../components/solang-results/solang-results";
 
-export const ReduxObs = () => {
+export const TestSolang = () => {
 
   const APP_ID = 'searchApp';
   const FILTER_KEY = 's';
@@ -21,22 +24,37 @@ export const ReduxObs = () => {
 
   const searchApp = useAppSelector((state: RootState) => getAppFromState(state.solang, APP_ID) );
 
+  const results = useAppSelector((state: RootState) => {
+    const app = getAppFromState(state.solang, APP_ID);
+    return app ? app.results : [];
+  });
+
   if (!searchApp) {
+
     dispatch(createApp({
       id: APP_ID,
+      endpoint: 'http://localhost:8983/solr/solang/',
       params: {
-        s: 'unassigned'
+        s: '*'
       },
-      filters: [
-        {
-          alias: 's',
-          field: 'tm_name',
-          process: (params: SolangParamList, query: any = {}) => {
-            const newQuery = {...query, s: params.s};
-            return newQuery;
-          }
-        }
-      ],
+      query: createEmptySolrQuery(),
+      filters: {
+        s: {
+          config: {
+            solrField: 'first_name_s',
+            alias: 's'
+          },
+          processQueryActions: [processQueryFacet.type]
+        },
+        name: { // type: facet filter
+          config: {
+            solrField: 'country_s',
+            alias: 'country'
+          },
+          processQueryActions: [processQueryFacet.type]
+        },
+      }
+
     }));
   }
 
@@ -76,6 +94,18 @@ export const ReduxObs = () => {
         </button>
       </div>
       <p>Received param value: {paramValue}</p>
+
+      { results && (
+        <ul>
+          {results.map(item => (
+            <li key={item.id}>{item.first_name_s} {item.last_name_s}</li>
+          ))}
+        </ul>
+
+      )}
+
+      <PrettyPrintJson data={results}></PrettyPrintJson>
+
     </div>
   );
 }

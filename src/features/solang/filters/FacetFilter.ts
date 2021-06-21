@@ -1,6 +1,5 @@
-import { IFacetOption, IParamProcessor, IQueryProcessor } from "./filter";
+import { IFacetOption, IFilterState, IParamProcessor, IQueryProcessor } from "./filter";
 import { SolangParamList, SolrQuery } from "../solang.types";
-
 
 export interface IFacetFilterConfig {
   // solrField determines the field which will be filtered
@@ -23,9 +22,7 @@ export interface IFacetFilterConfig {
   missingLabel?: string;
 };
 
-
-
-export interface IFacetFilterState {
+export interface IFacetFilterState extends IFilterState {
   // Filter config
   config: IFacetFilterConfig;
   // The currently selected options
@@ -57,9 +54,9 @@ export const facetFilterProcessParams = function (filterState: IFacetFilterState
   filterState.selected = selected;
 }
 
-export const facetFilterProcessQuery = function (filterState: IFacetFilterState, config: IFacetFilterConfig, query: SolrQuery) {
-  facetFilterAddFacetField(config, query);
-  facetFilterProcessQuery(filterState, config, query);
+export const facetFilterProcessQuery = function (filterState: IFacetFilterState, query: SolrQuery) {
+  facetFilterAddFacetField(filterState.config, query);
+  facetFilterAddQuery(filterState, query);
 }
 
 /**
@@ -93,15 +90,15 @@ export function facetFilterAddFacetField ( config: IFacetFilterConfig, query: So
 }
 
 
-export const facetFilterAddQuery = function (filterState: IFacetFilterState, config: IFacetFilterConfig, query: SolrQuery) {
+export function facetFilterAddQuery (filterState: IFacetFilterState, query: SolrQuery) {
 
-  const join = (config.isOr === true) ? ' OR ' : ' ';
+  const join = (filterState.config.isOr === true) ? ' OR ' : ' ';
 
   const options = filterState.selected.map(
-    option => facetFilterProcessOption(config, option)
+    option => facetFilterProcessOption(filterState.config, option)
   ).join(join);
 
-  query.fq.push(`{!tag='${config.alias}'}${options}`);
+  query.fq.push(`{!tag='${filterState.config.alias}'}${options}`);
 
 }
 
@@ -109,7 +106,7 @@ export const facetFilterAddQuery = function (filterState: IFacetFilterState, con
  * Processes an option value before adding to query (converts to empty if required)
  * @param option
  */
-const facetFilterProcessOption = function (config: IFacetFilterConfig, option: string) {
+function facetFilterProcessOption (config: IFacetFilterConfig, option: string) {
   if ( config.missingLabel && option === config.missingLabel) {
     return facetFilterGetMissingFragment(config);
   }
@@ -119,7 +116,7 @@ const facetFilterProcessOption = function (config: IFacetFilterConfig, option: s
 /**
  * Returns the equivalent filter fragment for selecting items without a value.
  */
-const facetFilterGetMissingFragment = function (config: IFacetFilterConfig) {
+function facetFilterGetMissingFragment (config: IFacetFilterConfig) {
   return `(*:* NOT ${config.solrField}:*)`;
 }
 

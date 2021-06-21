@@ -21,7 +21,7 @@ export const SolangResults: React.FC<SolangResultsProps> = ({results, isLoading 
       { !isLoading && !isEmpty && results && (
         <ul>
           {results.map(item => (
-            <li key={item.id}>{item.name} {item.surname}</li>
+            <li key={item.id}>{item.id}</li>
           ))}
         </ul>
       )}

@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
-import { ReduxObs } from './features/TestSolang/ReduxObs';
+import { TestSolang } from './features/TestSolang/TestSolang';
 import './App.css';
 import { SolangResults } from "./components/solang-results/solang-results";
 import { useAppSelector } from "./app/hooks";
@@ -12,10 +12,7 @@ function App() {
 
     const searchApp = useAppSelector((state: RootState) => getAppFromState(state.solang, 'searchApp') );
 
-    const results = useAppSelector((state: RootState) => {
-      const app = getAppFromState(state.solang, 'searchApp');
-      return app ? app.results : [];
-    });
+
 
     return (
       <div className="App">
@@ -23,9 +20,7 @@ function App() {
           <h1>ReduxObs</h1>
           <img src={logo} className="App-logo" alt="logo" />
         </header>
-        <ReduxObs></ReduxObs>
-        <PrettyPrintJson data={results}></PrettyPrintJson>
-        <SolangResults results={results} isLoading={false}></SolangResults>
+        <TestSolang></TestSolang>
       </div>
     );
 }
