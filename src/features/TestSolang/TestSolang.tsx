@@ -6,14 +6,15 @@ import {
   getAppFromState,
   setParams,
   processFacetFilter,
-  processSimpleFilter
+  processSimpleFilter, createEmptySolrQuery
 } from '../solang/solang.slice';
 
 import styles from './TestSolang.module.css';
 
 import { RootState } from "../../app/store";
-import { createEmptySolrQuery, SolangParamList } from "../solang/solang.types";
+import { ISolangParamList } from "../solang/solang.types";
 import PrettyPrintJson from "../../utils/components/PrettyPrintJson/PrettyPrintJson";
+import SolangFacet from "../solang/components/SolangFacet/SolangFacet";
 
 export const TestSolang = () => {
 
@@ -25,24 +26,22 @@ export const TestSolang = () => {
   const searchApp = useAppSelector((state: RootState) => getAppFromState(state.solang, APP_ID) );
 
   const results = useAppSelector((state: RootState) => {
-    const app = getAppFromState(state.solang, APP_ID);
-    return app ? app.results : [];
+    return ((searchApp && searchApp.response && searchApp.response.response)) ? searchApp.response.response.docs : [];
   });
 
   if (!searchApp) {
 
     dispatch(createApp({
+
       id: APP_ID,
       endpoint: 'http://localhost:8983/solr/solang/',
-      params: {
-        s: '*'
-      },
+      params: {},
       query: createEmptySolrQuery(),
       filters: {
         s: {
           config: {
             solrField: 'first_name_t',
-            alias: 's'
+            alias: 's',
           },
           processQueryActions: [processSimpleFilter.type],
           value: []
@@ -50,7 +49,21 @@ export const TestSolang = () => {
         country: { // type: facet filter
           config: {
             solrField: 'country_s',
-            alias: 'country'
+            alias: 'country',
+            label: 'Country',
+            minCount: 1,
+            sortAlpha: true
+          },
+          processQueryActions: [processFacetFilter.type],
+          value: []
+        },
+        city: { // type: facet filter
+          config: {
+            solrField: 'city_s',
+            alias: 'city',
+            label: 'City',
+            sortAlpha: true,
+            minCount: 1
           },
           processQueryActions: [processFacetFilter.type],
           value: []
@@ -69,7 +82,7 @@ export const TestSolang = () => {
 
   const setAsParamHandler = (e: any) => {
     e.preventDefault();
-    const params: SolangParamList = {};
+    const params: ISolangParamList = {};
     params[FILTER_KEY] = getValue;
     dispatch(setParams({appId: APP_ID, params: params}));
   }
@@ -85,6 +98,8 @@ export const TestSolang = () => {
         value={getValue}
         onChange={(e) => setValue(e.target.value)}
       />
+
+
       <div className={styles.row}>
 
         <button
@@ -96,6 +111,8 @@ export const TestSolang = () => {
         </button>
       </div>
       <p>Received param value: {paramValue}</p>
+
+      <SolangFacet alias={'country'}></SolangFacet>
 
       { results && (
         <ul>
