@@ -21,6 +21,41 @@ export const getAppFromState = (state: SolangState, appId: string) => {
     // ToDo: Throw Error
     console.log(`App ${appId} doesn't exist!`);
   }
+
+/**
+ * Returns a filter state from the solr slice
+ * @param state
+ * @param appId
+ * @param filterAlias
+ */
+export const getFilterFromState = (state: SolangState, appId: string, filterAlias: string) => {
+  const app = getAppFromState(state, appId);
+  const filter = app.filters[filterAlias] ?? null;
+  if (!filter) {
+    console.log(`Filter ${filterAlias} on app ${appId} doesn't exist!`);
+  }
+  return filter;
+}
+
+/**
+ * Returns a filter state from the solr slice
+ * @param state
+ * @param appId
+ * @param filterAlias
+ */
+export const getFacetCountsFromState = (state: SolangState, appId: string, filterAlias: string) => {
+  const app = getAppFromState(state, appId);
+  const filter = getFilterFromState(state, appId, filterAlias);
+  if (app.response && app.response.facet_counts ) {
+    const solrField: string = filter.config.solrField;
+    if (app.response.facet_counts.facet_fields[solrField]) {
+      const counts = app.response.facet_counts.facet_fields[solrField];
+      return Object.keys(app.response.facet_counts.facet_fields[solrField]).map( (value: string) => {
+        return {value: value, count: counts[value]}
+      });
+    }
+  }
+  return [];
 }
 
 //////////////////////////////////////
