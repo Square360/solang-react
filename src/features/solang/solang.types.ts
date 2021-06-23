@@ -1,10 +1,10 @@
 /**
- * ToDo: We still have to expand on the SolrQuery interface
+ * ToDo: We still have to expand on the ISolrQuery interface
  */
 import { IFacetFilterState } from "./filters/FacetFilter";
 import { IFilterState } from "./filters/filter";
 
-export interface SolrQuery {
+export interface ISolrQuery {
   q: string;
   facet?: 'true' | 'false';
   'facet.field': string[];
@@ -19,26 +19,15 @@ export interface SolrQuery {
   legacy: { [key: string]: string | string[] }
 }
 
-export const createEmptySolrQuery = (): SolrQuery => {
-  return {
-    q: '*',
-    facet: 'true',
-    'facet.field': [],
-    fq: [],
-    legacy: {}
-  }
-}
-
-
 /**
- * ToDo: Must fill out SolrResults
+ * ToDo: Must fill out ISolrResults
  */
-export interface SolrResults {}
+export interface ISolrResults {}
 
 /**
  * Defines possible parameters for a single search application. These should be compatible with URL query values.
  */
-export interface SolangParamList { [key: string]: string | string[] }
+export interface ISolangParamList { [key: string]: string | string[] }
 
 /**
  * Filters will make their individual changes to the application query during the build phase.
@@ -50,26 +39,45 @@ export interface SolangParamList { [key: string]: string | string[] }
 //   alias: string;
 //   field: string;
 //   label?: string;
-//   process: (params: SolangParamList, query: {}) => {};
+//   process: (params: ISolangParamList, query: {}) => {};
 //   config?: any;
 // }
 
 /**
- * SolangApp contains config, parameters, filters & results pertaining to a single solang application.
+ * ISolangApp contains config, parameters, filters & results pertaining to a single solang application.
  */
-export interface SolangApp {
+export interface ISolangApp {
   id: string;
   endpoint?: string; // Maybe should be an object
   status?: 'idle' | 'loading' | 'failed',
   config?: {},
-  params: SolangParamList, // url-like paramerers
+  params: ISolangParamList, // url-like paramerers
   filters: { [key: string]: IFilterState }; // A definition of all filters keyed by alias
-  results?: any[], // Define response object
-  query: SolrQuery,
+  response?: ISolrResponse, // Define response object
+  query: ISolrQuery,
   lastQuery?: {},
 }
 
-export interface SolangAppList { [key: string]: SolangApp }
+export interface ISolrResponse {
+  responseHeader: any,
+  response: {
+    numFound: number;
+    start: number;
+    numFoundExact?: boolean;
+    docs: any[];
+  },
+  facet_counts?: {
+    facet_queries: { [key: string]: number };
+    facet_fields: { [key: string]: any };
+    facet_ranges: { [key: string]: any };
+    facet_intervals: { [key: string]: any };
+    facet_heatmaps: { [key: string]: any };
+  }
+  "highlighting"?: any;
+  "debug"?: any;
+}
+
+export interface SolangAppList { [key: string]: ISolangApp }
 
 /**
  * State definition for the redux slice

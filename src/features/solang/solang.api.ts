@@ -1,12 +1,13 @@
-import { SolangApp, SolrQuery } from "./solang.types";
+import { ISolangApp, ISolrQuery } from "./solang.types";
 
 import { ajax } from 'rxjs/ajax';
+import { isString } from "util";
 
 
 
-export const createSolrQueryObs = function(app: SolangApp) {
+export const createSolrQueryObs = function(app: ISolangApp) {
 
-  const query: SolrQuery = {...app.query};
+  const query: ISolrQuery = {...app.query};
 
   const params = prepareQuery(query);
 
@@ -34,7 +35,7 @@ export const createSolrQueryObs = function(app: SolangApp) {
   return ajax$;
 }
 
-export const prepareQuery = function(query: SolrQuery) {
+export const prepareQuery = function(query: ISolrQuery) {
 
   const params: any = {...query};
 

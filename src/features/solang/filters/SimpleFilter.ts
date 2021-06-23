@@ -1,7 +1,7 @@
-import { SolangParamList, SolrQuery } from "../solang.types";
+import { ISolangParamList, ISolrQuery } from "../solang.types";
 import { facetFilterAddFacetField, facetFilterAddQuery, IFacetFilterState } from "./FacetFilter";
 
-export function simpleFilterProcessParams (filterState: IFacetFilterState, params: SolangParamList) {
+export function simpleFilterProcessParams (filterState: IFacetFilterState, params: ISolangParamList) {
   const alias = filterState.config.alias;
 
   if ( Array.isArray( params[ alias ] ) ) {
@@ -18,7 +18,7 @@ export function simpleFilterProcessParams (filterState: IFacetFilterState, param
   }
 }
 
-export function simpleFilterProcessQuery (filterState: IFacetFilterState, query: SolrQuery) {
+export function simpleFilterProcessQuery (filterState: IFacetFilterState, query: ISolrQuery) {
   const solrField = filterState.config.solrField;
   const field = solrField === 'q' ? '' : `${solrField}:`
   query.q = filterState.hasValue ? `${field}${filterState.value[0]}*` : '*';

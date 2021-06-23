@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { createEmptySolrQuery, SolangApp, SolangParamList, SolangState, SolrQuery, SolrResults } from "./solang.types";
+import { ISolangApp, ISolangParamList, SolangState, ISolrQuery, ISolrResults } from "./solang.types";
 import { facetFilterProcessParams, facetFilterProcessQuery, IFacetFilterState } from "./filters/FacetFilter";
 import { simpleFilterProcessParams, simpleFilterProcessQuery } from "./filters/SimpleFilter";
 
@@ -14,13 +14,13 @@ import { simpleFilterProcessParams, simpleFilterProcessQuery } from "./filters/S
  */
 export const getAppFromState = (state: SolangState, appId: string) => {
   let app = state.apps[appId];
-  if (app) {
-    return app;
-  }
-  else {
+  if (!app) {
     // ToDo: Throw Error
+    // throw new Error(`App ${appId} doesn't exist!`);
     console.log(`App ${appId} doesn't exist!`);
   }
+  return app;
+}
 
 /**
  * Returns a filter state from the solr slice
@@ -58,6 +58,17 @@ export const getFacetCountsFromState = (state: SolangState, appId: string, filte
   return [];
 }
 
+export const createEmptySolrQuery = (): ISolrQuery => {
+  return {
+    q: '*',
+    facet: 'true',
+    'facet.field': [],
+    fq: [],
+    legacy: {}
+  }
+}
+
+
 //////////////////////////////////////
 // Action & Payload interfaces
 //////////////////////////////////////
@@ -67,22 +78,22 @@ export const getFacetCountsFromState = (state: SolangState, appId: string, filte
  */
 export interface ISetParamsPayload {
   appId: string,
-  params: SolangParamList
+  params: ISolangParamList
 };
 
 export interface IBuildQueryPayload {
   appId: string,
-  query: SolrQuery
+  query: ISolrQuery
 };
 
 export interface iSendQueryPayload {
   appId: string;
-  query: SolrQuery;
+  query: ISolrQuery;
 }
 
 export interface IResultsReceivedPayload {
   appId: string;
-  results: SolrResults;
+  results: ISolrResults;
 }
 
 export interface IProcessFilterPayload {
@@ -113,7 +124,7 @@ export const SolangSlice = createSlice({
      * @param state
      * @param action
      */
-    createApp: (state: SolangState, action: PayloadAction<SolangApp>) => {
+    createApp: (state: SolangState, action: PayloadAction<ISolangApp>) => {
       if (!state.apps[action.payload.id]) {
         state.apps[action.payload.id] = action.payload
       } else {
@@ -132,7 +143,7 @@ export const SolangSlice = createSlice({
      */
     setParams: (state: SolangState, action: PayloadAction<ISetParamsPayload>) => {
       const appId = action.payload.appId;
-      const app: SolangApp = state.apps[appId];
+      const app: ISolangApp = state.apps[appId];
       app.params = action.payload.params;
     },
 
@@ -146,7 +157,7 @@ export const SolangSlice = createSlice({
     buildQuery: (state: SolangState, action: PayloadAction<any>) => {
       console.log('buildQuery reducer', action);
       const appId = action.payload.appId;
-      const app: SolangApp = state.apps[appId];
+      const app: ISolangApp = state.apps[appId];
       app.lastQuery = app.query || {};
       app.query = createEmptySolrQuery();
     },
@@ -168,7 +179,7 @@ export const SolangSlice = createSlice({
     resultsReceived: (state: SolangState, action: PayloadAction<any>) => {
       console.log('resultsReceived', action);
       const app = state.apps[action.payload.appId];
-      app.results = action.payload.response.response.response.docs;
+      app.response = action.payload.response.response;
     },
 
     //////////////////////////////////////

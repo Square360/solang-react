@@ -1,5 +1,5 @@
 import { filterProcessParams, IFacetOption, IFilterState, IParamProcessor, IQueryProcessor } from "./filter";
-import { SolangParamList, SolrQuery, SolrResults } from "../solang.types";
+import { ISolangParamList, ISolrQuery, ISolrResults } from "../solang.types";
 
 export interface IFacetFilterConfig {
   // solrField determines the field which will be filtered
@@ -8,9 +8,9 @@ export interface IFacetFilterConfig {
   // gives us greater control over the query)
   alias: string;
   // Maps to the solr option {!ex=tagname} see: https://solr.apache.org/guide/7_0/faceting.html#tagging-and-excluding-filters
-  excludeTag: boolean | string;
+  excludeTag: boolean;
   // If false, will be sorted numerically by count (facet.sort)
-  sortAlpha: boolean | string;
+  sortAlpha: boolean;
   // Limit the number of possible facets returned (facet.limit)
   limit: number;
   // Limit returned facets by the count (facet.mincount)
@@ -33,11 +33,11 @@ export interface IFacetFilterState extends IFilterState {
   hasValue: boolean
 }
 
-export const facetFilterProcessParams = function (filterState: IFacetFilterState, params: SolangParamList) {
+export const facetFilterProcessParams = function (filterState: IFacetFilterState, params: ISolangParamList) {
   filterProcessParams(filterState, params);
 }
 
-export const facetFilterProcessQuery = function (filterState: IFacetFilterState, query: SolrQuery) {
+export const facetFilterProcessQuery = function (filterState: IFacetFilterState, query: ISolrQuery) {
   facetFilterAddFacetField(filterState.config, query);
   facetFilterAddQuery(filterState, query);
 }
@@ -46,7 +46,7 @@ export const facetFilterProcessQuery = function (filterState: IFacetFilterState,
  * Given a filter config & solr query, add the arguments which will request facet options
  * @param query
  */
-export function facetFilterAddFacetField ( config: IFacetFilterConfig, query: SolrQuery ) {
+export function facetFilterAddFacetField ( config: IFacetFilterConfig, query: ISolrQuery ) {
 
   if ( config.excludeTag === true ) {
     query['facet.field'].push( `{!ex=${config.alias}}${config.solrField}` );
@@ -73,7 +73,7 @@ export function facetFilterAddFacetField ( config: IFacetFilterConfig, query: So
 }
 
 
-export function facetFilterAddQuery (filterState: IFacetFilterState, query: SolrQuery) {
+export function facetFilterAddQuery (filterState: IFacetFilterState, query: ISolrQuery) {
 
   if (filterState.value.length > 0) {
     const join = (filterState.config.isOr === true) ? ' OR ' : ' ';
@@ -92,7 +92,7 @@ export function facetFilterAddQuery (filterState: IFacetFilterState, query: Solr
  * @param filterState
  * @param results
  */
-export function facetFilterProcessResults (filterState: IFacetFilterState, response: SolrResults) {
+export function facetFilterProcessResults (filterState: IFacetFilterState, response: ISolrResults) {
 
   // this.facetOptions = [];
   //
