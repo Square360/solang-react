@@ -2,7 +2,7 @@ import { useAppSelector } from "../../../../app/hooks";
 import { RootState } from "../../../../app/store";
 import { getAppFromState, getFacetCountsFromState, getFilterFromState } from "../../solang.slice";
 
-import './slng-facet.scss';
+import './solang-facet.scss';
 
 interface MyProps {
   alias: string
@@ -10,19 +10,24 @@ interface MyProps {
 
 const SolangFacet = ({alias}: MyProps) => {
 
+  const CLASS = 'solang-facet';
+
   const filterState  = useAppSelector((state: RootState) => getFilterFromState(state.solang, 'searchApp', alias) );
 
   const facetCounts  = useAppSelector((state: RootState) => getFacetCountsFromState(state.solang, 'searchApp', alias) );
 
   return (
 
-    <div className={'slng-facet'}>
+    <div className={`${CLASS}`}>
       <fieldset>
         {filterState.config.label && <legend>{filterState.config.label}</legend>}
-
-        <ul>
+        <ul className={`${CLASS}__list`}>
           { facetCounts.map( ({value, count}) => (
-            <li>{value} ({count})</li>
+            <li className={`${CLASS}__list-item`}>
+              <label  className={`${CLASS}__label`}>
+                <input type="checkbox" value={value} name={alias}/> <span className={`${CLASS}__value`}>{value}</span>  <span className={`${CLASS}__count`}>({count})</span>
+              </label>
+            </li>
           ))}
         </ul>
 
