@@ -10,7 +10,16 @@ export const createSolrQueryObs = function(app: SolangApp) {
 
   const params = prepareQuery(query);
 
-  const urlParams = new URLSearchParams(params as any);
+  const urlParams = new URLSearchParams();
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      value.forEach(arrayValue => urlParams.append(key, arrayValue))
+    }
+    else {
+      urlParams.append(key, value as string);
+    }
+  });
 
   const queryUrl = `${app.endpoint}select?${urlParams.toString()}`
 
