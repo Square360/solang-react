@@ -13,7 +13,7 @@ export interface IFilterState {
   // Contains a list ofn actions which should be executed on this filter during query process
   processQueryActions: string[];
   //
-  value: any
+  value?: any
 }
 
 
