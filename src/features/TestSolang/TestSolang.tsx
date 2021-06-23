@@ -29,61 +29,18 @@ export const TestSolang = () => {
     return ((searchApp && searchApp.response && searchApp.response.response)) ? searchApp.response.response.docs : [];
   });
 
-  if (!searchApp) {
 
-    dispatch(createApp({
-
-      id: APP_ID,
-      endpoint: 'http://localhost:8983/solr/solang/',
-      params: {},
-      query: createEmptySolrQuery(),
-      filters: {
-        s: {
-          config: {
-            solrField: 'first_name_t',
-            alias: 's',
-          },
-          processQueryActions: [processSimpleFilter.type],
-          value: []
-        },
-        country: { // type: facet filter
-          config: {
-            solrField: 'country_s',
-            alias: 'country',
-            label: 'Country',
-            minCount: 1,
-            sortAlpha: true
-          },
-          processQueryActions: [processFacetFilter.type],
-          value: []
-        },
-        city: { // type: facet filter
-          config: {
-            solrField: 'city_s',
-            alias: 'city',
-            label: 'City',
-            sortAlpha: true,
-            minCount: 1
-          },
-          processQueryActions: [processFacetFilter.type],
-          value: []
-        },
-      }
-
-    }));
-  }
-
-  const paramValue = useAppSelector((state: RootState) => {
+  const searchParameter = useAppSelector((state: RootState) => {
     const app = getAppFromState(state.solang, APP_ID);
     return app ? app.params[FILTER_KEY] : 'undefined';
   });
 
-  const [getValue, setValue] = useState('2');
+  const [getSearchString, setSearchString] = useState(searchParameter);
 
-  const setAsParamHandler = (e: any) => {
+  const updateParams = (e: any) => {
     e.preventDefault();
-    const params: ISolangParamList = {};
-    params[FILTER_KEY] = getValue;
+    const params: ISolangParamList = {...searchApp.params};
+    params[FILTER_KEY] = getSearchString;
     dispatch(setParams({appId: APP_ID, params: params}));
   }
 
@@ -95,22 +52,22 @@ export const TestSolang = () => {
         id='val'
         className={styles.textbox}
         aria-label="Set increment amount"
-        value={getValue}
-        onChange={(e) => setValue(e.target.value)}
+        value={searchParameter}
+        onChange={(e) => setSearchString(e.target.value)}
       />
-
 
       <div className={styles.row}>
 
         <button
           className={styles.button}
           aria-label="Decrement value"
-          onClick={setAsParamHandler}
+          onClick={updateParams}
         >
           Set as param
         </button>
       </div>
-      <p>Received param value: {paramValue}</p>
+      <p>Internal param value: {getSearchString}</p>
+      <p>Solang value: {searchParameter}</p>
 
       <SolangFacet alias={'country'}></SolangFacet>
 
