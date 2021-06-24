@@ -54,7 +54,7 @@ export const TestSolang = () => {
           id='val'
           className={styles.textbox}
           aria-label="Set increment amount"
-          value={searchParameter}
+          defaultValue={searchParameter}
           onChange={(e) => setSearchString(e.target.value)}
         />
 
