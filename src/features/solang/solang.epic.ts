@@ -1,24 +1,23 @@
-import { Action, AnyAction, PayloadAction } from "@reduxjs/toolkit";
-import { filter,  map,  mapTo,  switchMap,  tap,  delay, mergeMap } from 'rxjs/operators';
+import {  AnyAction } from "@reduxjs/toolkit";
+import { filter, map, switchMap, tap, mergeMap } from 'rxjs/operators';
 import { ofType } from "redux-observable";
 import { setParam, setParams, buildQuery, sendQuery, getAppFromState, resultsReceived } from './solang.slice';
 import { createSolrQueryObs } from "./solang.api";
 
 /**
- * paramsEpic executes after any actions which change a solr app's parameters.
+ * processParamsEpic executes after any actions which change a solr app's parameters.
  * This triggers the buildQuery action which in turn triggers the buildQueryEpic.
  * @param action$
  */
-export const paramsEpic = (action$: any) => {
+export const processParamsEpic = (action$: any) => {
   return action$.pipe(
     filter((action: any) => {
       return [
-        // ToDo: fill other parameter changing actions here
         setParams.type,
         setParam.type
-      ].indexOf(action.type) >= 0;
+      ].includes(action.type);
     }),
-    tap(action => console.log('paramsEpic', action)),
+    tap(action => console.log('processParamsEpic', action)),
     map((action: AnyAction) => {
       return {
         type: buildQuery.type,
@@ -29,39 +28,10 @@ export const paramsEpic = (action$: any) => {
 }
 
 /**
- * sendQueryEpic fires when the solr query has been changed by sendQuery. Any new (sendQuery) action occurring before
- * the current query completes will cancel the current query.
+ *
  * @param action$
  * @param state$
  */
-export const sendQueryEpic = (action$: any, state$: any) => {
-  return action$.pipe(
-    ofType(sendQuery.type),
-    tap(action => console.log('sendQueryEpic', action)),
-    // Switch Map will auto-cancel any previous instance.
-    switchMap( (action: AnyAction) => {
-
-      const app = getAppFromState(state$.value.solang, action.payload.appId);
-      if (app) {
-        return createSolrQueryObs(app).pipe(
-          map(response => {
-            return {
-              type: resultsReceived.type,
-              payload: {
-                appId: action.payload.appId,
-                response: response
-              }
-            }
-          })
-        );
-      }
-      else {
-        throw(new Error('No solang app!'));
-      }
-    })
-  );
-}
-
 export const processQueryEpic = (action$: any, state$: any) => {
   return action$.pipe(
 
@@ -105,6 +75,41 @@ export const processQueryEpic = (action$: any, state$: any) => {
       });
 
       return processActions;
+    })
+  );
+}
+
+
+/**
+ * sendQueryEpic fires when the solr query has been changed by sendQuery. Any new (sendQuery) action occurring before
+ * the current query completes will cancel the current query.
+ * @param action$
+ * @param state$
+ */
+export const sendQueryEpic = (action$: any, state$: any) => {
+  return action$.pipe(
+    ofType(sendQuery.type),
+    tap(action => console.log('sendQueryEpic', action)),
+    // Switch Map will auto-cancel any previous instance.
+    switchMap( (action: AnyAction) => {
+
+      const app = getAppFromState(state$.value.solang, action.payload.appId);
+      if (app) {
+        return createSolrQueryObs(app).pipe(
+          map(response => {
+            return {
+              type: resultsReceived.type,
+              payload: {
+                appId: action.payload.appId,
+                response: response
+              }
+            }
+          })
+        );
+      }
+      else {
+        throw(new Error('No solang app!'));
+      }
     })
   );
 }

@@ -32,8 +32,6 @@ export interface ISolangParamList { [key: string]: string | string[] }
 /**
  * Filters will make their individual changes to the application query during the build phase.
  * The process should modify the query based on current params and the filter's own variables.
- * ToDo: To make SolangFilter testable we have to refactor into a class (or extract the process into a pure function)
- * ToDo: SolangFilter should be extended to other classes/interfaces which define configurable options
  */
 // export interface  SolangFilter {
 //   alias: string;

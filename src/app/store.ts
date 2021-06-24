@@ -3,7 +3,7 @@ import { createEpicMiddleware } from 'redux-observable';
 import { combineEpics } from 'redux-observable';
 
 import solangReducer from '../features/solang/solang.slice';
-import { paramsEpic, sendQueryEpic, processQueryEpic } from "../features/solang/solang.epic";
+import { processParamsEpic, sendQueryEpic, processQueryEpic } from "../features/solang/solang.epic";
 
 const epicMiddleware = createEpicMiddleware();
 
@@ -17,7 +17,7 @@ export const store = configureStore({
 });
 
 export const rootEpic = combineEpics(
-  paramsEpic,
+  processParamsEpic,
   // buildQueryEpic,
   processQueryEpic,
   sendQueryEpic

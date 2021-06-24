@@ -188,8 +188,7 @@ export const SolangSlice = createSlice({
      */
     buildQuery: (state: SolangState, action: PayloadAction<any>) => {
       console.log('buildQuery reducer', action);
-      const appId = action.payload.appId;
-      const app: ISolangApp = state.apps[appId];
+      const app = getAppFromState(state, action.payload.appId)
       app.lastQuery = app.query || {};
       app.query = createEmptySolrQuery();
     },
@@ -219,7 +218,7 @@ export const SolangSlice = createSlice({
     //////////////////////////////////////
 
     /**
-     * processQueryFacet reducer see: facetFilterProcessParams
+     * processQueryFacet reducer.
      * @param state
      * @param action
      */
@@ -231,6 +230,11 @@ export const SolangSlice = createSlice({
       }
     },
 
+    /**
+     * processSimpleFilter reducer
+     * @param state
+     * @param action
+     */
     processSimpleFilter: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => {
       let app = getAppFromState(state, action.payload.appId);
       if (app) {

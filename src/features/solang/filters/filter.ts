@@ -16,8 +16,6 @@ export interface IFilterState {
   value?: any
 }
 
-
-
 export interface IParamProcessor {
   processParams(params: ISolangParamList): void;
 }
@@ -28,7 +26,6 @@ export interface IParamProcessor {
 export interface IQueryProcessor {
   processQuery(query: ISolrQuery): void;
 }
-
 
 export const filterProcessParams = function (filterState: IFacetFilterState, params: ISolangParamList) {
 
