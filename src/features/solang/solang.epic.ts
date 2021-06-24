@@ -1,7 +1,7 @@
 import { Action, AnyAction, PayloadAction } from "@reduxjs/toolkit";
 import { filter,  map,  mapTo,  switchMap,  tap,  delay, mergeMap } from 'rxjs/operators';
 import { ofType } from "redux-observable";
-import { setParams, buildQuery, sendQuery, getAppFromState, resultsReceived } from './solang.slice';
+import { setParam, setParams, buildQuery, sendQuery, getAppFromState, resultsReceived } from './solang.slice';
 import { createSolrQueryObs } from "./solang.api";
 
 /**
@@ -14,7 +14,8 @@ export const paramsEpic = (action$: any) => {
     filter((action: any) => {
       return [
         // ToDo: fill other parameter changing actions here
-        setParams.type
+        setParams.type,
+        setParam.type
       ].indexOf(action.type) >= 0;
     }),
     tap(action => console.log('paramsEpic', action)),

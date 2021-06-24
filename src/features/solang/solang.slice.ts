@@ -81,6 +81,12 @@ export interface ISetParamsPayload {
   params: ISolangParamList
 };
 
+export interface ISetParamPayload {
+  appId: string,
+  key: string,
+  value: string | string[]
+};
+
 export interface IBuildQueryPayload {
   appId: string,
   query: ISolrQuery
@@ -145,6 +151,17 @@ export const SolangSlice = createSlice({
       const appId = action.payload.appId;
       const app: ISolangApp = state.apps[appId];
       app.params = action.payload.params;
+    },
+
+    /**
+     * Update a single parameter in an application
+     * @param state
+     * @param action
+     */
+    setParam: (state: SolangState, action: PayloadAction<ISetParamPayload>) => {
+      const appId = action.payload.appId;
+      const app: ISolangApp = state.apps[appId];
+      app.params[action.payload.key] = action.payload.value;
     },
 
 
@@ -212,6 +229,7 @@ export const SolangSlice = createSlice({
 
 export const {
   createApp,
+  setParam,
   setParams,
   buildQuery,
   sendQuery,
