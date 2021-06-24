@@ -48,16 +48,15 @@ export const TestSolang = () => {
     <div>
       <PrettyPrintJson data={searchApp.params}></PrettyPrintJson>
       <h2>Testing Redux Observables</h2>
-      <label htmlFor='val'>Param value:</label>
-      <input
-        id='val'
-        className={styles.textbox}
-        aria-label="Set increment amount"
-        value={searchParameter}
-        onChange={(e) => setSearchString(e.target.value)}
-      />
-
       <div className={styles.row}>
+        <label htmlFor='val'>Param value:</label>
+        <input
+          id='val'
+          className={styles.textbox}
+          aria-label="Set increment amount"
+          value={searchParameter}
+          onChange={(e) => setSearchString(e.target.value)}
+        />
 
         <button
           className={styles.button}
@@ -78,7 +77,6 @@ export const TestSolang = () => {
             <li key={item.id}>{item.first_name_s} {item.last_name_s}</li>
           ))}
         </ul>
-
       )}
 
       <PrettyPrintJson data={results}></PrettyPrintJson>

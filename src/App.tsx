@@ -19,13 +19,11 @@ function App() {
 
   if (!searchApp) {
     dispatch(createApp({
-
       id: 'searchApp',
       endpoint: 'http://localhost:8983/solr/solang/',
       params: {
         s: 'Da'
       },
-      query: createEmptySolrQuery(),
       filters: {
         s: {
           config: {
@@ -41,7 +39,8 @@ function App() {
             alias: 'country',
             label: 'Country',
             minCount: 1,
-            sortAlpha: true
+            sortAlpha: true,
+            excludeTag: true
           },
           processQueryActions: [processFacetFilter.type],
           value: []
@@ -57,7 +56,7 @@ function App() {
           processQueryActions: [processFacetFilter.type],
           value: []
         },
-      }
+      },
     }));
   }
 

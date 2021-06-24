@@ -1,7 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ISolangApp, ISolangParamList, SolangState, ISolrQuery, ISolrResults } from "./solang.types";
+import { ISolangApp, ISolangParamList, SolangState, ISolrQuery, ISolrResults, ISolrResponse } from "./solang.types";
 import { facetFilterProcessParams, facetFilterProcessQuery, IFacetFilterState } from "./filters/FacetFilter";
 import { simpleFilterProcessParams, simpleFilterProcessQuery } from "./filters/SimpleFilter";
+import { IFilterState } from "./filters/filter";
+import { create } from "domain";
 
 //////////////////////////////////////
 // Helper Functions
@@ -76,6 +78,15 @@ export const createEmptySolrQuery = (): ISolrQuery => {
 /**
  * Interfaces
  */
+
+export interface ICreateAppPayload {
+  id: string;
+  endpoint: string;
+  config?: {},
+  params: ISolangParamList, // url-like paramerers
+  filters: { [key: string]: IFilterState }; // A definition of all filters keyed by alias
+}
+
 export interface ISetParamsPayload {
   appId: string,
   params: ISolangParamList
@@ -130,9 +141,13 @@ export const SolangSlice = createSlice({
      * @param state
      * @param action
      */
-    createApp: (state: SolangState, action: PayloadAction<ISolangApp>) => {
+    createApp: (state: SolangState, action: PayloadAction<ICreateAppPayload>) => {
       if (!state.apps[action.payload.id]) {
-        state.apps[action.payload.id] = action.payload
+        const newApp: ISolangApp = {
+          ...action.payload,
+          query: createEmptySolrQuery(),
+        }
+        state.apps[action.payload.id] = newApp;
       } else {
         throw Error(`Solang app ${action.payload.id} already exists!`);
       }
