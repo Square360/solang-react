@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ISolangApp, ISolangParamList, SolangState, ISolrQuery, ISolrResults, ISolrResponse } from "./solang.types";
+import { ISolangApp, ISolangParamList, SolangState, ISolrQuery, ISolrResponse } from "./solang.types";
 import { facetFilterProcessParams, facetFilterProcessQuery, IFacetFilterState } from "./filters/FacetFilter";
 import { simpleFilterProcessParams, simpleFilterProcessQuery } from "./filters/SimpleFilter";
 import { IFilterState } from "./filters/filter";
@@ -110,7 +110,7 @@ export interface iSendQueryPayload {
 
 export interface IResultsReceivedPayload {
   appId: string;
-  results: ISolrResults;
+  results: ISolrResponse;
 }
 
 export interface IProcessFilterPayload {

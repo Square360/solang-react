@@ -10,6 +10,14 @@ interface MyProps {
   alias: string
 }
 
+// ToDo: Display selected values even if not in facetted results.
+
+/**
+ * Provides checkbox filter for categories with result counts.
+ * @param appId
+ * @param alias
+ * @constructor
+ */
 const SolangFacet = ({appId, alias}: MyProps) => {
 
   const CLASS = 'solang-facet';

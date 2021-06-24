@@ -20,26 +20,9 @@ export interface ISolrQuery {
 }
 
 /**
- * ToDo: Must fill out ISolrResults
- */
-export interface ISolrResults {}
-
-/**
  * Defines possible parameters for a single search application. These should be compatible with URL query values.
  */
 export interface ISolangParamList { [key: string]: string | string[] }
-
-/**
- * Filters will make their individual changes to the application query during the build phase.
- * The process should modify the query based on current params and the filter's own variables.
- */
-// export interface  SolangFilter {
-//   alias: string;
-//   field: string;
-//   label?: string;
-//   process: (params: ISolangParamList, query: {}) => {};
-//   config?: any;
-// }
 
 /**
  * ISolangApp contains config, parameters, filters & results pertaining to a single solang application.

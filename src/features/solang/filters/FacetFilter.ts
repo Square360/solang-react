@@ -1,5 +1,5 @@
-import { filterProcessParams, IFacetOption, IFilterState, IParamProcessor, IQueryProcessor } from "./filter";
-import { ISolangParamList, ISolrQuery, ISolrResults } from "../solang.types";
+import { filterProcessParams, IFacetOption, IFilterState } from "./filter";
+import { ISolangParamList, ISolrQuery } from "../solang.types";
 
 export interface IFacetFilterConfig {
   // solrField determines the field which will be filtered
@@ -86,51 +86,6 @@ export function facetFilterAddQuery (filterState: IFacetFilterState, query: ISol
   }
 
 }
-
-/**
- * Analyse solr response and extract facet information
- * @param filterState
- * @param results
- */
-export function facetFilterProcessResults (filterState: IFacetFilterState, response: ISolrResults) {
-
-  // this.facetOptions = [];
-  //
-  // if ( response.facet_counts && response.facet_counts.facet_fields ) {
-  //   if (response.facet_counts.facet_fields[this.solrField]) {
-  //
-  //     const facetObj = response.facet_counts.facet_fields[this.solrField];
-  //
-  //     // If we are using the "missing" parameter we translate the empty string to the missing key.
-  //     if (this.missing && facetObj[''] !== undefined) {
-  //       facetObj[this.missing] = facetObj[''];
-  //       delete facetObj[''];
-  //     }
-  //
-  //     // Any options NOT within the returned facets must be added
-  //     this.facetSelected.forEach(key => {
-  //       if (!facetObj[key]) {
-  //         facetObj[key] = 0;
-  //       }
-  //     });
-  //
-  //     // Map into a keyed list of facet information
-  //     this.facetOptions = Object.keys(facetObj).map( (key) => {
-  //       // Fill the facet list
-  //       return {
-  //         value: key,
-  //         count: facetObj[key]
-  //       };
-  //     });
-  //   }
-  // }
-
-  // Reverse alpha sort
-  // if (this.sortAlpha === 'reverse') {
-  //   this.facetOptions.reverse();
-  // }
-}
-
 
 /**
  * Processes an option value before adding to query (converts to empty if required)
