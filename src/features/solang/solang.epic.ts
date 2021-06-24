@@ -37,7 +37,7 @@ export const processQueryEpic = (action$: any, state$: any) => {
 
     filter((action: AnyAction)  => action.type === buildQuery.type),
     tap(action => console.log('buildQueryEpic starting', action)),
-    mergeMap( (action: AnyAction) => {
+    switchMap( (action: AnyAction) => {
 
       // Get the state for this application
       const app = getAppFromState(state$.value.solang, action.payload.appId);
