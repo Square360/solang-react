@@ -64,8 +64,7 @@ function App() {
     return (
       <div className="App">
         <header className="App-header">
-          <h1>ReduxObs</h1>
-          <img src={logo} className="App-logo" alt="logo" />
+          <h1>Solang</h1>
         </header>
         <TestSolang></TestSolang>
       </div>

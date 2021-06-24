@@ -46,6 +46,7 @@ export const TestSolang = () => {
 
   return (
     <div>
+      <PrettyPrintJson data={searchApp.params}></PrettyPrintJson>
       <h2>Testing Redux Observables</h2>
       <label htmlFor='val'>Param value:</label>
       <input
@@ -69,7 +70,7 @@ export const TestSolang = () => {
       <p>Internal param value: {getSearchString}</p>
       <p>Solang value: {searchParameter}</p>
 
-      <SolangFacet alias={'country'}></SolangFacet>
+      <SolangFacet appId={APP_ID} alias={'country'}></SolangFacet>
 
       { results && (
         <ul>
