@@ -38,8 +38,9 @@ export const getFilterFromState = (state: SolangState, appId: string, filterAlia
   return filter;
 }
 
+interface IFormattedFacetOption {value: string, count: number};
 /**
- * Returns a filter state from the solr slice
+ * Returns possible facet options for the given filter. Existing
  * @param state
  * @param appId
  * @param filterAlias
@@ -47,16 +48,43 @@ export const getFilterFromState = (state: SolangState, appId: string, filterAlia
 export const getFacetCountsFromState = (state: SolangState, appId: string, filterAlias: string) => {
   const app = getAppFromState(state, appId);
   const filter = getFilterFromState(state, appId, filterAlias);
+  let facetOptions: { [key: string]: number } = {};
+
+  // Add pre-selected values into array
+  filter.value.forEach((value: string) => {
+    facetOptions[value] = 0;
+  });
+
+  // Add returned facet options into array
   if (app.response && app.response.facet_counts ) {
     const solrField: string = filter.config.solrField;
     if (app.response.facet_counts.facet_fields[solrField]) {
       const counts = app.response.facet_counts.facet_fields[solrField];
-      return Object.keys(app.response.facet_counts.facet_fields[solrField]).map( (value: string) => {
-        return {value: value, count: counts[value]}
+      Object.keys(app.response.facet_counts.facet_fields[solrField]).forEach( (value: string) => {
+        facetOptions[value] = counts[value];
       });
     }
   }
-  return [];
+
+  const formattedFacetOptions: IFormattedFacetOption[] = Object.keys(facetOptions).map( (value: string) => {
+    return {value: value, count: facetOptions[value]}
+  });
+
+  const sortedFacetOptions: IFormattedFacetOption[] = formattedFacetOptions.sort( (a: IFormattedFacetOption, b: IFormattedFacetOption) => {
+
+    if (filter.config.sortAlpha) {
+      if (a.value < b.value) return -1;
+      else if (a.value < b.value) return 1;
+      else return 0;
+    }
+    else {
+      if (a.count < b.count) return -1;
+      else if (a.count < b.count) return 1;
+      else return 0;
+    }
+  });
+
+  return sortedFacetOptions;
 }
 
 export const createEmptySolrQuery = (): ISolrQuery => {
