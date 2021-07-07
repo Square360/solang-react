@@ -1,7 +1,22 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+# Solang React 
 
 
-## Solr Test data
+Solang React library provides functionality to create applications using solr. It is still in active development and 
+breaking refactors are likely at this stage. It uses:
+* Typescript
+* [Redux](https://redux.js.org/) specifically [Redux Toolkit](https://redux-toolkit.js.org/)
+* [RxJS](https://rxjs.dev/) specifically [Redux Observable](https://redux-observable.js.org/)
+
+Iinstructions & examples for importing into your own project will follow, but you might consider starting by bootstrapping with 
+[Create React App](https://github.com/facebook/create-react-app), using the # Redux + TypeScript template and modifying.
+To match the patterns used in this app. 
+
+```shell
+npx create-react-app my-app --template redux-typescript 
+```
+
+
+## Installing local test data
 
 Install & configure solr & populate with test data. 
 
@@ -18,6 +33,8 @@ docker cp assets/solr/web.xml my_solr:/opt/solr-8.8.2/server/solr-webapp/webapp/
 docker restart my_solr
 
 ```
+
+## Original Bootstrap instructions 
 
 
 ## Available Scripts
