@@ -1,7 +1,6 @@
 /**
  * ToDo: We still have to expand on the ISolrQuery interface
  */
-import { IFacetFilterState } from "./filters/FacetFilter";
 import { IFilterState } from "./filters/filter";
 
 export interface ISolrQuery {
@@ -28,13 +27,18 @@ export interface ISolangParamList { [key: string]: string | string[] }
  * ISolangApp contains config, parameters, filters & results pertaining to a single solang application.
  */
 export interface ISolangApp {
+  // Unique identifier for this solang micro app.
   id: string;
-  endpoint?: string; // Maybe should be an object
+  // Solr endpoint
+  endpoint?: string;
+  // Currently unused
   status?: 'idle' | 'loading' | 'failed',
+  // Currently unused
   config?: {},
+  // Current search parameters. Parameters define the current search {search: scotland, category: news}
   params: ISolangParamList, // url-like paramerers
-  filters: { [key: string]: IFilterState }; // A definition of all filters keyed by alias
-  response?: ISolrResponse, // Define response object
+  filters: { [key: string]: IFilterState };
+  response?: ISolrResponse,
   query: ISolrQuery,
   lastQuery?: {},
 }

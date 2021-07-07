@@ -3,7 +3,6 @@ import { ISolangApp, ISolangParamList, SolangState, ISolrQuery, ISolrResponse } 
 import { facetFilterProcessParams, facetFilterProcessQuery, IFacetFilterState } from "./filters/FacetFilter";
 import { simpleFilterProcessParams, simpleFilterProcessQuery } from "./filters/SimpleFilter";
 import { IFilterState } from "./filters/filter";
-import { create } from "domain";
 
 //////////////////////////////////////
 // Helper Functions
@@ -90,18 +89,18 @@ export interface ICreateAppPayload {
 export interface ISetParamsPayload {
   appId: string,
   params: ISolangParamList
-};
+}
 
 export interface ISetParamPayload {
   appId: string,
   key: string,
   value: string | string[]
-};
+}
 
 export interface IBuildQueryPayload {
   appId: string,
   query: ISolrQuery
-};
+}
 
 export interface iSendQueryPayload {
   appId: string;
@@ -142,12 +141,14 @@ export const SolangSlice = createSlice({
      * @param action
      */
     createApp: (state: SolangState, action: PayloadAction<ICreateAppPayload>) => {
+
       if (!state.apps[action.payload.id]) {
-        const newApp: ISolangApp = {
+
+        state.apps[action.payload.id] = {
           ...action.payload,
           query: createEmptySolrQuery(),
-        }
-        state.apps[action.payload.id] = newApp;
+        };
+
       } else {
         throw Error(`Solang app ${action.payload.id} already exists!`);
       }
@@ -186,7 +187,7 @@ export const SolangSlice = createSlice({
      * @param state
      * @param action
      */
-    buildQuery: (state: SolangState, action: PayloadAction<any>) => {
+    buildQuery: (state: SolangState, action: PayloadAction<IBuildQueryPayload>) => {
       console.log('buildQuery reducer', action);
       const app = getAppFromState(state, action.payload.appId)
       app.lastQuery = app.query || {};
@@ -256,6 +257,7 @@ export const {
   processFacetFilter,
   processSimpleFilter
 } = SolangSlice.actions;
+
 
 
 export default SolangSlice.reducer;

@@ -1,5 +1,5 @@
 import { ISolangParamList, ISolrQuery } from "../solang.types";
-import { facetFilterAddFacetField, facetFilterAddQuery, IFacetFilterState } from "./FacetFilter";
+import { IFacetFilterState } from "./FacetFilter";
 
 export function simpleFilterProcessParams (filterState: IFacetFilterState, params: ISolangParamList) {
   const alias = filterState.config.alias;

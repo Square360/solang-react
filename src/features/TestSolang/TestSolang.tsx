@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
-  createApp,
   getAppFromState,
   setParams,
-  processFacetFilter,
-  processSimpleFilter, createEmptySolrQuery
 } from '../solang/solang.slice';
 
 import styles from './TestSolang.module.css';

@@ -1,5 +1,5 @@
 import {  AnyAction } from "@reduxjs/toolkit";
-import { filter, map, switchMap, tap, mergeMap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ofType } from "redux-observable";
 import { setParam, setParams, buildQuery, sendQuery, getAppFromState, resultsReceived } from './solang.slice';
 import { createSolrQueryObs } from "./solang.api";
@@ -11,6 +11,7 @@ import { createSolrQueryObs } from "./solang.api";
  */
 export const processParamsEpic = (action$: any) => {
   return action$.pipe(
+
     filter((action: any) => {
       return [
         setParams.type,

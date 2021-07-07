@@ -27,6 +27,11 @@ export interface IQueryProcessor {
   processQuery(query: ISolrQuery): void;
 }
 
+/**
+ * Updates internal filter state in response to changes in parameters
+ * @param filterState
+ * @param params
+ */
 export const filterProcessParams = function (filterState: IFacetFilterState, params: ISolangParamList) {
 
   const alias = filterState.config.alias;

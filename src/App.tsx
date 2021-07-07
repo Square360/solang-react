@@ -1,12 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
 import { TestSolang } from './features/TestSolang/TestSolang';
 import './App.css';
 import { useAppSelector, useAppDispatch } from "./app/hooks";
 import { RootState } from "./app/store";
 import {
   createApp,
-  createEmptySolrQuery,
   getAppFromState,
   processFacetFilter,
   processSimpleFilter
@@ -42,7 +40,9 @@ function App() {
             sortAlpha: true,
             excludeTag: true
           },
-          processQueryActions: [processFacetFilter.type],
+          processQueryActions: [
+            processFacetFilter.type
+          ],
           value: []
         },
         city: { // type: facet filter
