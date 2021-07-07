@@ -22,13 +22,13 @@ function App() {
       id: 'searchApp',
       endpoint: 'http://localhost:8983/solr/solang/',
       params: {
-        s: 'Da'
+        searchText: 'Da'
       },
       filters: {
-        s: {
+        searchText: {
           config: {
             solrField: 'first_name_t',
-            alias: 's',
+            alias: 'searchText',
           },
           processQueryActions: [processSimpleFilter.type],
           value: []

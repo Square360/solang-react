@@ -19,7 +19,7 @@ import SolangFacet from "../solang/components/SolangFacet/SolangFacet";
 export const TestSolang = () => {
 
   const APP_ID = 'searchApp';
-  const FILTER_KEY = 's';
+  const FILTER_KEY = 'searchText';
 
   const dispatch = useAppDispatch();
 
