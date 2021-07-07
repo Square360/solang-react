@@ -63,7 +63,7 @@ function App() {
     return (
       <div className="App">
         <header className="App-header">
-          <h1>Solang</h1>
+          <h1>Solang Test</h1>
         </header>
         <TestSolang></TestSolang>
       </div>

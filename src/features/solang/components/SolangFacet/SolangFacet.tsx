@@ -1,9 +1,10 @@
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { RootState } from "../../../../app/store";
-import { getAppFromState, getFacetCountsFromState, getFilterFromState, setParam } from "../../solang.slice";
+import { getAppFromState, getFilterFromState, setParam } from "../../solang.slice";
 
 import './solang-facet.scss';
 import { ChangeEvent } from "react";
+import { facetFilterGetCountsFromState } from "../../filters/FacetFilter";
 
 interface MyProps {
   appId: string
@@ -25,7 +26,7 @@ const SolangFacet = ({appId, alias}: MyProps) => {
   const dispatch = useAppDispatch();
 
   const filterState  = useAppSelector((state: RootState) => getFilterFromState(state.solang, appId, alias) );
-  const facetCounts  = useAppSelector((state: RootState) => getFacetCountsFromState(state.solang, appId, alias) )
+  const facetCounts  = useAppSelector((state: RootState) => facetFilterGetCountsFromState(state.solang, appId, alias) )
 
   const filterSelected: string[] = useAppSelector((state: RootState) => {
     const app = getAppFromState(state.solang, appId);

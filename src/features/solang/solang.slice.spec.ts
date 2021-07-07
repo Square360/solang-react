@@ -11,7 +11,7 @@ describe('solang reducer', () => {
   it('should handle initial state', () => {
     expect(reduxObsSlice(undefined, { type: 'unknown' })).toEqual({
       config: {},
-      apps: []
+      apps: {}
     });
   });
 });
