@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ISolangApp, ISolangParamList, SolangState, ISolrQuery, ISolrResponse } from "./solang.types";
-import { facetFilterProcessParams, facetFilterProcessQuery, IFacetFilterState } from "./filters/FacetFilter";
-import { simpleFilterProcessParams, simpleFilterProcessQuery } from "./filters/SimpleFilter";
-import { IFilterState } from "./filters/filter";
+import { ISolangApp, ISolangParamList, SolangState, ISolrQuery, ISolrResponse } from "../solang.types";
+import { facetFilterProcessParams, facetFilterProcessQuery, IFacetFilterState } from "../filters/FacetFilter";
+import { simpleFilterProcessParams, simpleFilterProcessQuery } from "../filters/SimpleFilter";
+import { IFilterState } from "../filters/filter";
 
 //////////////////////////////////////
 // Helper Functions
@@ -47,6 +47,10 @@ export const createEmptySolrQuery = (): ISolrQuery => {
     fq: [],
     legacy: {}
   }
+}
+
+export interface ISolangState {
+  solang: SolangState
 }
 
 

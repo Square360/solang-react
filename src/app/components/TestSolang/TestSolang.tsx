@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import {
   getAppFromState,
   setParams,
-} from '../solang/solang.slice';
+} from '../../../lib/solang/store/solang.slice';
 
 import styles from './TestSolang.module.css';
 
-import { RootState } from "../../app/store";
-import { ISolangParamList } from "../solang/solang.types";
+import { RootState } from "../../store/store";
+import { ISolangParamList } from "../../../lib/solang/solang.types";
+import SolangFacet from "../../../lib/solang/components/SolangFacet/SolangFacet";
 import PrettyPrintJson from "../../utils/components/PrettyPrintJson/PrettyPrintJson";
-import SolangFacet from "../solang/components/SolangFacet/SolangFacet";
 
 export const TestSolang = () => {
 
@@ -20,6 +20,7 @@ export const TestSolang = () => {
 
   const dispatch = useAppDispatch();
 
+  // @ts-ignore
   const searchApp = useAppSelector((state: RootState) => getAppFromState(state.solang, APP_ID) );
 
   const results = useAppSelector((state: RootState) => {

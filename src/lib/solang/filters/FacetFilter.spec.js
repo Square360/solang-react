@@ -1,5 +1,5 @@
 import { facetFilterGetCountsFromState } from "./FacetFilter";
-import { createEmptySolrQuery } from "../solang.slice";
+import { createEmptySolrQuery } from "../store/solang.slice";
 
 describe('facetFilterGetCountsFromState', () => {
 

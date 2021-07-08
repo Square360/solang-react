@@ -1,17 +1,16 @@
-import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
-import { RootState } from "../../../../app/store";
-import { getAppFromState, getFilterFromState, setParam } from "../../solang.slice";
+import { useSelector, useDispatch } from 'react-redux'
+import { getAppFromState, getFilterFromState, ISolangState, setParam } from "../../store/solang.slice";
+import { facetFilterGetCountsFromState } from "../../filters/FacetFilter";
+import { ChangeEvent } from "react";
 
 import './solang-facet.scss';
-import { ChangeEvent } from "react";
-import { facetFilterGetCountsFromState } from "../../filters/FacetFilter";
 
 interface MyProps {
   appId: string
   alias: string
 }
 
-// ToDo: Display selected values even if not in facetted results.
+// ToDo: Display selected values even if not in faceted results.
 
 /**
  * Provides checkbox filter for categories with result counts.
@@ -22,13 +21,12 @@ interface MyProps {
 const SolangFacet = ({appId, alias}: MyProps) => {
 
   const CLASS = 'solang-facet';
+  const dispatch = useDispatch();
 
-  const dispatch = useAppDispatch();
+  const filterState  = useSelector((state: ISolangState) => getFilterFromState(state.solang, appId, alias) );
+  const facetCounts  = useSelector((state: ISolangState) => facetFilterGetCountsFromState(state.solang, appId, alias) )
 
-  const filterState  = useAppSelector((state: RootState) => getFilterFromState(state.solang, appId, alias) );
-  const facetCounts  = useAppSelector((state: RootState) => facetFilterGetCountsFromState(state.solang, appId, alias) )
-
-  const filterSelected: string[] = useAppSelector((state: RootState) => {
+  const filterSelected: string[] = useSelector((state: ISolangState) => {
     const app = getAppFromState(state.solang, appId);
     return app ? app.params[alias] as [] || [] : [];
   });

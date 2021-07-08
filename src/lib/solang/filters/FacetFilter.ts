@@ -1,6 +1,6 @@
 import { filterProcessParams, IFacetOption, IFilterState } from "./filter";
 import { ISolangParamList, ISolrQuery, SolangState } from "../solang.types";
-import { getAppFromState, getFilterFromState } from "../solang.slice";
+import { getAppFromState, getFilterFromState } from "../store/solang.slice";
 
 export interface IFacetFilterConfig {
   // solrField determines the field which will be filtered

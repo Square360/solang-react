@@ -2,7 +2,7 @@ import {  AnyAction } from "@reduxjs/toolkit";
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ofType } from "redux-observable";
 import { setParam, setParams, buildQuery, sendQuery, getAppFromState, resultsReceived } from './solang.slice';
-import { createSolrQueryObs } from "./solang.api";
+import { createSolrQueryObs } from "../solang.api";
 
 /**
  * processParamsEpic executes after any actions which change a solr app's parameters.

@@ -1,14 +1,14 @@
 import React from 'react';
-import { TestSolang } from './features/TestSolang/TestSolang';
 import './App.css';
-import { useAppSelector, useAppDispatch } from "./app/hooks";
-import { RootState } from "./app/store";
+import { useAppSelector, useAppDispatch } from "./store/hooks";
+import { RootState } from "./store/store";
 import {
   createApp,
   getAppFromState,
   processFacetFilter,
   processSimpleFilter
-} from "./features/solang/solang.slice";
+} from "../lib/solang/store/solang.slice";
+import { TestSolang } from "./components/TestSolang/TestSolang";
 
 function App() {
   const dispatch = useAppDispatch();

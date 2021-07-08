@@ -2,8 +2,8 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { createEpicMiddleware } from 'redux-observable';
 import { combineEpics } from 'redux-observable';
 
-import solangReducer from '../features/solang/solang.slice';
-import { processParamsEpic, sendQueryEpic, processQueryEpic } from "../features/solang/solang.epic";
+import solangReducer from '../../lib/solang/store/solang.slice';
+import { processParamsEpic, sendQueryEpic, processQueryEpic } from "../../lib/solang/store/solang.epic";
 
 const epicMiddleware = createEpicMiddleware();
 
