@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import './App.scss';
 import { useAppSelector, useAppDispatch } from "./store/hooks";
 import { RootState } from "./store/store";
 import {

@@ -243,6 +243,5 @@ export const {
 } = SolangSlice.actions;
 
 
-
-export default SolangSlice.reducer;
+export const SolangReducer = SolangSlice.reducer;
 
