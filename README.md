@@ -22,20 +22,19 @@ Install & configure solr & populate with test data.
 
 ```shell
 # Create solr container
-docker run --name my_solr -d -p 8983:8983 -t solr
+docker run --name solang -d -p 8983:8983 -t solr
 # Create solr core
-docker exec -it --user=solr my_solr bin/solr create_core -c solang
+docker exec -it --user=solr solang bin/solr create_core -c solang
+
 # Import test data
 curl 'http://localhost:8983/solr/solang/update?commit=true' --data-binary @assets/test-data.json -H 'Content-type:application/json'
 
 # Optional: update config to allow cross-origin
-docker cp assets/solr/web.xml my_solr:/opt/solr-8.8.2/server/solr-webapp/webapp/WEB-INF/web.xml
-docker restart my_solr
+docker cp assets/solr/web.xml solang:/opt/solr-8.8.2/server/solr-webapp/webapp/WEB-INF/web.xml && docker restart solang
 
 ```
 
-## Original Bootstrap instructions 
-
+## Original Bootstrap instructions
 
 ## Available Scripts
 
