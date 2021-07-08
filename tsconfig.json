@@ -1,11 +1,20 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    // Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'.
+    "target": "es6",
+    // Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'.
+    "module": "commonjs",
+
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
+    // Generates corresponding '.d.ts' file.
+    "declaration": true,
+    "outDir": "build",
+    "sourceMap": true,
+
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -13,14 +22,14 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
+//    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false,
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
+    "src/lib"
   ]
 }
