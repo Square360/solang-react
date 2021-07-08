@@ -3,7 +3,7 @@ import { getAppFromState, getFilterFromState, ISolangState, setParam } from "../
 import { facetFilterGetCountsFromState } from "../../filters/FacetFilter";
 import { ChangeEvent } from "react";
 
-import './SolangFacet.scss';
+// import './SolangFacet.scss';
 
 interface MyProps {
   appId: string

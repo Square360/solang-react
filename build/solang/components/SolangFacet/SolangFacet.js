@@ -4,7 +4,6 @@ const jsx_runtime_1 = require("react/jsx-runtime");
 const react_redux_1 = require("react-redux");
 const solang_slice_1 = require("../../store/solang.slice");
 const FacetFilter_1 = require("../../filters/FacetFilter");
-require("./SolangFacet.scss");
 /**
  * Provides checkbox filter for categories with result counts.
  * @param appId

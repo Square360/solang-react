@@ -1,4 +1,3 @@
-import './SolangFacet.scss';
 interface MyProps {
     appId: string;
     alias: string;
