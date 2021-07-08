@@ -1,23 +1,18 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.facetFilterGetCountsFromState = exports.facetFilterAddQuery = exports.facetFilterAddFacetField = exports.facetFilterProcessQuery = exports.facetFilterProcessParams = void 0;
-const filter_1 = require("./filter");
-const solang_slice_1 = require("../store/solang.slice");
+import { filterProcessParams } from "./filter";
+import { getAppFromState, getFilterFromState } from "../store/solang.slice";
 ;
-const facetFilterProcessParams = function (filterState, params) {
-    filter_1.filterProcessParams(filterState, params);
+export const facetFilterProcessParams = function (filterState, params) {
+    filterProcessParams(filterState, params);
 };
-exports.facetFilterProcessParams = facetFilterProcessParams;
-const facetFilterProcessQuery = function (filterState, query) {
+export const facetFilterProcessQuery = function (filterState, query) {
     facetFilterAddFacetField(filterState.config, query);
     facetFilterAddQuery(filterState, query);
 };
-exports.facetFilterProcessQuery = facetFilterProcessQuery;
 /**
  * Given a filter config & solr query, add the arguments which will request facet options
  * @param query
  */
-function facetFilterAddFacetField(config, query) {
+export function facetFilterAddFacetField(config, query) {
     if (config.excludeTag === true) {
         query['facet.field'].push(`{!ex=${config.alias}}${config.solrField}`);
     }
@@ -37,15 +32,13 @@ function facetFilterAddFacetField(config, query) {
         query.legacy[`f.${config.solrField}.facet.mincount`] = (config.minCount === undefined) ? '1' : config.minCount.toString();
     }
 }
-exports.facetFilterAddFacetField = facetFilterAddFacetField;
-function facetFilterAddQuery(filterState, query) {
+export function facetFilterAddQuery(filterState, query) {
     if (filterState.value.length > 0) {
         const join = (filterState.config.isOr === true) ? ' OR ' : ' ';
         const options = filterState.value.map(option => facetFilterProcessOption(filterState.config, option)).join(join);
         query.fq.push(`{!tag='${filterState.config.alias}'}${options}`);
     }
 }
-exports.facetFilterAddQuery = facetFilterAddQuery;
 /**
  * Processes an option value before adding to query (converts to empty if required)
  * @param option
@@ -69,9 +62,9 @@ function facetFilterGetMissingFragment(config) {
  * @param appId
  * @param filterAlias
  */
-const facetFilterGetCountsFromState = (state, appId, filterAlias) => {
-    const app = solang_slice_1.getAppFromState(state, appId);
-    const filter = solang_slice_1.getFilterFromState(state, appId, filterAlias);
+export const facetFilterGetCountsFromState = (state, appId, filterAlias) => {
+    const app = getAppFromState(state, appId);
+    const filter = getFilterFromState(state, appId, filterAlias);
     let facetOptions = {};
     // Add pre-selected values into array
     filter.value.forEach((value) => {
@@ -110,5 +103,4 @@ const facetFilterGetCountsFromState = (state, appId, filterAlias) => {
     });
     return sortedFacetOptions;
 };
-exports.facetFilterGetCountsFromState = facetFilterGetCountsFromState;
 //# sourceMappingURL=FacetFilter.js.map

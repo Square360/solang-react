@@ -1,38 +1,34 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendQueryEpic = exports.processQueryEpic = exports.processParamsEpic = void 0;
-const operators_1 = require("rxjs/operators");
-const redux_observable_1 = require("redux-observable");
-const solang_slice_1 = require("./solang.slice");
-const solang_api_1 = require("../solang.api");
+import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { ofType } from "redux-observable";
+import { setParam, setParams, buildQuery, sendQuery, getAppFromState, resultsReceived } from './solang.slice';
+import { createSolrQueryObs } from "../solang.api";
 /**
  * processParamsEpic executes after any actions which change a solr app's parameters.
  * This triggers the buildQuery action which in turn triggers the buildQueryEpic.
  * @param action$
  */
-const processParamsEpic = (action$) => {
-    return action$.pipe(operators_1.filter((action) => {
+export const processParamsEpic = (action$) => {
+    return action$.pipe(filter((action) => {
         return [
-            solang_slice_1.setParams.type,
-            solang_slice_1.setParam.type
+            setParams.type,
+            setParam.type
         ].includes(action.type);
-    }), operators_1.tap(action => console.log('processParamsEpic', action)), operators_1.map((action) => {
+    }), tap(action => console.log('processParamsEpic', action)), map((action) => {
         return {
-            type: solang_slice_1.buildQuery.type,
+            type: buildQuery.type,
             payload: { appId: action.payload.appId }
         };
     }));
 };
-exports.processParamsEpic = processParamsEpic;
 /**
  *
  * @param action$
  * @param state$
  */
-const processQueryEpic = (action$, state$) => {
-    return action$.pipe(operators_1.filter((action) => action.type === solang_slice_1.buildQuery.type), operators_1.tap(action => console.log('buildQueryEpic starting', action)), operators_1.switchMap((action) => {
+export const processQueryEpic = (action$, state$) => {
+    return action$.pipe(filter((action) => action.type === buildQuery.type), tap(action => console.log('buildQueryEpic starting', action)), switchMap((action) => {
         // Get the state for this application
-        const app = solang_slice_1.getAppFromState(state$.value.solang, action.payload.appId);
+        const app = getAppFromState(state$.value.solang, action.payload.appId);
         if (!app) {
             throw new Error('No app ${action.payload.appId} in buildQueryEpic');
         }
@@ -56,7 +52,7 @@ const processQueryEpic = (action$, state$) => {
             });
         });
         processActions.push({
-            type: solang_slice_1.sendQuery.type,
+            type: sendQuery.type,
             payload: {
                 appId: action.payload.appId,
                 query: query
@@ -65,22 +61,21 @@ const processQueryEpic = (action$, state$) => {
         return processActions;
     }));
 };
-exports.processQueryEpic = processQueryEpic;
 /**
  * sendQueryEpic fires when the solr query has been changed by sendQuery. Any new (sendQuery) action occurring before
  * the current query completes will cancel the current query.
  * @param action$
  * @param state$
  */
-const sendQueryEpic = (action$, state$) => {
-    return action$.pipe(redux_observable_1.ofType(solang_slice_1.sendQuery.type), operators_1.tap(action => console.log('sendQueryEpic', action)), 
+export const sendQueryEpic = (action$, state$) => {
+    return action$.pipe(ofType(sendQuery.type), tap(action => console.log('sendQueryEpic', action)), 
     // Switch Map will auto-cancel any previous instance.
-    operators_1.switchMap((action) => {
-        const app = solang_slice_1.getAppFromState(state$.value.solang, action.payload.appId);
+    switchMap((action) => {
+        const app = getAppFromState(state$.value.solang, action.payload.appId);
         if (app) {
-            return solang_api_1.createSolrQueryObs(app).pipe(operators_1.map(response => {
+            return createSolrQueryObs(app).pipe(map(response => {
                 return {
-                    type: solang_slice_1.resultsReceived.type,
+                    type: resultsReceived.type,
                     payload: {
                         appId: action.payload.appId,
                         response: response
@@ -93,5 +88,4 @@ const sendQueryEpic = (action$, state$) => {
         }
     }));
 };
-exports.sendQueryEpic = sendQueryEpic;
 //# sourceMappingURL=solang.epic.js.map

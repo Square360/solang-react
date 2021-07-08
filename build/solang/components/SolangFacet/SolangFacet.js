@@ -1,9 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const jsx_runtime_1 = require("react/jsx-runtime");
-const react_redux_1 = require("react-redux");
-const solang_slice_1 = require("../../store/solang.slice");
-const FacetFilter_1 = require("../../filters/FacetFilter");
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { useSelector, useDispatch } from 'react-redux';
+import { getAppFromState, getFilterFromState, setParam } from "../../store/solang.slice";
+import { facetFilterGetCountsFromState } from "../../filters/FacetFilter";
 /**
  * Provides checkbox filter for categories with result counts.
  * @param appId
@@ -12,11 +10,11 @@ const FacetFilter_1 = require("../../filters/FacetFilter");
  */
 const SolangFacet = ({ appId, alias }) => {
     const CLASS = 'solang-facet';
-    const dispatch = react_redux_1.useDispatch();
-    const filterState = react_redux_1.useSelector((state) => solang_slice_1.getFilterFromState(state.solang, appId, alias));
-    const facetCounts = react_redux_1.useSelector((state) => FacetFilter_1.facetFilterGetCountsFromState(state.solang, appId, alias));
-    const filterSelected = react_redux_1.useSelector((state) => {
-        const app = solang_slice_1.getAppFromState(state.solang, appId);
+    const dispatch = useDispatch();
+    const filterState = useSelector((state) => getFilterFromState(state.solang, appId, alias));
+    const facetCounts = useSelector((state) => facetFilterGetCountsFromState(state.solang, appId, alias));
+    const filterSelected = useSelector((state) => {
+        const app = getAppFromState(state.solang, appId);
         return app ? app.params[alias] || [] : [];
     });
     const changeHandler = (e) => {
@@ -24,15 +22,15 @@ const SolangFacet = ({ appId, alias }) => {
         let value = e.target.value;
         if (e.target.checked && !newState.includes(value)) {
             newState.push(value);
-            dispatch(solang_slice_1.setParam({ appId: appId, key: alias, value: newState }));
+            dispatch(setParam({ appId: appId, key: alias, value: newState }));
         }
         else if (!e.target.checked && newState.includes(value)) {
-            dispatch(solang_slice_1.setParam({ appId: appId, key: alias, value: newState.filter(v => v !== value) }));
+            dispatch(setParam({ appId: appId, key: alias, value: newState.filter(v => v !== value) }));
         }
     };
-    return (jsx_runtime_1.jsx("div", Object.assign({ className: `${CLASS}` }, { children: jsx_runtime_1.jsxs("fieldset", { children: [filterState.config.label && jsx_runtime_1.jsx("legend", { children: filterState.config.label }, void 0),
-                jsx_runtime_1.jsxs("p", { children: ["Selected: ", filterSelected.join(', ')] }, void 0),
-                jsx_runtime_1.jsx("ul", Object.assign({ className: `${CLASS}__list` }, { children: facetCounts.map(({ value, count }) => (jsx_runtime_1.jsx("li", Object.assign({ className: `${CLASS}__list-item` }, { children: jsx_runtime_1.jsxs("label", Object.assign({ className: `${CLASS}__label` }, { children: [jsx_runtime_1.jsx("input", { type: "checkbox", checked: filterSelected.includes(value), onChange: changeHandler, value: value, name: alias }, void 0), " ", jsx_runtime_1.jsx("span", Object.assign({ className: `${CLASS}__value` }, { children: value }), void 0), "  ", jsx_runtime_1.jsxs("span", Object.assign({ className: `${CLASS}__count` }, { children: ["(", count, ")"] }), void 0)] }), void 0) }), void 0))) }), void 0)] }, void 0) }), void 0));
+    return (_jsx("div", Object.assign({ className: `${CLASS}` }, { children: _jsxs("fieldset", { children: [filterState.config.label && _jsx("legend", { children: filterState.config.label }, void 0),
+                _jsxs("p", { children: ["Selected: ", filterSelected.join(', ')] }, void 0),
+                _jsx("ul", Object.assign({ className: `${CLASS}__list` }, { children: facetCounts.map(({ value, count }) => (_jsx("li", Object.assign({ className: `${CLASS}__list-item` }, { children: _jsxs("label", Object.assign({ className: `${CLASS}__label` }, { children: [_jsx("input", { type: "checkbox", checked: filterSelected.includes(value), onChange: changeHandler, value: value, name: alias }, void 0), " ", _jsx("span", Object.assign({ className: `${CLASS}__value` }, { children: value }), void 0), "  ", _jsxs("span", Object.assign({ className: `${CLASS}__count` }, { children: ["(", count, ")"] }), void 0)] }), void 0) }), void 0))) }), void 0)] }, void 0) }), void 0));
 };
-exports.default = SolangFacet;
+export default SolangFacet;
 //# sourceMappingURL=SolangFacet.js.map

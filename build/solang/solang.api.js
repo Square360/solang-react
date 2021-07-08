@@ -1,10 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.prepareQuery = exports.createSolrQueryObs = void 0;
-const ajax_1 = require("rxjs/ajax");
-const createSolrQueryObs = function (app) {
+import { ajax } from 'rxjs/ajax';
+export const createSolrQueryObs = function (app) {
     const query = Object.assign({}, app.query);
-    const params = exports.prepareQuery(query);
+    const params = prepareQuery(query);
     const urlParams = new URLSearchParams();
     Object.entries(params).forEach(([key, value]) => {
         if (Array.isArray(value)) {
@@ -15,7 +12,7 @@ const createSolrQueryObs = function (app) {
         }
     });
     const queryUrl = `${app.endpoint}select?${urlParams.toString()}`;
-    const ajax$ = ajax_1.ajax({
+    const ajax$ = ajax({
         crossDomain: true,
         headers: {
             'Content-Type': 'application/json',
@@ -25,8 +22,7 @@ const createSolrQueryObs = function (app) {
     });
     return ajax$;
 };
-exports.createSolrQueryObs = createSolrQueryObs;
-const prepareQuery = function (query) {
+export const prepareQuery = function (query) {
     const params = Object.assign({}, query);
     if (!params.q)
         params.q = '*';
@@ -51,5 +47,4 @@ const prepareQuery = function (query) {
     params['json.nl'] = 'map';
     return params;
 };
-exports.prepareQuery = prepareQuery;
 //# sourceMappingURL=solang.api.js.map

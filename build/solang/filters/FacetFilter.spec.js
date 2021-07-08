@@ -1,7 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const FacetFilter_1 = require("./FacetFilter");
-const solang_slice_1 = require("../store/solang.slice");
+import { facetFilterGetCountsFromState } from "./FacetFilter";
+import { createEmptySolrQuery } from "../store/solang.slice";
 describe('facetFilterGetCountsFromState', () => {
     const APP_ID = 'test_app';
     const F_ALIAS = 'f_alias';
@@ -12,7 +10,7 @@ describe('facetFilterGetCountsFromState', () => {
             apps: {
                 [APP_ID]: {
                     id: APP_ID,
-                    query: solang_slice_1.createEmptySolrQuery(),
+                    query: createEmptySolrQuery(),
                     endpoint: 'http://localhost:8983/solr/solang/',
                     params: {},
                     filters: {
@@ -47,7 +45,7 @@ describe('facetFilterGetCountsFromState', () => {
     };
     it('should default to empty array', () => {
         let state = createInitState();
-        expect(FacetFilter_1.facetFilterGetCountsFromState(state, APP_ID, F_ALIAS)).toEqual([]);
+        expect(facetFilterGetCountsFromState(state, APP_ID, F_ALIAS)).toEqual([]);
     });
     it('should extract correctly formatted options', () => {
         let state = createInitState();
@@ -57,7 +55,7 @@ describe('facetFilterGetCountsFromState', () => {
             gamma: 7,
             delta: 4,
         };
-        expect(FacetFilter_1.facetFilterGetCountsFromState(state, APP_ID, F_ALIAS)).toEqual([
+        expect(facetFilterGetCountsFromState(state, APP_ID, F_ALIAS)).toEqual([
             { value: 'beta', count: 2 },
             { value: 'delta', count: 4 },
             { value: 'gamma', count: 7 },
@@ -73,7 +71,7 @@ describe('facetFilterGetCountsFromState', () => {
             gamma: 7,
             delta: 4,
         };
-        expect(FacetFilter_1.facetFilterGetCountsFromState(state, APP_ID, F_ALIAS)).toEqual([
+        expect(facetFilterGetCountsFromState(state, APP_ID, F_ALIAS)).toEqual([
             { value: 'beta', count: 2 },
             { value: 'delta', count: 4 },
             { value: 'gamma', count: 7 },
@@ -89,7 +87,7 @@ describe('facetFilterGetCountsFromState', () => {
             gamma: 7,
             delta: 4,
         };
-        expect(FacetFilter_1.facetFilterGetCountsFromState(state, APP_ID, F_ALIAS)).toEqual([
+        expect(facetFilterGetCountsFromState(state, APP_ID, F_ALIAS)).toEqual([
             { value: 'beta', count: 2 },
             { value: 'delta', count: 4 },
             { value: 'gamma', count: 7 },
@@ -106,7 +104,7 @@ describe('facetFilterGetCountsFromState', () => {
             gamma: 7,
             delta: 4,
         };
-        expect(FacetFilter_1.facetFilterGetCountsFromState(state, APP_ID, F_ALIAS)).toEqual([
+        expect(facetFilterGetCountsFromState(state, APP_ID, F_ALIAS)).toEqual([
             { value: 'epsilon', count: 0 },
             { value: 'beta', count: 2 },
             { value: 'delta', count: 4 },

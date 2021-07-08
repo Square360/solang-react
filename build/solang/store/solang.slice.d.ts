@@ -107,5 +107,4 @@ export declare const SolangSlice: import("@reduxjs/toolkit").Slice<SolangState, 
     processSimpleFilter: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => void;
 }, "solang">;
 export declare const createApp: import("@reduxjs/toolkit").ActionCreatorWithPayload<ICreateAppPayload, string>, setParam: import("@reduxjs/toolkit").ActionCreatorWithPayload<ISetParamPayload, string>, setParams: import("@reduxjs/toolkit").ActionCreatorWithPayload<ISetParamsPayload, string>, buildQuery: import("@reduxjs/toolkit").ActionCreatorWithPayload<IBuildQueryPayload, string>, sendQuery: import("@reduxjs/toolkit").ActionCreatorWithPayload<iSendQueryPayload, string>, resultsReceived: import("@reduxjs/toolkit").ActionCreatorWithPayload<any, string>, processFacetFilter: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, string>, processSimpleFilter: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, string>;
-declare const _default: import("redux").Reducer<SolangState, import("redux").AnyAction>;
-export default _default;
+export declare const SolangReducer: import("redux").Reducer<SolangState, import("redux").AnyAction>;

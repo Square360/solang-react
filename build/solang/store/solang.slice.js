@@ -1,10 +1,6 @@
-"use strict";
-var _a;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.processSimpleFilter = exports.processFacetFilter = exports.resultsReceived = exports.sendQuery = exports.buildQuery = exports.setParams = exports.setParam = exports.createApp = exports.SolangSlice = exports.createEmptySolrQuery = exports.getFilterFromState = exports.getAppFromState = void 0;
-const toolkit_1 = require("@reduxjs/toolkit");
-const FacetFilter_1 = require("../filters/FacetFilter");
-const SimpleFilter_1 = require("../filters/SimpleFilter");
+import { createSlice } from '@reduxjs/toolkit';
+import { facetFilterProcessParams, facetFilterProcessQuery } from "../filters/FacetFilter";
+import { simpleFilterProcessParams, simpleFilterProcessQuery } from "../filters/SimpleFilter";
 //////////////////////////////////////
 // Helper Functions
 //////////////////////////////////////
@@ -13,7 +9,7 @@ const SimpleFilter_1 = require("../filters/SimpleFilter");
  * @param state
  * @param appId
  */
-const getAppFromState = (state, appId) => {
+export const getAppFromState = (state, appId) => {
     let app = state.apps[appId];
     if (!app) {
         // ToDo: Throw Error
@@ -22,24 +18,22 @@ const getAppFromState = (state, appId) => {
     }
     return app;
 };
-exports.getAppFromState = getAppFromState;
 /**
  * Returns a filter state from the solr slice
  * @param state
  * @param appId
  * @param filterAlias
  */
-const getFilterFromState = (state, appId, filterAlias) => {
+export const getFilterFromState = (state, appId, filterAlias) => {
     var _a;
-    const app = exports.getAppFromState(state, appId);
+    const app = getAppFromState(state, appId);
     const filter = (_a = app.filters[filterAlias]) !== null && _a !== void 0 ? _a : null;
     if (!filter) {
         console.log(`Filter ${filterAlias} on app ${appId} doesn't exist!`);
     }
     return filter;
 };
-exports.getFilterFromState = getFilterFromState;
-const createEmptySolrQuery = () => {
+export const createEmptySolrQuery = () => {
     return {
         q: '*',
         facet: 'true',
@@ -48,7 +42,6 @@ const createEmptySolrQuery = () => {
         legacy: {}
     };
 };
-exports.createEmptySolrQuery = createEmptySolrQuery;
 //////////////////////////////////////
 // Solang Slice
 //////////////////////////////////////
@@ -56,7 +49,7 @@ const initialState = {
     config: {},
     apps: {},
 };
-exports.SolangSlice = toolkit_1.createSlice({
+export const SolangSlice = createSlice({
     name: 'solang',
     initialState,
     reducers: {
@@ -70,7 +63,7 @@ exports.SolangSlice = toolkit_1.createSlice({
          */
         createApp: (state, action) => {
             if (!state.apps[action.payload.id]) {
-                state.apps[action.payload.id] = Object.assign(Object.assign({}, action.payload), { query: exports.createEmptySolrQuery() });
+                state.apps[action.payload.id] = Object.assign(Object.assign({}, action.payload), { query: createEmptySolrQuery() });
             }
             else {
                 throw Error(`Solang app ${action.payload.id} already exists!`);
@@ -107,9 +100,9 @@ exports.SolangSlice = toolkit_1.createSlice({
          */
         buildQuery: (state, action) => {
             console.log('buildQuery reducer', action);
-            const app = exports.getAppFromState(state, action.payload.appId);
+            const app = getAppFromState(state, action.payload.appId);
             app.lastQuery = app.query || {};
-            app.query = exports.createEmptySolrQuery();
+            app.query = createEmptySolrQuery();
         },
         /**
          * Stores a query. sendQueryEpic will then initiate the solr request and store result in resultsReceived
@@ -138,10 +131,10 @@ exports.SolangSlice = toolkit_1.createSlice({
          * @param action
          */
         processFacetFilter: (state, action) => {
-            let app = exports.getAppFromState(state, action.payload.appId);
+            let app = getAppFromState(state, action.payload.appId);
             if (app) {
-                FacetFilter_1.facetFilterProcessParams(app.filters[action.payload.filter], app.params);
-                FacetFilter_1.facetFilterProcessQuery(app.filters[action.payload.filter], app.query || exports.createEmptySolrQuery());
+                facetFilterProcessParams(app.filters[action.payload.filter], app.params);
+                facetFilterProcessQuery(app.filters[action.payload.filter], app.query || createEmptySolrQuery());
             }
         },
         /**
@@ -150,14 +143,14 @@ exports.SolangSlice = toolkit_1.createSlice({
          * @param action
          */
         processSimpleFilter: (state, action) => {
-            let app = exports.getAppFromState(state, action.payload.appId);
+            let app = getAppFromState(state, action.payload.appId);
             if (app) {
-                SimpleFilter_1.simpleFilterProcessParams(app.filters[action.payload.filter], app.params);
-                SimpleFilter_1.simpleFilterProcessQuery(app.filters[action.payload.filter], app.query || exports.createEmptySolrQuery());
+                simpleFilterProcessParams(app.filters[action.payload.filter], app.params);
+                simpleFilterProcessQuery(app.filters[action.payload.filter], app.query || createEmptySolrQuery());
             }
         }
     }
 });
-_a = exports.SolangSlice.actions, exports.createApp = _a.createApp, exports.setParam = _a.setParam, exports.setParams = _a.setParams, exports.buildQuery = _a.buildQuery, exports.sendQuery = _a.sendQuery, exports.resultsReceived = _a.resultsReceived, exports.processFacetFilter = _a.processFacetFilter, exports.processSimpleFilter = _a.processSimpleFilter;
-exports.default = exports.SolangSlice.reducer;
+export const { createApp, setParam, setParams, buildQuery, sendQuery, resultsReceived, processFacetFilter, processSimpleFilter } = SolangSlice.actions;
+export const SolangReducer = SolangSlice.reducer;
 //# sourceMappingURL=solang.slice.js.map
