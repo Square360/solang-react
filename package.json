@@ -7,6 +7,7 @@
     "url": "https://gitlab.com/studio-fas-dm/solang-react"
   },
   "private": false,
+  "files": [ "dist", "README.md" ],
   "main": "dist/lib.js",
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.1",
