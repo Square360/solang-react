@@ -1,9 +1,8 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { createEpicMiddleware } from 'redux-observable';
-import { combineEpics } from 'redux-observable';
 
 import { SolangReducer } from '../../lib/solang/store/solang.slice';
-import { processParamsEpic, sendQueryEpic, processQueryEpic } from "../../lib/solang/store/solang.epic";
+import { SolangEpic } from "../../lib/solang/store/solang.epic";
 
 const epicMiddleware = createEpicMiddleware();
 
@@ -16,14 +15,7 @@ export const store = configureStore({
   ]
 });
 
-export const rootEpic = combineEpics(
-  processParamsEpic,
-  // buildQueryEpic,
-  processQueryEpic,
-  sendQueryEpic
-);
-
-epicMiddleware.run(rootEpic);
+epicMiddleware.run(SolangEpic);
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

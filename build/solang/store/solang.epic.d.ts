@@ -17,3 +17,4 @@ export declare const processQueryEpic: (action$: any, state$: any) => any;
  * @param state$
  */
 export declare const sendQueryEpic: (action$: any, state$: any) => any;
+export declare const SolangEpic: import("redux-observable").Epic<import("redux").Action<any>, import("redux").Action<any>, void, any>;

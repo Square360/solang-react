@@ -1,5 +1,5 @@
 import { filter, map, switchMap, tap } from 'rxjs/operators';
-import { ofType } from "redux-observable";
+import { combineEpics, ofType } from "redux-observable";
 import { setParam, setParams, buildQuery, sendQuery, getAppFromState, resultsReceived } from './solang.slice';
 import { createSolrQueryObs } from "../solang.api";
 /**
@@ -88,4 +88,7 @@ export const sendQueryEpic = (action$, state$) => {
         }
     }));
 };
+export const SolangEpic = combineEpics(processParamsEpic, 
+// buildQueryEpic,
+processQueryEpic, sendQueryEpic);
 //# sourceMappingURL=solang.epic.js.map
