@@ -1,11 +1,22 @@
 // rollup.config.js
 
-// const babel = require("rollup-plugin-babel");
-// const commonjs = require("rollup-plugin-commonjs");
-// const resolve = require("rollup-plugin-node-resolve");
+import babel from '@rollup/plugin-babel';
+import external from 'rollup-plugin-peer-deps-external';
+import del from 'rollup-plugin-delete';
+import pkg from './package.json';
 
 export default {
-  dest: "dist/main.js",
-  entry: "src/lib.js",
-  format: "cjs"
-}
+  input: pkg.source,
+  output: [
+    { file: pkg.main, format: 'cjs' },
+    { file: pkg.module, format: 'esm' }
+  ],
+  plugins: [
+    external(),
+    babel({
+      exclude: 'node_modules/**'
+    }),
+    del({ targets: ['dist/*'] }),
+  ],
+  external: Object.keys(pkg.peerDependencies || {}),
+};
