@@ -1,9 +1,6 @@
 import { ISolangApp, ISolrQuery } from "./solang.types";
 
 import { ajax } from 'rxjs/ajax';
-import { isString } from "util";
-
-
 
 export const createSolrQueryObs = function(app: ISolangApp) {
 
@@ -25,11 +22,12 @@ export const createSolrQueryObs = function(app: ISolangApp) {
   const queryUrl = `${app.endpoint}select?${urlParams.toString()}`
 
   const ajax$ = ajax({
-    url: queryUrl,
-    method: 'POST',
+    crossDomain: true,
     headers: {
-    'Content-Type': 'application/json',
+      'Content-Type': 'application/json',
     },
+    url: queryUrl,
+    method: 'GET',
   });
 
   return ajax$;
