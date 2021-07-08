@@ -1,22 +1,33 @@
 // rollup.config.js
 
-import babel from '@rollup/plugin-babel';
-import external from 'rollup-plugin-peer-deps-external';
-import del from 'rollup-plugin-delete';
-import pkg from './package.json';
+import commonjs from "@rollup/plugin-commonjs";
+import resolve from "@rollup/plugin-node-resolve";
+import peerDepsExternal from "rollup-plugin-peer-deps-external";
+import typescript from "@rollup/plugin-typescript";
+import postcss from "rollup-plugin-postcss";
 
+import packageJson from "./package.json";
+
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  input: pkg.source,
+  input: "./src/lib/lib.ts",
   output: [
-    { file: pkg.main, format: 'cjs' },
-    { file: pkg.module, format: 'esm' }
+    {
+      file: packageJson.main,
+      format: "cjs",
+      sourcemap: true
+    },
+    {
+      file: packageJson.module,
+      format: "esm",
+      sourcemap: true
+    }
   ],
   plugins: [
-    external(),
-    babel({
-      exclude: 'node_modules/**'
-    }),
-    del({ targets: ['dist/*'] }),
-  ],
-  external: Object.keys(pkg.peerDependencies || {}),
+    peerDepsExternal(),
+    resolve(),
+    commonjs(),
+    typescript(),
+    postcss()
+  ]
 };
