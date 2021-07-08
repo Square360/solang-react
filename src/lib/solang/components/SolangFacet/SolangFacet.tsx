@@ -3,14 +3,12 @@ import { getAppFromState, getFilterFromState, ISolangState, setParam } from "../
 import { facetFilterGetCountsFromState } from "../../filters/FacetFilter";
 import { ChangeEvent } from "react";
 
-import './solang-facet.scss';
+import './SolangFacet.scss';
 
 interface MyProps {
   appId: string
   alias: string
 }
-
-// ToDo: Display selected values even if not in faceted results.
 
 /**
  * Provides checkbox filter for categories with result counts.
