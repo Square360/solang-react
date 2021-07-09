@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import './App.scss';
 import { useAppSelector, useAppDispatch } from "./store/hooks";
 import { RootState } from "./store/store";
@@ -7,7 +6,7 @@ import {
   createApp,
   getAppFromState,
   processFacetFilter,
-  processSimpleFilter
+  processSimpleFilter, processSimpleSearch
 } from "../lib/solang/store/solang.slice";
 import { TestSolang } from "./components/TestSolang/TestSolang";
 
@@ -57,6 +56,14 @@ function App() {
           processQueryActions: [processFacetFilter.type],
           value: []
         },
+        page: {
+          config: {
+            rows: 10,
+            alias: 'page',
+          },
+          processQueryActions: [processSimpleSearch.type],
+          value: 0
+        }
       },
     }));
   }

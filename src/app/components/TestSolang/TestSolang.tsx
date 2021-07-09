@@ -12,11 +12,13 @@ import { RootState } from "../../store/store";
 import { ISolangParamList } from "../../../lib/solang/solang.types";
 import SolangFacet from "../../../lib/solang/components/SolangFacet/SolangFacet";
 import PrettyPrintJson from "../../utils/components/PrettyPrintJson/PrettyPrintJson";
+import SimplePager from "../../../lib/solang/components/SimplePager/SimplePager";
 
 export const TestSolang = () => {
 
   const APP_ID = 'searchApp';
   const FILTER_KEY = 'searchText';
+  const NUM_ROWS = 10;
 
   const dispatch = useAppDispatch();
 
@@ -41,6 +43,12 @@ export const TestSolang = () => {
     params[FILTER_KEY] = getSearchString;
     dispatch(setParams({appId: APP_ID, params: params}));
   }
+
+  const offset = searchApp.response?.response.start || 0;
+  const numFound = searchApp.response?.response.numFound || 0;
+  const currentPage = Math.ceil(offset / NUM_ROWS);
+  const numPages = Math.ceil(numFound / NUM_ROWS);
+
 
   return (
     <div>
@@ -69,6 +77,8 @@ export const TestSolang = () => {
 
       <SolangFacet appId={APP_ID} alias={'country'}></SolangFacet>
 
+      <p>Showing {NUM_ROWS} of {numFound} results. Page {currentPage}</p>
+
       { results && (
         <ul>
           {results.map(item => (
@@ -77,6 +87,7 @@ export const TestSolang = () => {
         </ul>
       )}
 
+      <SimplePager appId={APP_ID} alias={'page'}></SimplePager>
       <PrettyPrintJson data={results}></PrettyPrintJson>
 
     </div>
