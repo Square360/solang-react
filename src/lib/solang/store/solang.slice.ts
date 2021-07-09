@@ -50,7 +50,10 @@ export const createEmptySolrQuery = (): ISolrQuery => {
     facet: 'true',
     'facet.field': [],
     fq: [],
-    legacy: {}
+    legacy: {},
+    fl: [],
+    start: 0,
+    rows: 10
   }
 }
 

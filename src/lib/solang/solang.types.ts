@@ -11,6 +11,9 @@ export interface ISolrQuery {
   wt?: string;
   'json.facet'?: string | {};
   'json.nl'?: string;
+  start: number;
+  rows: number;
+  fl: string[];
   // Allows for use of field-value-facet parameters while maintaining strict typing. These must be moved into the
   // top-level of the query before sending to Solr
   // https://solr.apache.org/guide/8_1/faceting.html#field-value-faceting-parameters
