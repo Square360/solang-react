@@ -31,11 +31,16 @@ export const getAppFromState = (state: SolangState, appId: string) => {
  */
 export const getFilterFromState = (state: SolangState, appId: string, filterAlias: string) => {
   const app = getAppFromState(state, appId);
+  return getFilterFromApp(app, filterAlias)
+}
+
+export const getFilterFromApp = (app: ISolangApp, filterAlias: string) => {
   const filter = app.filters[filterAlias] ?? null;
   if (!filter) {
-    console.log(`Filter ${filterAlias} on app ${appId} doesn't exist!`);
+    console.log(`Filter ${filterAlias} on app ${app.id} doesn't exist!`);
   }
   return filter;
+
 }
 
 
