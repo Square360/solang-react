@@ -19,7 +19,7 @@ function App() {
   if (!searchApp) {
     dispatch(createApp({
       id: 'searchApp',
-      endpoint: 'http://localhost:8983/solr/solang/',
+      endpoint: process.env.REACT_APP_SOLR_ENDPOINT as string,
       params: {
         searchText: 'Da'
       },
