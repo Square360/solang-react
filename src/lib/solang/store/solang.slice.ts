@@ -4,6 +4,7 @@ import { facetFilterProcessParams, facetFilterProcessQuery, IFacetFilterState } 
 import { simpleFilterProcessParams, simpleFilterProcessQuery } from "../filters/SimpleFilter";
 import { IFilterState } from "../filters/filter";
 import { ISimplePagerState, simplePagerProcessParams, simplePagerProcessQuery } from "../filters/SimplePager";
+import { ISortState, sortProcessParams, sortProcessQuery } from "../filters/Sort";
 
 //////////////////////////////////////
 // Helper Functions
@@ -109,6 +110,7 @@ export interface IProcessFilterPayload {
   appId: string;
   filter: string;
 }
+
 
 //////////////////////////////////////
 // Solang Slice
@@ -242,12 +244,18 @@ export const SolangSlice = createSlice({
      * @param state
      * @param action
      */
-    processSimpleSearch: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => {
+    processPager: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => {
       let app = getAppFromState(state, action.payload.appId);
       simplePagerProcessParams(app, action.payload.filter, app.params);
       simplePagerProcessQuery(app.filters[action.payload.filter] as ISimplePagerState, app.query || createEmptySolrQuery());
-    }
+    },
 
+
+    processSort: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => {
+      let app = getAppFromState(state, action.payload.appId);
+      sortProcessParams(app, action.payload.filter, app.params);
+      sortProcessQuery(app.filters[action.payload.filter] as ISortState, app.query || createEmptySolrQuery());
+    }
   }
 });
 
@@ -260,7 +268,8 @@ export const {
   resultsReceived,
   processFacetFilter,
   processSimpleFilter,
-  processSimpleSearch
+  processPager,
+  processSort
 } = SolangSlice.actions;
 
 

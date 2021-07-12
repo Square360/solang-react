@@ -3,10 +3,12 @@ import './App.scss';
 import { useAppSelector, useAppDispatch } from "./store/hooks";
 import { RootState } from "./store/store";
 import {
-  createApp,
   getAppFromState,
+  createApp,
   processFacetFilter,
-  processSimpleFilter, processSimpleSearch
+  processPager,
+  processSimpleFilter,
+  processSort
 } from "../lib/solang/store/solang.slice";
 import { TestSolang } from "./components/TestSolang/TestSolang";
 
@@ -25,7 +27,7 @@ function App() {
       filters: {
         searchText: {
           config: {
-            solrField: 'first_name_t',
+            solrField: 'last_name_t',
             alias: 'searchText',
           },
           processQueryActions: [processSimpleFilter.type],
@@ -61,9 +63,22 @@ function App() {
             rows: 10,
             alias: 'page',
           },
-          processQueryActions: [processSimpleSearch.type],
+          processQueryActions: [processPager.type],
           value: 0
-        }
+        },
+        sort: {
+          config: {
+            alias: 'sort',
+            options: [
+              {label:'Relevance', value:''},
+              {label:'A-Z',value:'last_name_t asc'},
+              {label:'Z-A ',value:'last_name_t desc'},
+            ],
+          },
+          processQueryActions: [processSort.type],
+          value: '',
+
+        },
       },
     }));
   }
