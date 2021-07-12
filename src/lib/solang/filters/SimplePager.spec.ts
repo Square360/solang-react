@@ -17,7 +17,6 @@ describe('SimpleSearch', () => {
           params: {},
           filters: {
             [F_ALIAS]: {
-              id: F_ALIAS,
               config: {
                 rows: 9,
                 alias: F_ALIAS,
@@ -75,6 +74,7 @@ describe('SimpleSearch', () => {
     simplePagerProcessQuery(filterState, query);
     expect([query.start, query.rows]).toEqual([9,9]);
   })
+
 
 });
 // Should correctly modify query
