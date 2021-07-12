@@ -1,4 +1,5 @@
-import reduxObsSlice, {
+import {
+  SolangReducer,
   createApp,
 } from './solang.slice';
 import { SolangState } from "../solang.types";
@@ -9,7 +10,7 @@ describe('solang reducer', () => {
     apps: {}
   };
   it('should handle initial state', () => {
-    expect(reduxObsSlice(undefined, { type: 'unknown' })).toEqual({
+    expect(SolangReducer(undefined, { type: 'unknown' })).toEqual({
       config: {},
       apps: {}
     });

@@ -1,12 +1,12 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 import { useAppSelector, useAppDispatch } from "./store/hooks";
 import { RootState } from "./store/store";
 import {
   createApp,
   getAppFromState,
   processFacetFilter,
-  processSimpleFilter
+  processSimpleFilter, processSimpleSearch
 } from "../lib/solang/store/solang.slice";
 import { TestSolang } from "./components/TestSolang/TestSolang";
 
@@ -18,7 +18,7 @@ function App() {
   if (!searchApp) {
     dispatch(createApp({
       id: 'searchApp',
-      endpoint: 'http://localhost:8983/solr/solang/',
+      endpoint: process.env.REACT_APP_SOLR_ENDPOINT as string,
       params: {
         searchText: 'Da'
       },
@@ -56,6 +56,14 @@ function App() {
           processQueryActions: [processFacetFilter.type],
           value: []
         },
+        page: {
+          config: {
+            rows: 10,
+            alias: 'page',
+          },
+          processQueryActions: [processSimpleSearch.type],
+          value: 0
+        }
       },
     }));
   }

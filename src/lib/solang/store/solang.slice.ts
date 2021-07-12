@@ -3,6 +3,7 @@ import { ISolangApp, ISolangParamList, SolangState, ISolrQuery, ISolrResponse } 
 import { facetFilterProcessParams, facetFilterProcessQuery, IFacetFilterState } from "../filters/FacetFilter";
 import { simpleFilterProcessParams, simpleFilterProcessQuery } from "../filters/SimpleFilter";
 import { IFilterState } from "../filters/filter";
+import { ISimplePagerState, simplePagerProcessParams, simplePagerProcessQuery } from "../filters/SimplePager";
 
 //////////////////////////////////////
 // Helper Functions
@@ -31,11 +32,16 @@ export const getAppFromState = (state: SolangState, appId: string) => {
  */
 export const getFilterFromState = (state: SolangState, appId: string, filterAlias: string) => {
   const app = getAppFromState(state, appId);
+  return getFilterFromApp(app, filterAlias)
+}
+
+export const getFilterFromApp = (app: ISolangApp, filterAlias: string) => {
   const filter = app.filters[filterAlias] ?? null;
   if (!filter) {
-    console.log(`Filter ${filterAlias} on app ${appId} doesn't exist!`);
+    console.log(`Filter ${filterAlias} on app ${app.id} doesn't exist!`);
   }
   return filter;
+
 }
 
 
@@ -45,7 +51,10 @@ export const createEmptySolrQuery = (): ISolrQuery => {
     facet: 'true',
     'facet.field': [],
     fq: [],
-    legacy: {}
+    legacy: {},
+    fl: [],
+    start: 0,
+    rows: 10
   }
 }
 
@@ -226,6 +235,17 @@ export const SolangSlice = createSlice({
         simpleFilterProcessParams(app.filters[action.payload.filter] as IFacetFilterState, app.params);
         simpleFilterProcessQuery(app.filters[action.payload.filter] as IFacetFilterState, app.query || createEmptySolrQuery());
       }
+    },
+
+    /**
+     * processSimpleSearch reducer
+     * @param state
+     * @param action
+     */
+    processSimpleSearch: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => {
+      let app = getAppFromState(state, action.payload.appId);
+      simplePagerProcessParams(app, action.payload.filter, app.params);
+      simplePagerProcessQuery(app.filters[action.payload.filter] as ISimplePagerState, app.query || createEmptySolrQuery());
     }
 
   }
@@ -239,10 +259,10 @@ export const {
   sendQuery,
   resultsReceived,
   processFacetFilter,
-  processSimpleFilter
+  processSimpleFilter,
+  processSimpleSearch
 } = SolangSlice.actions;
 
 
-
-export default SolangSlice.reducer;
+export const SolangReducer = SolangSlice.reducer;
 

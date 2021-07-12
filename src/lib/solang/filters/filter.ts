@@ -1,5 +1,4 @@
 import { ISolangParamList, ISolrQuery } from "../solang.types";
-import { PayloadAction } from "@reduxjs/toolkit";
 import { IFacetFilterState } from "./FacetFilter";
 
 export interface IFacetOption {
