@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import {
   getAppFromState,
   setParams,
 } from '../../../lib/solang/store/solang.slice';
 
-import styles from './TestSolang.module.css';
-
 import { RootState } from "../../store/store";
 import { ISolangParamList } from "../../../lib/solang/solang.types";
 import SolangFacet from "../../../lib/solang/components/SolangFacet/SolangFacet";
 import PrettyPrintJson from "../../utils/components/PrettyPrintJson/PrettyPrintJson";
 import SimplePager from "../../../lib/solang/components/SimplePager/SimplePager";
+
+import './TestSolang.scss';
+
 
 export const TestSolang = () => {
 
@@ -54,18 +54,16 @@ export const TestSolang = () => {
     <div>
       <PrettyPrintJson data={searchApp.params}></PrettyPrintJson>
       <h2>Testing Redux Observables</h2>
-      <div className={styles.row}>
+      <div className={'row'}>
         <label htmlFor='val'>Param value:</label>
         <input
           id='val'
-          className={styles.textbox}
           aria-label="Set increment amount"
           defaultValue={searchParameter}
           onChange={(e) => setSearchString(e.target.value)}
         />
 
         <button
-          className={styles.button}
           aria-label="Decrement value"
           onClick={updateParams}
         >

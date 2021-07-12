@@ -8,7 +8,13 @@
 # testing
 /coverage
 
-# production
+# build
+# Ignore built css files
+app/*.css
+lib/*.css
+
+
+
 
 # misc
 .DS_Store
