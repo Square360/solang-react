@@ -10,6 +10,7 @@ import { ISolangParamList } from "../../../lib/solang/solang.types";
 import SolangFacet from "../../../lib/solang/components/SolangFacet/SolangFacet";
 import PrettyPrintJson from "../../utils/components/PrettyPrintJson/PrettyPrintJson";
 import SimplePager from "../../../lib/solang/components/SimplePager/SimplePager";
+import SortSelect from "../../../lib/solang/components/SortSelect/SortSelect";
 
 import './TestSolang.scss';
 
@@ -77,6 +78,7 @@ export const TestSolang = () => {
 
       <p>Showing {NUM_ROWS} of {numFound} results. Page {currentPage}</p>
 
+      <SortSelect appId={APP_ID} alias={'sort'}></SortSelect>
       { results && (
         <ul>
           {results.map(item => (
@@ -86,7 +88,11 @@ export const TestSolang = () => {
       )}
 
       <SimplePager appId={APP_ID} alias={'page'}></SimplePager>
-      <PrettyPrintJson data={results}></PrettyPrintJson>
+
+
+
+      <PrettyPrintJson data={searchApp.query}></PrettyPrintJson>
+
 
     </div>
   );
