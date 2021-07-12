@@ -138,7 +138,7 @@ describe('Sort Filter ', () => {
     };
 
     const params = {
-      [F_ALIAS]: 'Alpha'
+      [F_ALIAS]: 't_name asc'
     };
     const query = createEmptySolrQuery();
 
