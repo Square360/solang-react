@@ -1,8 +1,5 @@
 import { ISimplePagerState, simplePagerProcessParams, simplePagerProcessQuery } from "./SimplePager";
 import { createEmptySolrQuery } from "../store/solang.slice";
-import { facetFilterGetCountsFromState } from "./FacetFilter";
-import { ISolangParamList } from "../solang.types";
-import { simpleFilterProcessQuery } from "./SimpleFilter";
 
 describe('SimpleSearch', () => {
 
@@ -47,7 +44,7 @@ describe('SimpleSearch', () => {
     let state = createInitState();
     let app = state.apps[APP_ID];
     const params = {
-      page: '9'
+      [F_ALIAS]: '9'
     }
 
     simplePagerProcessParams(app,  F_ALIAS, params);
@@ -56,7 +53,7 @@ describe('SimpleSearch', () => {
   });
 
 
-  it('should extract page=1 by default', () => {
+  it('should extract page=0 by default', () => {
     let state = createInitState();
     let app = state.apps[APP_ID];
     const params = {}
@@ -78,18 +75,6 @@ describe('SimpleSearch', () => {
     simplePagerProcessQuery(filterState, query);
     expect([query.start, query.rows]).toEqual([9,9]);
   })
-  it('should correctly modify query', () => {
-    let filterState: ISimplePagerState = {
-      config: {
-        rows: 9
-      },
-      value: 1,
-      processQueryActions: []
-    };
-    let query = createEmptySolrQuery();
-    simplePagerProcessQuery(filterState, query);
-    expect([query.start, query.rows]).toEqual([9,9]);
-  });
 
 });
 // Should correctly modify query

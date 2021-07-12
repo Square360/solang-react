@@ -1,6 +1,5 @@
 import { facetFilterGetCountsFromState } from "./FacetFilter";
 import { createEmptySolrQuery } from "../store/solang.slice";
-
 describe('facetFilterGetCountsFromState', () => {
 
   const APP_ID = 'test_app';
@@ -53,6 +52,7 @@ describe('facetFilterGetCountsFromState', () => {
     expect( facetFilterGetCountsFromState(state, APP_ID, F_ALIAS) ).toEqual([
     ]);
   });
+
 
 
   it('should extract correctly formatted options', () => {
