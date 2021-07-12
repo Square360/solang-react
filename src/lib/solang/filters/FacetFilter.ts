@@ -8,6 +8,8 @@ export interface IFacetFilterConfig {
   // alias is used both as the key for this filter's values in parameter lists and the tag in solr queries (which
   // gives us greater control over the query)
   alias: string;
+  // Label used in legend element
+  label: string
   // Maps to the solr option {!ex=tagname} see: https://solr.apache.org/guide/7_0/faceting.html#tagging-and-excluding-filters
   excludeTag: boolean;
   // If false, will be sorted numerically by count (facet.sort)

@@ -47,6 +47,19 @@ export interface ISolangApp {
   lastQuery?: {},
 }
 
+
+export interface ISolrFacetQueries { [key: string]: number };
+export interface ISolrFacetField { [key: string]: number };
+export interface ISolrFacetFields { [key: string]: ISolrFacetField };
+
+export interface ISolrFacetCounts {
+  facet_queries: ISolrFacetQueries,
+  facet_fields: ISolrFacetFields,
+  facet_ranges: any,
+  facet_intervals: any,
+  facet_heatmaps: any
+}
+
 export interface ISolrResponse {
   responseHeader: any,
   response: {
@@ -55,13 +68,7 @@ export interface ISolrResponse {
     numFoundExact?: boolean;
     docs: any[];
   },
-  facet_counts?: {
-    facet_queries: { [key: string]: number };
-    facet_fields: { [key: string]: any };
-    facet_ranges: { [key: string]: any };
-    facet_intervals: { [key: string]: any };
-    facet_heatmaps: { [key: string]: any };
-  }
+  facet_counts?: ISolrFacetCounts
   "highlighting"?: any;
   "debug"?: any;
 }

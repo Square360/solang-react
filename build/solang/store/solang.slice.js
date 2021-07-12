@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { facetFilterProcessParams, facetFilterProcessQuery } from "../filters/FacetFilter";
 import { simpleFilterProcessParams, simpleFilterProcessQuery } from "../filters/SimpleFilter";
+import { simplePagerProcessParams, simplePagerProcessQuery } from "../filters/SimplePager";
+import { sortProcessParams, sortProcessQuery } from "../filters/Sort";
 //////////////////////////////////////
 // Helper Functions
 //////////////////////////////////////
@@ -25,11 +27,14 @@ export const getAppFromState = (state, appId) => {
  * @param filterAlias
  */
 export const getFilterFromState = (state, appId, filterAlias) => {
-    var _a;
     const app = getAppFromState(state, appId);
+    return getFilterFromApp(app, filterAlias);
+};
+export const getFilterFromApp = (app, filterAlias) => {
+    var _a;
     const filter = (_a = app.filters[filterAlias]) !== null && _a !== void 0 ? _a : null;
     if (!filter) {
-        console.log(`Filter ${filterAlias} on app ${appId} doesn't exist!`);
+        console.log(`Filter ${filterAlias} on app ${app.id} doesn't exist!`);
     }
     return filter;
 };
@@ -39,7 +44,10 @@ export const createEmptySolrQuery = () => {
         facet: 'true',
         'facet.field': [],
         fq: [],
-        legacy: {}
+        legacy: {},
+        fl: [],
+        start: 0,
+        rows: 10
     };
 };
 //////////////////////////////////////
@@ -148,9 +156,24 @@ export const SolangSlice = createSlice({
                 simpleFilterProcessParams(app.filters[action.payload.filter], app.params);
                 simpleFilterProcessQuery(app.filters[action.payload.filter], app.query || createEmptySolrQuery());
             }
+        },
+        /**
+         * processSimpleSearch reducer
+         * @param state
+         * @param action
+         */
+        processPager: (state, action) => {
+            let app = getAppFromState(state, action.payload.appId);
+            simplePagerProcessParams(app, action.payload.filter, app.params);
+            simplePagerProcessQuery(app.filters[action.payload.filter], app.query || createEmptySolrQuery());
+        },
+        processSort: (state, action) => {
+            let app = getAppFromState(state, action.payload.appId);
+            sortProcessParams(app, action.payload.filter, app.params);
+            sortProcessQuery(app.filters[action.payload.filter], app.query || createEmptySolrQuery());
         }
     }
 });
-export const { createApp, setParam, setParams, buildQuery, sendQuery, resultsReceived, processFacetFilter, processSimpleFilter } = SolangSlice.actions;
+export const { createApp, setParam, setParams, buildQuery, sendQuery, resultsReceived, processFacetFilter, processSimpleFilter, processPager, processSort } = SolangSlice.actions;
 export const SolangReducer = SolangSlice.reducer;
 //# sourceMappingURL=solang.slice.js.map

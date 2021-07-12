@@ -1,17 +1,15 @@
 .TestSolang {
 
+  margin: 1rem;
+
   .row {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: start;
   }
 
-  .row > button {
-    margin-left: 4px;
-    margin-right: 8px;
+  .row > * {
+    margin-right: 4px;
   }
 
-  .row:not(:last-child) {
-    margin-bottom: 16px;
-  }
 }

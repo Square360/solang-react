@@ -3,6 +3,7 @@ import { ISolangParamList, ISolrQuery, SolangState } from "../solang.types";
 export interface IFacetFilterConfig {
     solrField: string;
     alias: string;
+    label: string;
     excludeTag: boolean;
     sortAlpha: boolean;
     limit: number;

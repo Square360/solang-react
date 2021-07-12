@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import {
-  getAppFromState,
+  getAppFromState, getFilterFromApp,
   setParams,
 } from '../../../lib/solang/store/solang.slice';
 
 import { RootState } from "../../store/store";
 import { ISolangParamList } from "../../../lib/solang/solang.types";
-import SolangFacet from "../../../lib/solang/components/SolangFacet/SolangFacet";
 import PrettyPrintJson from "../../utils/components/PrettyPrintJson/PrettyPrintJson";
 import SimplePager from "../../../lib/solang/components/SimplePager/SimplePager";
 import SortSelect from "../../../lib/solang/components/SortSelect/SortSelect";
 
 import './TestSolang.scss';
+import FacetCheckbox from "../../../lib/solang/components/FacetCheckbox/FacetCheckbox";
+import { IFacetFilterState } from "../../../lib/solang/filters/FacetFilter";
 
 
 export const TestSolang = () => {
@@ -26,10 +27,13 @@ export const TestSolang = () => {
   // @ts-ignore
   const searchApp = useAppSelector((state: RootState) => getAppFromState(state.solang, APP_ID) );
 
-  const results = useAppSelector((state: RootState) => {
-    return ((searchApp && searchApp.response && searchApp.response.response)) ? searchApp.response.response.docs : [];
-  });
+  const results = (searchApp && searchApp.response) ? searchApp.response.response.docs : [];
 
+  const facetCounts = (searchApp && searchApp.response && searchApp.response.facet_counts) ? searchApp.response.facet_counts : [];
+
+  const facetCountsCountry = ("facet_fields" in facetCounts)
+    ? facetCounts.facet_fields['country_s']
+    : {};
 
   const searchParameter = useAppSelector((state: RootState) => {
     const app = getAppFromState(state.solang, APP_ID);
@@ -45,16 +49,20 @@ export const TestSolang = () => {
     dispatch(setParams({appId: APP_ID, params: params}));
   }
 
+  const resetParams = () => {
+    dispatch(setParams({appId: APP_ID, params: {}}));
+  }
+
   const offset = searchApp.response?.response.start || 0;
   const numFound = searchApp.response?.response.numFound || 0;
   const currentPage = Math.ceil(offset / NUM_ROWS);
-  const numPages = Math.ceil(numFound / NUM_ROWS);
-
+  // const numPages = Math.ceil(numFound / NUM_ROWS);
 
   return (
-    <div>
-      <PrettyPrintJson data={searchApp.params}></PrettyPrintJson>
-      <h2>Testing Redux Observables</h2>
+    <div className={'TestSolang'}>
+      <PrettyPrintJson data={searchApp.params}/>
+
+
       <div className={'row'}>
         <label htmlFor='val'>Param value:</label>
         <input
@@ -70,15 +78,23 @@ export const TestSolang = () => {
         >
           Set as param
         </button>
+
+        <button onClick={resetParams}>Reset</button>
+
       </div>
-      <p>Internal param value: {getSearchString}</p>
-      <p>Solang value: {searchParameter}</p>
 
-      <SolangFacet appId={APP_ID} alias={'country'}></SolangFacet>
+      <div><strong>Internal param value:</strong> {getSearchString}</div>
+      <div><strong>Solang value:</strong> {searchParameter}</div>
 
-      <p>Showing {NUM_ROWS} of {numFound} results. Page {currentPage}</p>
+      <FacetCheckbox
+        appId={APP_ID}
+        filterState={getFilterFromApp(searchApp, 'country') as IFacetFilterState}
+        facetCounts={facetCountsCountry}
+        />
 
-      <SortSelect appId={APP_ID} alias={'sort'}></SortSelect>
+      <p>Showing {results.length} of {numFound} results. Page {currentPage}</p>
+
+      <SortSelect appId={APP_ID} alias={'sort'}/>
       { results && (
         <ul>
           {results.map(item => (
@@ -87,12 +103,9 @@ export const TestSolang = () => {
         </ul>
       )}
 
-      <SimplePager appId={APP_ID} alias={'page'}></SimplePager>
+      <SimplePager appId={APP_ID} alias={'page'}/>
 
-
-
-      <PrettyPrintJson data={searchApp.query}></PrettyPrintJson>
-
+      <PrettyPrintJson data={searchApp.query}/>
 
     </div>
   );
