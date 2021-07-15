@@ -4,7 +4,7 @@ import { IFacetFilterState } from "../../filters/FacetFilter";
 import { ChangeEvent } from "react";
 import { ISolrFacetField } from "../../solang.types";
 
-import './FacetCheckbox.scss';
+// import './FacetCheckbox.scss';
 
 interface MyProps {
   appId: string,
