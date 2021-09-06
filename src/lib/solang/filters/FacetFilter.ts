@@ -1,6 +1,6 @@
 import { filterProcessParams, IFacetOption, IFilterState } from "./filter";
-import { ISolangParamList, ISolrQuery, SolangState } from "../solang.types";
-import { getAppFromState, getFilterFromState } from "../store/solang.slice";
+import {ISolangApp, ISolangParamList, ISolrQuery, SolangState} from "../solang.types";
+import {getAppFromState, getFilterFromApp, getFilterFromState} from "../store/solang.slice";
 
 export interface IFacetFilterConfig {
   // solrField determines the field which will be filtered
@@ -119,7 +119,13 @@ export interface IFormattedFacetOption {value: string, count: number};
  */
 export const facetFilterGetCountsFromState = (state: SolangState, appId: string, filterAlias: string): IFormattedFacetOption[] => {
   const app = getAppFromState(state, appId);
-  const filter = getFilterFromState(state, appId, filterAlias);
+  return facetFilterGetCountsFromAppState(app, filterAlias);
+}
+
+
+
+export const facetFilterGetCountsFromAppState = (app: ISolangApp, filterAlias: string): IFormattedFacetOption[] => {
+  const filter = getFilterFromApp(app, filterAlias);
   let facetOptions: { [key: string]: number } = {};
 
   // Add pre-selected values into array
