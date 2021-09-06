@@ -46,8 +46,8 @@ const FacetCheckbox = ({appId, filterState, facetCounts, }: MyProps) => {
         {filterState.config.label && <legend>{filterState.config.label}</legend>}
 
         <ul className={`${CLASS}__list`}>
-          { Object.keys(facetCounts).map( (value) => (
-            <li className={`${CLASS}__list-item`}>
+          { Object.keys(facetCounts).map( (value, index) => (
+            <li className={`${CLASS}__list-item`} key={`${appId}--${alias}--${index}`}>
               <label  className={`${CLASS}__label`}>
                 <input
                   type="checkbox"
