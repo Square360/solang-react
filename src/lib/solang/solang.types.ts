@@ -27,6 +27,22 @@ export interface ISolrQuery {
  */
 export interface ISolangParamList { [key: string]: string | string[] }
 
+
+/**
+ * Configuration object for Solang Application
+ */
+export interface ISolangAppConfig {
+  externalParams?: boolean;
+  setQuery?: any;
+}
+
+/**
+ * Default configuration for Solang Application
+ */
+export const SolangAppConfigDefaults: ISolangAppConfig = {
+  externalParams: false,
+}
+
 /**
  * ISolangApp contains config, parameters, filters & results pertaining to a single solang application.
  */
@@ -38,7 +54,7 @@ export interface ISolangApp {
   // Currently unused
   status?: 'idle' | 'loading' | 'failed',
   // Currently unused
-  config?: {},
+  config?: ISolangAppConfig,
   // Current search parameters. Parameters define the current search {search: scotland, category: news}
   params: ISolangParamList, // url-like paramerers
   filters: { [key: string]: IFilterState };
