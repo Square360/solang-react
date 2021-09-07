@@ -1,8 +1,13 @@
 import { useDispatch } from 'react-redux'
-import { setParam } from "../../store/solang.slice";
-import { IFacetFilterState } from "../../filters/FacetFilter";
+import {getAppFromState, setParam} from "../../store/solang.slice";
+import {
+  facetFilterGetCountsFromAppState,
+  IFacetFilterState
+} from "../../filters/FacetFilter";
 import { ChangeEvent } from "react";
 import { ISolrFacetField } from "../../solang.types";
+import {useAppSelector} from "../../../../app/store/hooks";
+import {RootState} from "../../../../app/store/store";
 
 // import './FacetCheckbox.scss';
 
@@ -25,6 +30,10 @@ const FacetCheckbox = ({appId, filterState, facetCounts, }: MyProps) => {
   const dispatch = useDispatch();
   const alias = filterState.config.alias;
 
+  const searchState = useAppSelector((state: RootState) => getAppFromState(state.solang, appId) );
+
+  const options = facetFilterGetCountsFromAppState(searchState, alias);
+
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
 
     let newState = [...filterState.value];
@@ -39,6 +48,7 @@ const FacetCheckbox = ({appId, filterState, facetCounts, }: MyProps) => {
     }
   }
 
+
   return (
 
     <div className={`${CLASS}`}>
@@ -46,15 +56,15 @@ const FacetCheckbox = ({appId, filterState, facetCounts, }: MyProps) => {
         {filterState.config.label && <legend>{filterState.config.label}</legend>}
 
         <ul className={`${CLASS}__list`}>
-          { Object.keys(facetCounts).map( (value, index) => (
+          { options.map( (option, index) => (
             <li className={`${CLASS}__list-item`} key={`${appId}--${alias}--${index}`}>
               <label  className={`${CLASS}__label`}>
                 <input
                   type="checkbox"
-                  checked={filterState.value.includes(value)}
+                  checked={filterState.value.includes(option.value)}
                   onChange={changeHandler}
-                  value={value}
-                  name={alias}/> <span className={`${CLASS}__value`}>{value}</span>  <span className={`${CLASS}__count`}>({facetCounts[value]})</span>
+                  value={option.value}
+                  name={alias}/> <span className={`${CLASS}__value`}>{option.value}</span>  <span className={`${CLASS}__count`}>({option.count})</span>
               </label>
             </li>
           ))}

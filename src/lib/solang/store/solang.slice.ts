@@ -161,6 +161,10 @@ export const SolangSlice = createSlice({
       const appId = action.payload.appId;
       const app: ISolangApp = state.apps[appId];
       app.params = action.payload.params;
+
+      if (app?.config?.setQuery) {
+        app.config.setQuery(app.params, 'push');
+      }
     },
 
     /**

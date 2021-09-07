@@ -11,7 +11,7 @@ import {
   processSort,
 } from "../lib/solang/store/solang.slice";
 import { TestSolang } from "./components/TestSolang/TestSolang";
-import {ArrayParam, NumberParam, StringParam, useQueryParams, withDefault} from "use-query-params";
+import {ArrayParam, StringParam, useQueryParams, withDefault} from "use-query-params";
 
 function App() {
 
@@ -27,15 +27,6 @@ function App() {
     sort: withDefault(StringParam, ''),
   });
 
-  // Get query params. These should be added to the searchFilters value to set this on initialization
-  const {
-    param_searchText,
-    param_country,
-    param_city,
-    param_page,
-    param_sort,
-  } = queryParams as any;
-
   if (!searchApp) {
     const searchFilters = {
       searchText: {
@@ -44,7 +35,7 @@ function App() {
           alias: 'searchText',
         },
         processQueryActions: [processSimpleFilter.type],
-        value: param_searchText || ''
+        value: queryParams.searchText || ''
       },
       country: { // type: facet filter
         config: {
@@ -58,6 +49,7 @@ function App() {
         processQueryActions: [
           processFacetFilter.type
         ],
+        value: queryParams['country']
       },
       city: { // type: facet filter
         config: {
@@ -68,6 +60,7 @@ function App() {
           minCount: 1
         },
         processQueryActions: [processFacetFilter.type],
+        value: queryParams.city
       },
       page: {
         config: {
@@ -75,7 +68,7 @@ function App() {
           alias: 'page',
         },
         processQueryActions: [processPager.type],
-        value: 0
+        value: queryParams.page || 0
       },
       sort: {
         config: {
