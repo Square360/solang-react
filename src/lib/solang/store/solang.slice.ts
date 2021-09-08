@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ISolangApp, ISolangParamList, SolangState, ISolrQuery, ISolrResponse } from "../solang.types";
+import {ISolangApp, ISolangParamList, SolangState, ISolrQuery, ISolrResponse, ISolangAppConfig} from "../solang.types";
 import { facetFilterProcessParams, facetFilterProcessQuery, IFacetFilterState } from "../filters/FacetFilter";
 import { simpleFilterProcessParams, simpleFilterProcessQuery } from "../filters/SimpleFilter";
 import { IFilterState } from "../filters/filter";
@@ -45,7 +45,6 @@ export const getFilterFromApp = (app: ISolangApp, filterAlias: string) => {
 
 }
 
-
 export const createEmptySolrQuery = (): ISolrQuery => {
   return {
     q: '*',
@@ -75,7 +74,7 @@ export interface ISolangState {
 export interface ICreateAppPayload {
   id: string;
   endpoint: string;
-  config?: {},
+  config?: ISolangAppConfig,
   params: ISolangParamList, // url-like paramerers
   filters: { [key: string]: IFilterState }; // A definition of all filters keyed by alias
 }
@@ -121,6 +120,7 @@ const initialState: SolangState = {
   apps: {},
 };
 
+
 export const SolangSlice = createSlice({
   name: 'solang',
   initialState,
@@ -138,7 +138,6 @@ export const SolangSlice = createSlice({
     createApp: (state: SolangState, action: PayloadAction<ICreateAppPayload>) => {
 
       if (!state.apps[action.payload.id]) {
-
         state.apps[action.payload.id] = {
           ...action.payload,
           query: createEmptySolrQuery(),
@@ -162,6 +161,10 @@ export const SolangSlice = createSlice({
       const appId = action.payload.appId;
       const app: ISolangApp = state.apps[appId];
       app.params = action.payload.params;
+
+      if (app?.config?.setQuery) {
+        app.config.setQuery(app.params, 'push');
+      }
     },
 
     /**
@@ -173,8 +176,10 @@ export const SolangSlice = createSlice({
       const appId = action.payload.appId;
       const app: ISolangApp = state.apps[appId];
       app.params[action.payload.key] = action.payload.value;
+      if (app?.config?.setQuery) {
+        app.config.setQuery(app.params);
+      }
     },
-
 
     /**
      * Usually triggered after params have been changed. Resets an application query. buildQueryEpic will execute
@@ -184,6 +189,9 @@ export const SolangSlice = createSlice({
      */
     buildQuery: (state: SolangState, action: PayloadAction<IBuildQueryPayload>) => {
       console.log('buildQuery reducer', action);
+      console.log('Setting URL params');
+
+
       const app = getAppFromState(state, action.payload.appId)
       app.lastQuery = app.query || {};
       app.query = createEmptySolrQuery();
@@ -249,7 +257,6 @@ export const SolangSlice = createSlice({
       simplePagerProcessParams(app, action.payload.filter, app.params);
       simplePagerProcessQuery(app.filters[action.payload.filter] as ISimplePagerState, app.query || createEmptySolrQuery());
     },
-
 
     processSort: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => {
       let app = getAppFromState(state, action.payload.appId);

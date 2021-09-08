@@ -1,17 +1,17 @@
 import {  AnyAction } from "@reduxjs/toolkit";
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap, takeUntil } from 'rxjs/operators';
 import { combineEpics, ofType } from "redux-observable";
 import { setParam, setParams, buildQuery, sendQuery, getAppFromState, resultsReceived } from './solang.slice';
 import { createSolrQueryObs } from "../solang.api";
+import {ISolangApp} from "../solang.types";
 
 /**
  * processParamsEpic executes after any actions which change a solr app's parameters.
  * This triggers the buildQuery action which in turn triggers the buildQueryEpic.
  * @param action$
  */
-export const processParamsEpic = (action$: any) => {
+export const processParamsEpic = (action$: any, state$: any) => {
   return action$.pipe(
-
     filter((action: any) => {
       return [
         setParams.type,
@@ -19,7 +19,20 @@ export const processParamsEpic = (action$: any) => {
       ].includes(action.type);
     }),
     tap(action => console.log('processParamsEpic', action)),
+    tap( (action: AnyAction) => {
+      // Update query parameters
+      const app = getAppFromState(state$.value.solang, action.payload.appId);
+      if (app?.config?.setQuery) {
+        app.config.setQuery(app.params);
+      }
+    }),
+    // If triggering params updates externally, do not trigger buildQuery
+    // filter( (action: AnyAction) => {
+    //   const app = getAppFromState(state$.value.solang, action.payload.appId);
+    //   return (app.config?.externalParams === false)
+    // }),
     map((action: AnyAction) => {
+
       return {
         type: buildQuery.type,
         payload: {appId: action.payload.appId}
@@ -79,7 +92,6 @@ export const processQueryEpic = (action$: any, state$: any) => {
     })
   );
 }
-
 
 /**
  * sendQueryEpic fires when the solr query has been changed by sendQuery. Any new (sendQuery) action occurring before

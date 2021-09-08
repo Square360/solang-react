@@ -1,4 +1,4 @@
-import { facetFilterGetCountsFromState } from "./FacetFilter";
+import {facetFilterGetCountsFromAppState, facetFilterGetCountsFromState} from "./FacetFilter";
 import { createEmptySolrQuery } from "../store/solang.slice";
 describe('facetFilterGetCountsFromState', () => {
 
@@ -49,8 +49,7 @@ describe('facetFilterGetCountsFromState', () => {
 
   it('should default to empty array', () => {
     let state = createInitState();
-    expect( facetFilterGetCountsFromState(state, APP_ID, F_ALIAS) ).toEqual([
-    ]);
+    expect( facetFilterGetCountsFromState(state, APP_ID, F_ALIAS) ).toEqual([]);
   });
 
 
@@ -117,7 +116,7 @@ describe('facetFilterGetCountsFromState', () => {
       gamma: 7,
       delta: 4,
     };
-    expect( facetFilterGetCountsFromState(state, APP_ID, F_ALIAS) ).toEqual([
+    expect( facetFilterGetCountsFromAppState(state.apps[APP_ID], F_ALIAS) ).toEqual([
       { value: 'epsilon', count: 0},
       { value: 'beta', count: 2},
       { value: 'delta', count: 4},

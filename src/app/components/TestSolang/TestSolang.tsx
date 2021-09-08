@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import {
   getAppFromState, getFilterFromApp,
@@ -21,6 +21,7 @@ export const TestSolang = () => {
   const APP_ID = 'searchApp';
   const FILTER_KEY = 'searchText';
   const NUM_ROWS = 10;
+
 
   const dispatch = useAppDispatch();
 
