@@ -9,7 +9,7 @@ import { ISolrFacetField } from "../../solang.types";
 import {useAppSelector} from "../../../../app/store/hooks";
 import {RootState} from "../../../../app/store/store";
 
-import './FacetCheckbox.scss';
+// import './FacetCheckbox.scss';
 
 interface MyProps {
   appId: string,
