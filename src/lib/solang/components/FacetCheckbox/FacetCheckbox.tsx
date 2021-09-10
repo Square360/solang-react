@@ -5,7 +5,7 @@ import {
   IFacetFilterState, IFormattedFacetOption
 } from "../../filters/FacetFilter";
 
-import './FacetCheckbox.scss';
+// import './FacetCheckbox.scss';
 
 interface MyProps {
   appId: string,

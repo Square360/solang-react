@@ -5,7 +5,8 @@
   "author": "douglas.mcgilvray",
   "license": "none",
 
-  "main": "dist/lib/lib.js",
+  "main": "build/lib.js",
+  "types": "build/lib.d.ts",
   "files": [
     "dist",
     "README.md"
