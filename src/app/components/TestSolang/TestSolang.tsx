@@ -13,28 +13,32 @@ import SortSelect from "../../../lib/solang/components/SortSelect/SortSelect";
 
 import './TestSolang.scss';
 import FacetCheckbox from "../../../lib/solang/components/FacetCheckbox/FacetCheckbox";
-import { IFacetFilterState } from "../../../lib/solang/filters/FacetFilter";
+import {facetFilterGetCountsFromAppState, IFacetFilterState} from "../../../lib/solang/filters/FacetFilter";
 
 
 export const TestSolang = () => {
 
-  const APP_ID = 'searchApp';
-  const FILTER_KEY = 'searchText';
-  const NUM_ROWS = 10;
-
-
   const dispatch = useAppDispatch();
 
-  // @ts-ignore
+  // Application ID
+  const APP_ID = 'searchApp';
+  // Custom search field alias
+  const FILTER_KEY = 'searchText';
+  // Items per page
+  const NUM_ROWS = 10;
+
+  // Entire search application state
   const searchApp = useAppSelector((state: RootState) => getAppFromState(state.solang, APP_ID) );
-
+  // Results
   const results = (searchApp && searchApp.response) ? searchApp.response.response.docs : [];
+  // All facet counts
+  // const facetCounts = (searchApp && searchApp.response && searchApp.response.facet_counts) ? searchApp.response.facet_counts : [];
 
-  const facetCounts = (searchApp && searchApp.response && searchApp.response.facet_counts) ? searchApp.response.facet_counts : [];
-
-  const facetCountsCountry = ("facet_fields" in facetCounts)
-    ? facetCounts.facet_fields['country_s']
-    : {};
+  // Pagination
+  const offset = searchApp.response?.response.start || 0;
+  const numFound = searchApp.response?.response.numFound || 0;
+  const currentPage = Math.ceil(offset / NUM_ROWS);
+  // const numPages = Math.ceil(numFound / NUM_ROWS);
 
   const searchParameter = useAppSelector((state: RootState) => {
     const app = getAppFromState(state.solang, APP_ID);
@@ -54,10 +58,6 @@ export const TestSolang = () => {
     dispatch(setParams({appId: APP_ID, params: {}}));
   }
 
-  const offset = searchApp.response?.response.start || 0;
-  const numFound = searchApp.response?.response.numFound || 0;
-  const currentPage = Math.ceil(offset / NUM_ROWS);
-  // const numPages = Math.ceil(numFound / NUM_ROWS);
 
   return (
     <div className={'TestSolang'}>
@@ -90,7 +90,7 @@ export const TestSolang = () => {
       <FacetCheckbox
         appId={APP_ID}
         filterState={getFilterFromApp(searchApp, 'country') as IFacetFilterState}
-        facetCounts={facetCountsCountry}
+        facetCounts={facetFilterGetCountsFromAppState(searchApp, 'country')}
         />
 
       <p>Showing {results.length} of {numFound} results. Page {currentPage}</p>

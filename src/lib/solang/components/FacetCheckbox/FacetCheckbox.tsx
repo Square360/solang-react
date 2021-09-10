@@ -1,20 +1,16 @@
-import { useDispatch } from 'react-redux'
-import {getAppFromState, setParam} from "../../store/solang.slice";
-import {
-  facetFilterGetCountsFromAppState,
-  IFacetFilterState
-} from "../../filters/FacetFilter";
 import { ChangeEvent } from "react";
-import { ISolrFacetField } from "../../solang.types";
-import {useAppSelector} from "../../../../app/store/hooks";
-import {RootState} from "../../../../app/store/store";
+import { useDispatch } from 'react-redux'
+import { setParam} from "../../store/solang.slice";
+import {
+  IFacetFilterState, IFormattedFacetOption
+} from "../../filters/FacetFilter";
 
 // import './FacetCheckbox.scss';
 
 interface MyProps {
   appId: string,
   filterState: IFacetFilterState,
-  facetCounts: ISolrFacetField,
+  facetCounts: IFormattedFacetOption[],
 }
 
 /**
@@ -24,15 +20,13 @@ interface MyProps {
  * @param facetCounts
  * @constructor
  */
-const FacetCheckbox = ({appId, filterState, facetCounts, }: MyProps) => {
+const FacetCheckbox = ({appId, filterState, facetCounts}: MyProps) => {
 
   const CLASS = 'facet-cb';
   const dispatch = useDispatch();
   const alias = filterState.config.alias;
 
-  const searchState = useAppSelector((state: RootState) => getAppFromState(state.solang, appId) );
-
-  const options = facetFilterGetCountsFromAppState(searchState, alias);
+  const options = facetCounts || [];
 
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
 
@@ -56,7 +50,7 @@ const FacetCheckbox = ({appId, filterState, facetCounts, }: MyProps) => {
         {filterState.config.label && <legend>{filterState.config.label}</legend>}
 
         <ul className={`${CLASS}__list`}>
-          { options.map( (option, index) => (
+          { options && options.map( (option, index) => (
             <li className={`${CLASS}__list-item`} key={`${appId}--${alias}--${index}`}>
               <label  className={`${CLASS}__label`}>
                 <input

@@ -1,13 +1,5 @@
 import {
-  // Types
-  ISolangState,
-  ICreateAppPayload,
-  ISetParamsPayload,
-  ISetParamPayload,
-  IBuildQueryPayload,
-  iSendQueryPayload,
-  IResultsReceivedPayload,
-  IProcessFilterPayload,
+
   // Redux
   SolangSlice,
   SolangReducer,
@@ -54,15 +46,4 @@ export {
   SimplePager
 };
 
-// Types
-export type {
-  ISolangState,
-  ICreateAppPayload,
-  ISetParamsPayload,
-  ISetParamPayload,
-  IBuildQueryPayload,
-  iSendQueryPayload,
-  IResultsReceivedPayload,
-  IProcessFilterPayload
-};
 
