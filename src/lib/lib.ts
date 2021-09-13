@@ -1,5 +1,4 @@
 import {
-
   // Redux
   SolangSlice,
   SolangReducer,
@@ -8,6 +7,12 @@ import {
   getFilterFromState,
   createEmptySolrQuery,
   // Filters
+  createApp,
+  setParam,
+  setParams,
+  buildQuery,
+  sendQuery,
+  resultsReceived,
   processFacetFilter,
   processSimpleFilter,
   processPager,
@@ -23,6 +28,9 @@ import SolangFacet from './solang/components/SolangFacet/SolangFacet';
 import SimplePager from "./solang/components/SimplePager/SimplePager";
 import SortSelect from "./solang/components/SortSelect/SortSelect";
 
+// node_modules/mymodule/src/index.js
+export { default as ReactFromModule } from 'react'
+
 export {
   SolangEpic,
   // Redux
@@ -34,9 +42,16 @@ export {
   // Helper functions
   createSolrQueryObs,
   prepareQuery,
-  // Filters
-  processSimpleFilter,
+  createApp,
+  // App Reducers
+  setParam,
+  setParams,
+  buildQuery,
+  sendQuery,
+  resultsReceived,
+  // Filter Reduces
   processFacetFilter,
+  processSimpleFilter,
   processPager,
   processSort,
   // Components
