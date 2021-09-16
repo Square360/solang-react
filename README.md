@@ -15,6 +15,12 @@ To match the patterns used in this app.
 npx create-react-app my-app --template redux-typescript 
 ```
 
+## Compiling this library
+Compile this library with tsc. Later versions may switch to rollup to include styles.  
+```shell
+yarn tsc
+```
+
 
 ## Installing local test data
 

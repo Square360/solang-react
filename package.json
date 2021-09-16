@@ -67,7 +67,7 @@
     "eject": "react-scripts eject",
     "prebuild": "rimraf dist",
     "rollup": "rimraf dist && rollup -c",
-    "tsc": "tsc"
+    "tsc": "rimraf build && tsc"
   },
   "eslintConfig": {
     "extends": "react-app"
