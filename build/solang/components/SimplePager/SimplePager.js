@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useDispatch, useSelector } from "react-redux";
-import { getFilterFromState, setParam } from "../../store/solang.slice";
+import { getAppFromState, getFilterFromState, setParam } from "../../store/solang.slice";
 import { getCountFromResponse } from "../../filters/SimplePager";
 /**
  * Provides checkbox filter for categories with result counts.
@@ -13,7 +13,8 @@ const SimplePager = ({ appId, alias, next = 'Next', prev = 'Previous' }) => {
     const dispatch = useDispatch();
     const filterState = useSelector((state) => getFilterFromState(state.solang, appId, alias));
     const numFound = useSelector((state) => getCountFromResponse(state.solang, appId));
-    const currentPage = filterState.value;
+    const defaultValue = useSelector((state) => getAppFromState(state.solang, appId).params['alias']);
+    const currentPage = filterState.value || defaultValue;
     const numPages = Math.ceil(numFound / filterState.config.rows);
     const isEnd = currentPage >= (numPages - 1);
     const isStart = currentPage <= 0;

@@ -56,6 +56,9 @@ export interface IProcessFilterPayload {
     appId: string;
     filter: string;
 }
+export interface iRefreshResultsPayload {
+    appId: string;
+}
 export declare const SolangSlice: import("@reduxjs/toolkit").Slice<SolangState, {
     /**
      * Create a solr application
@@ -95,6 +98,11 @@ export declare const SolangSlice: import("@reduxjs/toolkit").Slice<SolangState, 
      */
     resultsReceived: (state: SolangState, action: PayloadAction<any>) => void;
     /**
+     * Triggers a
+     * @param state
+     */
+    refreshResults: (state: SolangState, action: PayloadAction<iRefreshResultsPayload>) => void;
+    /**
      * processQueryFacet reducer.
      * @param state
      * @param action
@@ -114,5 +122,5 @@ export declare const SolangSlice: import("@reduxjs/toolkit").Slice<SolangState, 
     processPager: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => void;
     processSort: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => void;
 }, "solang">;
-export declare const createApp: import("@reduxjs/toolkit").ActionCreatorWithPayload<ICreateAppPayload, string>, setParam: import("@reduxjs/toolkit").ActionCreatorWithPayload<ISetParamPayload, string>, setParams: import("@reduxjs/toolkit").ActionCreatorWithPayload<ISetParamsPayload, string>, buildQuery: import("@reduxjs/toolkit").ActionCreatorWithPayload<IBuildQueryPayload, string>, sendQuery: import("@reduxjs/toolkit").ActionCreatorWithPayload<iSendQueryPayload, string>, resultsReceived: import("@reduxjs/toolkit").ActionCreatorWithPayload<any, string>, processFacetFilter: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, string>, processSimpleFilter: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, string>, processPager: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, string>, processSort: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, string>;
+export declare const createApp: import("@reduxjs/toolkit").ActionCreatorWithPayload<ICreateAppPayload, string>, setParam: import("@reduxjs/toolkit").ActionCreatorWithPayload<ISetParamPayload, string>, setParams: import("@reduxjs/toolkit").ActionCreatorWithPayload<ISetParamsPayload, string>, buildQuery: import("@reduxjs/toolkit").ActionCreatorWithPayload<IBuildQueryPayload, string>, sendQuery: import("@reduxjs/toolkit").ActionCreatorWithPayload<iSendQueryPayload, string>, refreshResults: import("@reduxjs/toolkit").ActionCreatorWithPayload<iRefreshResultsPayload, string>, resultsReceived: import("@reduxjs/toolkit").ActionCreatorWithPayload<any, string>, processFacetFilter: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, string>, processSimpleFilter: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, string>, processPager: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, string>, processSort: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, string>;
 export declare const SolangReducer: import("redux").Reducer<SolangState, import("redux").AnyAction>;

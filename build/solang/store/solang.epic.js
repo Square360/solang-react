@@ -1,6 +1,6 @@
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { combineEpics, ofType } from "redux-observable";
-import { setParam, setParams, buildQuery, sendQuery, getAppFromState, resultsReceived } from './solang.slice';
+import { setParam, setParams, buildQuery, sendQuery, refreshResults, getAppFromState, resultsReceived } from './solang.slice';
 import { createSolrQueryObs } from "../solang.api";
 /**
  * processParamsEpic executes after any actions which change a solr app's parameters.
@@ -11,7 +11,8 @@ export const processParamsEpic = (action$, state$) => {
     return action$.pipe(filter((action) => {
         return [
             setParams.type,
-            setParam.type
+            setParam.type,
+            refreshResults.type,
         ].includes(action.type);
     }), tap(action => console.log('processParamsEpic', action)), tap((action) => {
         var _a;

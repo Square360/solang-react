@@ -139,6 +139,13 @@ export const SolangSlice = createSlice({
             const app = state.apps[action.payload.appId];
             app.response = action.payload.response.response;
         },
+        /**
+         * Triggers a
+         * @param state
+         */
+        refreshResults: (state, action) => {
+            console.log('refreshingData');
+        },
         //////////////////////////////////////
         // Filter reducers
         //////////////////////////////////////
@@ -183,6 +190,6 @@ export const SolangSlice = createSlice({
         }
     }
 });
-export const { createApp, setParam, setParams, buildQuery, sendQuery, resultsReceived, processFacetFilter, processSimpleFilter, processPager, processSort } = SolangSlice.actions;
+export const { createApp, setParam, setParams, buildQuery, sendQuery, refreshResults, resultsReceived, processFacetFilter, processSimpleFilter, processPager, processSort } = SolangSlice.actions;
 export const SolangReducer = SolangSlice.reducer;
 //# sourceMappingURL=solang.slice.js.map

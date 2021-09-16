@@ -11,8 +11,6 @@ import FacetCheckbox from "./solang/components/FacetCheckbox/FacetCheckbox";
 import SolangFacet from './solang/components/SolangFacet/SolangFacet';
 import SimplePager from "./solang/components/SimplePager/SimplePager";
 import SortSelect from "./solang/components/SortSelect/SortSelect";
-// node_modules/mymodule/src/index.js
-export { default as ReactFromModule } from 'react';
 export { SolangEpic, 
 // Redux
 SolangReducer, SolangSlice, getAppFromState, getFilterFromState, createEmptySolrQuery, 
