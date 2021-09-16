@@ -16,6 +16,7 @@ import {
   resultsReceived,
   processFacetFilter,
   processSimpleFilter,
+  processCustomFilter,
   processPager,
   processSort
 } from './solang/store/solang.slice';
@@ -28,6 +29,19 @@ import FacetCheckbox from "./solang/components/FacetCheckbox/FacetCheckbox";
 import SolangFacet from './solang/components/SolangFacet/SolangFacet';
 import SimplePager from "./solang/components/SimplePager/SimplePager";
 import SortSelect from "./solang/components/SortSelect/SortSelect";
+
+
+import {
+  // Types
+  ISolangState,
+  ICreateAppPayload,
+  ISetParamsPayload,
+  ISetParamPayload,
+  IBuildQueryPayload,
+  iSendQueryPayload,
+  IResultsReceivedPayload,
+  IProcessFilterPayload
+} from './solang/store/solang.slice';
 
 
 export {
@@ -52,6 +66,7 @@ export {
   // Filter Reduces
   processFacetFilter,
   processSimpleFilter,
+  processCustomFilter,
   processPager,
   processSort,
   // Components
@@ -60,19 +75,6 @@ export {
   SortSelect,
   SimplePager
 };
-
-
-import {
-  // Types
-  ISolangState,
-  ICreateAppPayload,
-  ISetParamsPayload,
-  ISetParamPayload,
-  IBuildQueryPayload,
-  iSendQueryPayload,
-  IResultsReceivedPayload,
-  IProcessFilterPayload
-} from './solang/store/solang.slice';
 
 // Types
 export type {
