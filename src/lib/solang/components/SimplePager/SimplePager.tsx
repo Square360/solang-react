@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getFilterFromState, ISolangState, setParam } from "../../store/solang.slice";
+import {getAppFromState, getFilterFromState, ISolangState, setParam} from "../../store/solang.slice";
 import { getCountFromResponse } from "../../filters/SimplePager";
 
 interface MyProps {
@@ -23,7 +23,8 @@ const SimplePager = ({appId, alias, next='Next', prev='Previous'}: MyProps) => {
   const filterState = useSelector((state: ISolangState) => getFilterFromState(state.solang, appId, alias));
   const numFound = useSelector((state: ISolangState) => getCountFromResponse(state.solang, appId));
 
-  const currentPage = filterState.value;
+  const defaultValue = useSelector((state: ISolangState) => getAppFromState(state.solang, appId).params['alias']);
+  const currentPage = filterState.value || defaultValue;
   const numPages = Math.ceil(numFound / filterState.config.rows);
 
   const isEnd = currentPage >= (numPages-1);
