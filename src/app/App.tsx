@@ -8,7 +8,7 @@ import {
   processFacetFilter,
   processPager,
   processSimpleFilter,
-  processSort,
+  processSort, refreshResults,
 } from "../lib/solang/store/solang.slice";
 import { TestSolang } from "./components/TestSolang/TestSolang";
 import {ArrayParam, StringParam, useQueryParams, withDefault} from "use-query-params";
@@ -93,6 +93,9 @@ function App() {
       params: queryParams as any,
       filters: searchFilters,
     }));
+
+    // Get initial results list when app loads
+    dispatch(refreshResults({appId: 'searchApp'}));
   }
 
   // setupQuerySync(store, 'searchApp', Object.keys(searchFilters));

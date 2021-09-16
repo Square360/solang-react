@@ -110,6 +110,9 @@ export interface IProcessFilterPayload {
   filter: string;
 }
 
+export interface iRefreshResultsPayload {
+  appId: string;
+}
 
 //////////////////////////////////////
 // Solang Slice
@@ -191,7 +194,6 @@ export const SolangSlice = createSlice({
       console.log('buildQuery reducer', action);
       console.log('Setting URL params');
 
-
       const app = getAppFromState(state, action.payload.appId)
       app.lastQuery = app.query || {};
       app.query = createEmptySolrQuery();
@@ -215,6 +217,14 @@ export const SolangSlice = createSlice({
       console.log('resultsReceived', action);
       const app = state.apps[action.payload.appId];
       app.response = action.payload.response.response;
+    },
+
+    /**
+     * Triggers a
+     * @param state
+     */
+    refreshResults: (state: SolangState, action: PayloadAction<iRefreshResultsPayload>) => {
+      console.log('refreshingData');
     },
 
     //////////////////////////////////////
@@ -272,6 +282,7 @@ export const {
   setParams,
   buildQuery,
   sendQuery,
+  refreshResults,
   resultsReceived,
   processFacetFilter,
   processSimpleFilter,
