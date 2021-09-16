@@ -221,8 +221,9 @@ export const SolangSlice = createSlice({
     },
 
     /**
-     * Triggers a
+     * Requests the previous search query again without changing parameters
      * @param state
+     * @param action
      */
     refreshResults: (state: SolangState, action: PayloadAction<iRefreshResultsPayload>) => {
       console.log('refreshingData');
@@ -282,8 +283,10 @@ export const SolangSlice = createSlice({
      */
     processCustomFilter: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => {
       let app = getAppFromState(state, action.payload.appId);
-      customFilterProcessParams(app, action.payload.filter, app.params);
-      customFilterProcessQuery(app.filters[action.payload.filter] as ICustomFilterState, app.query || createEmptySolrQuery());
+      if (app) {
+        customFilterProcessParams(app, action.payload.filter, app.params);
+        customFilterProcessQuery(app.filters[action.payload.filter] as ICustomFilterState, app.query || createEmptySolrQuery());
+      }
     },
 
   }

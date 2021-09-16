@@ -8,7 +8,7 @@ import {
   processFacetFilter,
   processPager,
   processSimpleFilter,
-  processSort, refreshResults,
+  processSort, refreshResults, processCustomFilter,
 } from "../lib/solang/store/solang.slice";
 import { TestSolang } from "./components/TestSolang/TestSolang";
 import {ArrayParam, StringParam, useQueryParams, withDefault} from "use-query-params";
@@ -31,10 +31,10 @@ function App() {
     const searchFilters = {
       searchText: {
         config: {
-          solrField: 'last_name_t',
+          process: (value: string) => (!value || value === '') ? '*:*' : `label:(${value}) OR (${value}*)`,
           alias: 'searchText',
         },
-        processQueryActions: [processSimpleFilter.type],
+        processQueryActions: [processCustomFilter.type],
         value: queryParams.searchText || ''
       },
       country: { // type: facet filter

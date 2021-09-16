@@ -20,14 +20,10 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": false,
+    "noEmit": true,
     "jsx": "react-jsx"
   },
   "include": [
-    "src/lib/lib.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "src/app"
+    "src"
   ]
 }

@@ -196,8 +196,10 @@ export const SolangSlice = createSlice({
          */
         processCustomFilter: (state, action) => {
             let app = getAppFromState(state, action.payload.appId);
-            customFilterProcessParams(app, action.payload.filter, app.params);
-            customFilterProcessQuery(app.filters[action.payload.filter], app.query || createEmptySolrQuery());
+            if (app) {
+                customFilterProcessParams(app, action.payload.filter, app.params);
+                customFilterProcessQuery(app.filters[action.payload.filter], app.query || createEmptySolrQuery());
+            }
         },
     }
 });
