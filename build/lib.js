@@ -4,7 +4,7 @@ SolangSlice, SolangReducer,
 // Helper functions
 getAppFromState, getFilterFromState, createEmptySolrQuery, 
 // Filters
-createApp, setParam, setParams, buildQuery, sendQuery, resultsReceived, processFacetFilter, processSimpleFilter, processPager, processSort } from './solang/store/solang.slice';
+createApp, setParam, setParams, buildQuery, sendQuery, refreshResults, resultsReceived, processFacetFilter, processSimpleFilter, processPager, processSort } from './solang/store/solang.slice';
 import { SolangEpic } from './solang/store/solang.epic';
 import { createSolrQueryObs, prepareQuery } from "./solang/solang.api";
 import FacetCheckbox from "./solang/components/FacetCheckbox/FacetCheckbox";
@@ -17,7 +17,7 @@ SolangReducer, SolangSlice, getAppFromState, getFilterFromState, createEmptySolr
 // Helper functions
 createSolrQueryObs, prepareQuery, createApp, 
 // App Reducers
-setParam, setParams, buildQuery, sendQuery, resultsReceived, 
+setParam, setParams, buildQuery, sendQuery, refreshResults, resultsReceived, 
 // Filter Reduces
 processFacetFilter, processSimpleFilter, processPager, processSort, 
 // Components

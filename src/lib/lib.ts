@@ -12,6 +12,7 @@ import {
   setParams,
   buildQuery,
   sendQuery,
+  refreshResults,
   resultsReceived,
   processFacetFilter,
   processSimpleFilter,
@@ -27,6 +28,7 @@ import FacetCheckbox from "./solang/components/FacetCheckbox/FacetCheckbox";
 import SolangFacet from './solang/components/SolangFacet/SolangFacet';
 import SimplePager from "./solang/components/SimplePager/SimplePager";
 import SortSelect from "./solang/components/SortSelect/SortSelect";
+
 
 export {
   SolangEpic,
@@ -45,6 +47,7 @@ export {
   setParams,
   buildQuery,
   sendQuery,
+  refreshResults,
   resultsReceived,
   // Filter Reduces
   processFacetFilter,

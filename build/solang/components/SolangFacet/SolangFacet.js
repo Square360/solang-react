@@ -28,7 +28,9 @@ const SolangFacet = ({ appId, alias }) => {
             dispatch(setParam({ appId: appId, key: alias, value: newState.filter(v => v !== value) }));
         }
     };
-    return (_jsx("div", Object.assign({ className: `${CLASS}` }, { children: _jsxs("fieldset", { children: [filterState.config.label && _jsx("legend", { children: filterState.config.label }, void 0), _jsxs("p", { children: ["Selected: ", filterSelected.join(', ')] }, void 0), _jsx("ul", Object.assign({ className: `${CLASS}__list` }, { children: facetCounts.map(({ value, count }) => (_jsx("li", Object.assign({ className: `${CLASS}__list-item` }, { children: _jsxs("label", Object.assign({ className: `${CLASS}__label` }, { children: [_jsx("input", { type: "checkbox", checked: filterSelected.includes(value), onChange: changeHandler, value: value, name: alias }, void 0), " ", _jsx("span", Object.assign({ className: `${CLASS}__value` }, { children: value }), void 0), "  ", _jsxs("span", Object.assign({ className: `${CLASS}__count` }, { children: ["(", count, ")"] }), void 0)] }), void 0) }), void 0))) }), void 0)] }, void 0) }), void 0));
+    return (_jsx("div", Object.assign({ className: `${CLASS}` }, { children: _jsxs("fieldset", { children: [filterState.config.label && _jsx("legend", { children: filterState.config.label }, void 0),
+                _jsxs("p", { children: ["Selected: ", filterSelected.join(', ')] }, void 0),
+                _jsx("ul", Object.assign({ className: `${CLASS}__list` }, { children: facetCounts.map(({ value, count }) => (_jsx("li", Object.assign({ className: `${CLASS}__list-item` }, { children: _jsxs("label", Object.assign({ className: `${CLASS}__label` }, { children: [_jsx("input", { type: "checkbox", checked: filterSelected.includes(value), onChange: changeHandler, value: value, name: alias }, void 0), " ", _jsx("span", Object.assign({ className: `${CLASS}__value` }, { children: value }), void 0), "  ", _jsxs("span", Object.assign({ className: `${CLASS}__count` }, { children: ["(", count, ")"] }), void 0)] }), void 0) }), void 0))) }), void 0)] }, void 0) }), void 0));
 };
 export default SolangFacet;
 //# sourceMappingURL=SolangFacet.js.map
