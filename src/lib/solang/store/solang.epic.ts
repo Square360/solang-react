@@ -1,9 +1,9 @@
 import {  AnyAction } from "@reduxjs/toolkit";
-import { filter, map, switchMap, tap, takeUntil } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { combineEpics, ofType } from "redux-observable";
 import { setParam, setParams, buildQuery, sendQuery, refreshResults, getAppFromState, resultsReceived } from './solang.slice';
 import { createSolrQueryObs } from "../solang.api";
-import {ISolangApp} from "../solang.types";
+import logger from "../logger";
 
 /**
  * processParamsEpic executes after any actions which change a solr app's parameters.
@@ -19,7 +19,7 @@ export const processParamsEpic = (action$: any, state$: any) => {
         refreshResults.type,
       ].includes(action.type);
     }),
-    tap(action => console.log('processParamsEpic', action)),
+    tap(action => logger('processParamsEpic', action)),
     tap( (action: AnyAction) => {
       // Update query parameters
       const app = getAppFromState(state$.value.solang, action.payload.appId);
@@ -51,7 +51,7 @@ export const processQueryEpic = (action$: any, state$: any) => {
   return action$.pipe(
 
     filter((action: AnyAction)  => action.type === buildQuery.type),
-    tap(action => console.log('buildQueryEpic starting', action)),
+    tap(action => logger('buildQueryEpic starting', action)),
     switchMap( (action: AnyAction) => {
 
       // Get the state for this application
@@ -103,7 +103,7 @@ export const processQueryEpic = (action$: any, state$: any) => {
 export const sendQueryEpic = (action$: any, state$: any) => {
   return action$.pipe(
     ofType(sendQuery.type),
-    tap(action => console.log('sendQueryEpic', action)),
+    tap(action => logger('sendQueryEpic', action)),
     // Switch Map will auto-cancel any previous instance.
     switchMap( (action: AnyAction) => {
 

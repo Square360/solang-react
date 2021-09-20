@@ -6,6 +6,7 @@ import { IFilterState } from "../filters/filter";
 import { ISimplePagerState, simplePagerProcessParams, simplePagerProcessQuery } from "../filters/SimplePager";
 import { ISortState, sortProcessParams, sortProcessQuery } from "../filters/Sort";
 import {customFilterProcessParams, customFilterProcessQuery, ICustomFilterState} from "../filters/CustomFilter";
+import logger from "../logger";
 
 //////////////////////////////////////
 // Helper Functions
@@ -21,7 +22,7 @@ export const getAppFromState = (state: SolangState, appId: string) => {
   if (!app) {
     // ToDo: Throw Error
     // throw new Error(`App ${appId} doesn't exist!`);
-    console.log(`App ${appId} doesn't exist!`);
+    logger(`App ${appId} doesn't exist!`);
   }
   return app;
 }
@@ -40,7 +41,7 @@ export const getFilterFromState = (state: SolangState, appId: string, filterAlia
 export const getFilterFromApp = (app: ISolangApp, filterAlias: string) => {
   const filter = app.filters[filterAlias] ?? null;
   if (!filter) {
-    console.log(`Filter ${filterAlias} on app ${app.id} doesn't exist!`);
+    logger(`Filter ${filterAlias} on app ${app.id} doesn't exist!`);
   }
   return filter;
 
@@ -192,8 +193,8 @@ export const SolangSlice = createSlice({
      * @param action
      */
     buildQuery: (state: SolangState, action: PayloadAction<IBuildQueryPayload>) => {
-      console.log('buildQuery reducer', action);
-      console.log('Setting URL params');
+      logger('buildQuery reducer', action);
+      logger('Setting URL params');
 
       const app = getAppFromState(state, action.payload.appId)
       app.lastQuery = app.query || {};
@@ -206,7 +207,7 @@ export const SolangSlice = createSlice({
      * @param action
      */
     sendQuery: (state: SolangState, action: PayloadAction<iSendQueryPayload>) => {
-      console.log('sendQuery reducer', action);
+      logger('sendQuery reducer', action);
     },
 
     /**
@@ -215,18 +216,17 @@ export const SolangSlice = createSlice({
      * @param action
      */
     resultsReceived: (state: SolangState, action: PayloadAction<any>) => {
-      console.log('resultsReceived', action);
+      logger('resultsReceived', action);
       const app = state.apps[action.payload.appId];
       app.response = action.payload.response.response;
     },
 
     /**
-     * Requests the previous search query again without changing parameters
+     * Triggers a
      * @param state
-     * @param action
      */
     refreshResults: (state: SolangState, action: PayloadAction<iRefreshResultsPayload>) => {
-      console.log('refreshingData');
+      logger('refreshingData');
     },
 
     //////////////////////////////////////
@@ -283,10 +283,8 @@ export const SolangSlice = createSlice({
      */
     processCustomFilter: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => {
       let app = getAppFromState(state, action.payload.appId);
-      if (app) {
-        customFilterProcessParams(app, action.payload.filter, app.params);
-        customFilterProcessQuery(app.filters[action.payload.filter] as ICustomFilterState, app.query || createEmptySolrQuery());
-      }
+      customFilterProcessParams(app, action.payload.filter, app.params);
+      customFilterProcessQuery(app.filters[action.payload.filter] as ICustomFilterState, app.query || createEmptySolrQuery());
     },
 
   }
