@@ -15,7 +15,7 @@ export const createSolrQueryObs = function (app) {
             urlParams.append(key, value);
         }
     });
-    const queryUrl = `${app.endpoint}select?${urlParams.toString()}`;
+    const queryUrl = `${app.endpoint}?${urlParams.toString()}`;
     const ajax$ = ajax({
         crossDomain: true,
         headers: {

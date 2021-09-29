@@ -23,7 +23,7 @@ export const createSolrQueryObs = function(app: ISolangApp) {
     }
   });
 
-  const queryUrl = `${app.endpoint}select?${urlParams.toString()}`
+  const queryUrl = `${app.endpoint}?${urlParams.toString()}`
 
   const ajax$ = ajax({
     crossDomain: true,
