@@ -103,7 +103,7 @@ export const processQueryEpic = (action$: any, state$: any) => {
 export const sendQueryEpic = (action$: any, state$: any) => {
   return action$.pipe(
     ofType(sendQuery.type),
-    tap(action => logger('sendQueryEpic', action)),
+    tap(action => logger('sendQueryEpic query', action)),
     // Switch Map will auto-cancel any previous instance.
     switchMap( (action: AnyAction) => {
 

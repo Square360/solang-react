@@ -12,6 +12,7 @@ import {
 } from "../lib/solang/store/solang.slice";
 import { TestSolang } from "./components/TestSolang/TestSolang";
 import {ArrayParam, StringParam, useQueryParams, withDefault} from "use-query-params";
+import {ISolrQuery} from "../lib/solang/solang.types";
 
 function App() {
 
@@ -26,6 +27,13 @@ function App() {
     page: withDefault(StringParam, '0'),
     sort: withDefault(StringParam, ''),
   });
+
+  const preprocessQuery = (query: ISolrQuery) => {
+    const newQuery = {...query};
+    newQuery.s = query.q;
+    delete newQuery.q;
+    return newQuery;
+  }
 
   if (!searchApp) {
     const searchFilters = {
@@ -88,7 +96,8 @@ function App() {
       id: 'searchApp',
       endpoint: process.env.REACT_APP_SOLR_ENDPOINT as string,
       config: {
-        setQuery: setQuery
+        setQuery: setQuery,
+        preprocessQuery: preprocessQuery,
       },
       params: queryParams as any,
       filters: searchFilters,

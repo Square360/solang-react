@@ -4,7 +4,8 @@
 import { IFilterState } from "./filters/filter";
 
 export interface ISolrQuery {
-  q: string;
+  q?: string;
+  s?: string;                   // Alternative for q used in drupal solang
   facet?: 'true' | 'false';
   'facet.field': string[];
   fq: string[];
@@ -34,6 +35,7 @@ export interface ISolangParamList { [key: string]: string | string[] }
 export interface ISolangAppConfig {
   externalParams?: boolean;
   setQuery?: any;
+  preprocessQuery?: (query: ISolrQuery) => ISolrQuery;
 }
 
 /**

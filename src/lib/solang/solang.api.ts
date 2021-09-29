@@ -6,7 +6,11 @@ export const createSolrQueryObs = function(app: ISolangApp) {
 
   const query: ISolrQuery = {...app.query};
 
-  const params = prepareQuery(query);
+  let params = prepareQuery(query);
+
+  if (app.config?.preprocessQuery) {
+    params = app.config?.preprocessQuery(params);
+  }
 
   const urlParams = new URLSearchParams();
 

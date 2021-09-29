@@ -286,7 +286,6 @@ export const SolangSlice = createSlice({
       customFilterProcessParams(app, action.payload.filter, app.params);
       customFilterProcessQuery(app.filters[action.payload.filter] as ICustomFilterState, app.query || createEmptySolrQuery());
     },
-
   }
 });
 
