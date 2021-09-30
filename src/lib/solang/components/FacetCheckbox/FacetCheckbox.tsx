@@ -44,9 +44,8 @@ const FacetCheckbox = ({appId, filterState, facetCounts}: MyProps) => {
 
 
   return (
-
     <div className={`${CLASS}`}>
-      <fieldset>
+      <fieldset className={`${CLASS}__wrapper`}>
         {filterState.config.label && <legend>{filterState.config.label}</legend>}
 
         <ul className={`${CLASS}__list`}>
@@ -55,6 +54,7 @@ const FacetCheckbox = ({appId, filterState, facetCounts}: MyProps) => {
               <label  className={`${CLASS}__label`}>
                 <input
                   type="checkbox"
+                  className={`${CLASS}__input`}
                   checked={filterState.value.includes(option.value)}
                   onChange={changeHandler}
                   value={option.value}
@@ -65,8 +65,6 @@ const FacetCheckbox = ({appId, filterState, facetCounts}: MyProps) => {
         </ul>
 
       </fieldset>
-
-
     </div>
 
   );
