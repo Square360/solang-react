@@ -29,17 +29,22 @@ function App() {
   });
 
   const preprocessQuery = (query: ISolrQuery) => {
-    const newQuery = {...query};
-    newQuery.s = query.q;
-    delete newQuery.q;
-    return newQuery;
+    if (process.env.NODE_ENV === 'production') {
+      const newQuery = {...query};
+      newQuery.s = query.q;
+      delete newQuery.q;
+      return newQuery;        
+    }
+    else {
+      return query;
+    }
   }
 
   if (!searchApp) {
     const searchFilters = {
       searchText: {
         config: {
-          process: (value: string) => (!value || value === '') ? '*:*' : `label:(${value}) OR (${value}*)`,
+          process: (value: string) => (!value || value === '') ? '*:*' : `first_name_s:((${value}) OR (${value}*))`,
           alias: 'searchText',
         },
         processQueryActions: [processCustomFilter.type],
