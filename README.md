@@ -16,7 +16,7 @@ npx create-react-app my-app --template redux-typescript
 ```
 
 ## Compiling this library
-Compile this library with tsc. Later versions may switch to rollup to include styles.  
+Compile this library with tsc before pushing a new release. Rollup configuration incomplete.  
 ```shell
 yarn tsc
 ```
