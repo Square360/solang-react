@@ -9,17 +9,18 @@ import { getCountFromResponse } from "../../filters/SimplePager";
  * @constructor
  */
 const SimplePager = ({ appId, alias, next = 'Next', prev = 'Previous' }) => {
+    var _a;
     const CLASS = 'solang-pager';
     const dispatch = useDispatch();
     const filterState = useSelector((state) => getFilterFromState(state.solang, appId, alias));
     const numFound = useSelector((state) => getCountFromResponse(state.solang, appId));
-    const defaultValue = useSelector((state) => getAppFromState(state.solang, appId).params['alias']);
+    const defaultValue = (_a = useSelector((state) => getAppFromState(state.solang, appId).params['alias'])) !== null && _a !== void 0 ? _a : 0;
     const currentPage = filterState.value || defaultValue;
     const numPages = Math.ceil(numFound / filterState.config.rows);
     const isEnd = currentPage >= (numPages - 1);
     const isStart = currentPage <= 0;
     const nextHandler = () => {
-        const newPage = (currentPage < numPages) ? currentPage + 1 : numPages;
+        const newPage = (currentPage < numPages) ? parseInt(currentPage) + 1 : numPages;
         const val = newPage.toString();
         dispatch(setParam({ appId: appId, key: alias, value: val }));
     };
