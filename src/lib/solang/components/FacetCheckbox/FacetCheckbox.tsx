@@ -22,7 +22,7 @@ interface MyProps {
  */
 const FacetCheckbox = ({appId, filterState, facetCounts}: MyProps) => {
 
-  const CLASS = 'facet-cb';
+  const CLASS = 'solang-facet-cb';
   const dispatch = useDispatch();
   const alias = filterState.config.alias;
 

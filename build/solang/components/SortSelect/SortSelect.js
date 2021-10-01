@@ -16,7 +16,7 @@ const SortSelect = ({ appId, alias }) => {
         const el = e.currentTarget;
         dispatch(setParam({ appId: appId, key: alias, value: el.value }));
     };
-    return (_jsx("div", Object.assign({ className: CLASS }, { children: _jsx("select", Object.assign({ className: `${CLASS}__input`, defaultValue: defaultValue, onChange: updateHandler }, { children: filterState.config.options.map(item => (_jsx("option", Object.assign({ value: item.value, className: `${CLASS}__input` }, { children: item.label }), item.value))) }), void 0) }), void 0));
+    return (_jsx("div", Object.assign({ className: CLASS }, { children: _jsx("select", Object.assign({ className: `${CLASS}__input`, defaultValue: defaultValue, onChange: updateHandler }, { children: filterState.config.options.map(item => (_jsx("option", Object.assign({ value: item.value, className: `${CLASS}__option` }, { children: item.label }), item.value))) }), void 0) }), void 0));
 };
 export default SortSelect;
 //# sourceMappingURL=SortSelect.js.map
