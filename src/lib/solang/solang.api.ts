@@ -41,6 +41,10 @@ export const prepareQuery = function(query: ISolrQuery) {
 
   const params: any = {...query};
 
+  if (params.filter === {}) {
+    delete params.filter;
+  }
+
   if (!params.q) params.q = '*';
 
   // Give us nested list json
