@@ -33,7 +33,7 @@ const SortSelect = ({appId, alias}: MyProps) => {
     <div className={CLASS}>
       <select className={`${CLASS}__input`} defaultValue={defaultValue} onChange={updateHandler}>
         { filterState.config.options.map(item => (
-            <option key={item.value} value={item.value} className={`${CLASS}__input`}>{item.label}</option>
+            <option key={item.value} value={item.value} className={`${CLASS}__option`}>{item.label}</option>
         ))}
       </select>
     </div>

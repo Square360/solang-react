@@ -9,7 +9,7 @@ import { setParam } from "../../store/solang.slice";
  * @constructor
  */
 const FacetCheckbox = ({ appId, filterState, facetCounts }) => {
-    const CLASS = 'facet-cb';
+    const CLASS = 'solang-facet-cb';
     const dispatch = useDispatch();
     const alias = filterState.config.alias;
     const options = facetCounts || [];
