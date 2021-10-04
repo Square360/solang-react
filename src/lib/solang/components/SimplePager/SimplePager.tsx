@@ -45,8 +45,8 @@ const SimplePager = ({appId, alias, next='Next', prev='Previous'}: MyProps) => {
   return (
     <div className={CLASS}>
 
-      { !isStart && <button className={`${CLASS}__prev`} onClick={prevHandler}>{prev}</button> }
-      { !isEnd && <button className={`${CLASS}__next`} onClick={nextHandler}>{next}</button> }
+      <button disabled={isStart} className={`${CLASS}__prev`} onClick={prevHandler}>{prev}</button>
+      <button disabled={isEnd} className={`${CLASS}__next`} onClick={nextHandler}>{next}</button>
 
     </div>
 
