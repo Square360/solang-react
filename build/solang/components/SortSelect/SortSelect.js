@@ -8,7 +8,7 @@ import { getAppFromState, getFilterFromState, setParam } from "../../store/solan
  * @constructor
  */
 const SortSelect = ({ appId, alias }) => {
-    const CLASS = 'sort-select';
+    const CLASS = 'solang-sort-select';
     const dispatch = useDispatch();
     const filterState = useSelector((state) => getFilterFromState(state.solang, appId, alias));
     const defaultValue = useSelector((state) => getAppFromState(state.solang, appId).params[alias]);

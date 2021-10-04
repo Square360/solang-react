@@ -28,6 +28,9 @@ export const createSolrQueryObs = function (app) {
 };
 export const prepareQuery = function (query) {
     const params = Object.assign({}, query);
+    if (params.filter === {}) {
+        delete params.filter;
+    }
     if (!params.q)
         params.q = '*';
     // Give us nested list json

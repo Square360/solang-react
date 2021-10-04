@@ -19,7 +19,7 @@ interface MyProps {
  */
 const SortSelect = ({appId, alias}: MyProps) => {
 
-  const CLASS = 'sort-select';
+  const CLASS = 'solang-sort-select';
   const dispatch = useDispatch();
   const filterState = useSelector((state: ISolangState) => getFilterFromState(state.solang, appId, alias)) as ISortState;
   const defaultValue = useSelector((state: ISolangState) => getAppFromState(state.solang, appId).params[alias]);
