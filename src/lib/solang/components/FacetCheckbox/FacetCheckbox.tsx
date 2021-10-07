@@ -58,7 +58,11 @@ const FacetCheckbox = ({appId, filterState, facetCounts}: MyProps) => {
                   checked={filterState.value.includes(option.value)}
                   onChange={changeHandler}
                   value={option.value}
-                  name={alias}/> <span className={`${CLASS}__value`} dangerouslySetInnerHTML={{__html: option.value}}></span>  <span className={`${CLASS}__count`}>{option.count}</span>
+                  name={alias}/>
+                <span className={`${CLASS}__desc`}>
+                  <span className={`${CLASS}__value`} dangerouslySetInnerHTML={{__html: option.value}}></span>
+                  <span className={`${CLASS}__count`}>{option.count}</span>
+                </span>
               </label>
             </li>
           ))}

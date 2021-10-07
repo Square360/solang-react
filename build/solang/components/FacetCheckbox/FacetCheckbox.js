@@ -25,7 +25,9 @@ const FacetCheckbox = ({ appId, filterState, facetCounts }) => {
         }
     };
     return (_jsx("div", Object.assign({ className: `${CLASS}` }, { children: _jsxs("fieldset", Object.assign({ className: `${CLASS}__wrapper` }, { children: [filterState.config.label && _jsx("legend", { children: filterState.config.label }, void 0),
-                _jsx("ul", Object.assign({ className: `${CLASS}__list` }, { children: options && options.map((option, index) => (_jsx("li", Object.assign({ className: `${CLASS}__list-item` }, { children: _jsxs("label", Object.assign({ className: `${CLASS}__label` }, { children: [_jsx("input", { type: "checkbox", className: `${CLASS}__input`, checked: filterState.value.includes(option.value), onChange: changeHandler, value: option.value, name: alias }, void 0), " ", _jsx("span", { className: `${CLASS}__value`, dangerouslySetInnerHTML: { __html: option.value } }, void 0), "  ", _jsx("span", Object.assign({ className: `${CLASS}__count` }, { children: option.count }), void 0)] }), void 0) }), `${appId}--${alias}--${index}`))) }), void 0)] }), void 0) }), void 0));
+                _jsx("ul", Object.assign({ className: `${CLASS}__list` }, { children: options && options.map((option, index) => (_jsx("li", Object.assign({ className: `${CLASS}__list-item` }, { children: _jsxs("label", Object.assign({ className: `${CLASS}__label` }, { children: [_jsx("input", { type: "checkbox", className: `${CLASS}__input`, checked: filterState.value.includes(option.value), onChange: changeHandler, value: option.value, name: alias }, void 0),
+                                _jsxs("span", Object.assign({ className: `${CLASS}__desc` }, { children: [_jsx("span", { className: `${CLASS}__value`, dangerouslySetInnerHTML: { __html: option.value } }, void 0),
+                                        _jsx("span", Object.assign({ className: `${CLASS}__count` }, { children: option.count }), void 0)] }), void 0)] }), void 0) }), `${appId}--${alias}--${index}`))) }), void 0)] }), void 0) }), void 0));
 };
 export default FacetCheckbox;
 //# sourceMappingURL=FacetCheckbox.js.map
