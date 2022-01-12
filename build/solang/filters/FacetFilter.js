@@ -90,7 +90,7 @@ export const facetFilterGetCountsFromAppState = (app, filterAlias) => {
         if (filter.config.sortAlpha) {
             if (a.value < b.value)
                 return -1;
-            else if (a.value < b.value)
+            else if (a.value > b.value)
                 return 1;
             else
                 return 0;
@@ -98,7 +98,7 @@ export const facetFilterGetCountsFromAppState = (app, filterAlias) => {
         else {
             if (a.count < b.count)
                 return -1;
-            else if (a.count < b.count)
+            else if (a.count > b.count)
                 return 1;
             else
                 return 0;
