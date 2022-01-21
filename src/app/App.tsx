@@ -103,6 +103,8 @@ function App() {
       config: {
         setQuery: setQuery,
         preprocessQuery: preprocessQuery,
+        // Specify a pager alias to reset page to zero on parameter changes
+        pagerReset: 'page'
       },
       params: queryParams as any,
       filters: searchFilters,

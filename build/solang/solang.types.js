@@ -3,6 +3,7 @@
  */
 export const SolangAppConfigDefaults = {
     externalParams: false,
+    pagerReset: ""
 };
 ;
 ;

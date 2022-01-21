@@ -36,6 +36,7 @@ export interface ISolangAppConfig {
   externalParams?: boolean;
   setQuery?: any;
   preprocessQuery?: (query: ISolrQuery) => ISolrQuery;
+  pagerReset: string;
 }
 
 /**
@@ -43,6 +44,7 @@ export interface ISolangAppConfig {
  */
 export const SolangAppConfigDefaults: ISolangAppConfig = {
   externalParams: false,
+  pagerReset: ""
 }
 
 /**
@@ -55,8 +57,8 @@ export interface ISolangApp {
   endpoint?: string;
   // Currently unused
   status?: 'idle' | 'loading' | 'failed',
-  // Currently unused
-  config?: ISolangAppConfig,
+  // Search configurations
+  config: ISolangAppConfig,
   // Current search parameters. Parameters define the current search {search: scotland, category: news}
   params: ISolangParamList, // url-like paramerers
   filters: { [key: string]: IFilterState };

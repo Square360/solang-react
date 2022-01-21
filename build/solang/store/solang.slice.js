@@ -52,6 +52,22 @@ export const createEmptySolrQuery = () => {
         rows: 10
     };
 };
+/**
+ * Detects if the pager must be reset.
+ * Any change to the param list not accompanied be a change in page should reset the pager to 0.
+ * @param existingParams
+ * @param submittedParams
+ */
+export const pagerReset = (alias, existingParams, submittedParams) => {
+    if (alias && alias !== "") {
+        const filteredExistingParams = Object.fromEntries(Object.entries(existingParams).filter(([key, value]) => key !== alias));
+        const filteredSubmittedParams = Object.fromEntries(Object.entries(submittedParams).filter(([key, value]) => key !== alias));
+        if (JSON.stringify(filteredExistingParams) !== JSON.stringify(filteredSubmittedParams)) {
+            submittedParams[alias] = '0';
+        }
+    }
+    return submittedParams;
+};
 //////////////////////////////////////
 // Solang Slice
 //////////////////////////////////////
@@ -91,7 +107,13 @@ export const SolangSlice = createSlice({
             var _a;
             const appId = action.payload.appId;
             const app = state.apps[appId];
-            app.params = action.payload.params;
+            if ("pagerReset" in app.config) {
+                const processedParams = pagerReset(app.config.pagerReset, app.params, action.payload.params);
+                app.params = processedParams;
+            }
+            else {
+                app.params = action.payload.params;
+            }
             if ((_a = app === null || app === void 0 ? void 0 : app.config) === null || _a === void 0 ? void 0 : _a.setQuery) {
                 app.config.setQuery(app.params, 'push');
             }
@@ -105,7 +127,15 @@ export const SolangSlice = createSlice({
             var _a;
             const appId = action.payload.appId;
             const app = state.apps[appId];
-            app.params[action.payload.key] = action.payload.value;
+            const newParams = Object.assign({}, app.params);
+            newParams[action.payload.key] = action.payload.value;
+            if ("pagerReset" in app.config) {
+                const processedParams = pagerReset(app.config.pagerReset, app.params, newParams);
+                app.params = processedParams;
+            }
+            else {
+                app.params = newParams;
+            }
             if ((_a = app === null || app === void 0 ? void 0 : app.config) === null || _a === void 0 ? void 0 : _a.setQuery) {
                 app.config.setQuery(app.params);
             }

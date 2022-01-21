@@ -65,6 +65,32 @@ export interface ISolangState {
 }
 
 
+/**
+ * Detects if the pager must be reset.
+ * Any change to the param list not accompanied be a change in page should reset the pager to 0.
+ * @param existingParams
+ * @param submittedParams
+ */
+export const pagerReset = (alias: string, existingParams: ISolangParamList, submittedParams: ISolangParamList): ISolangParamList => {
+
+  if (alias && alias !== "") {
+    const filteredExistingParams = Object.fromEntries(
+        Object.entries(existingParams).filter(([key, value]) => key !== alias)
+    );
+    const filteredSubmittedParams = Object.fromEntries(
+        Object.entries(submittedParams).filter(([key, value]) => key !== alias)
+    );
+
+    if (JSON.stringify(filteredExistingParams) !== JSON.stringify(filteredSubmittedParams)) {
+      submittedParams[alias] = '0';
+    }
+  }
+
+  return submittedParams;
+}
+
+
+
 //////////////////////////////////////
 // Action & Payload interfaces
 //////////////////////////////////////
@@ -76,7 +102,7 @@ export interface ISolangState {
 export interface ICreateAppPayload {
   id: string;
   endpoint: string;
-  config?: ISolangAppConfig,
+  config: ISolangAppConfig,
   params: ISolangParamList, // url-like paramerers
   filters: { [key: string]: IFilterState }; // A definition of all filters keyed by alias
 }
@@ -165,7 +191,14 @@ export const SolangSlice = createSlice({
     setParams: (state: SolangState, action: PayloadAction<ISetParamsPayload>) => {
       const appId = action.payload.appId;
       const app: ISolangApp = state.apps[appId];
-      app.params = action.payload.params;
+
+      if ("pagerReset" in app.config) {
+        const processedParams = pagerReset(app.config.pagerReset, app.params, action.payload.params);
+        app.params = processedParams;
+      }
+      else {
+        app.params = action.payload.params;
+      }
 
       if (app?.config?.setQuery) {
         app.config.setQuery(app.params, 'push');
@@ -180,7 +213,18 @@ export const SolangSlice = createSlice({
     setParam: (state: SolangState, action: PayloadAction<ISetParamPayload>) => {
       const appId = action.payload.appId;
       const app: ISolangApp = state.apps[appId];
-      app.params[action.payload.key] = action.payload.value;
+
+      const newParams = {...app.params}
+      newParams[action.payload.key] = action.payload.value;
+
+      if ("pagerReset" in app.config) {
+        const processedParams = pagerReset(app.config.pagerReset, app.params, newParams);
+        app.params = processedParams;
+      }
+      else {
+        app.params = newParams;
+      }
+
       if (app?.config?.setQuery) {
         app.config.setQuery(app.params);
       }

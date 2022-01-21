@@ -32,6 +32,7 @@ export interface ISolangAppConfig {
     externalParams?: boolean;
     setQuery?: any;
     preprocessQuery?: (query: ISolrQuery) => ISolrQuery;
+    pagerReset: string;
 }
 /**
  * Default configuration for Solang Application
@@ -44,7 +45,7 @@ export interface ISolangApp {
     id: string;
     endpoint?: string;
     status?: 'idle' | 'loading' | 'failed';
-    config?: ISolangAppConfig;
+    config: ISolangAppConfig;
     params: ISolangParamList;
     filters: {
         [key: string]: IFilterState;

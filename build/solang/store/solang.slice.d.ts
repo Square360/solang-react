@@ -20,12 +20,19 @@ export interface ISolangState {
     solang: SolangState;
 }
 /**
+ * Detects if the pager must be reset.
+ * Any change to the param list not accompanied be a change in page should reset the pager to 0.
+ * @param existingParams
+ * @param submittedParams
+ */
+export declare const pagerReset: (alias: string, existingParams: ISolangParamList, submittedParams: ISolangParamList) => ISolangParamList;
+/**
  * Interfaces
  */
 export interface ICreateAppPayload {
     id: string;
     endpoint: string;
-    config?: ISolangAppConfig;
+    config: ISolangAppConfig;
     params: ISolangParamList;
     filters: {
         [key: string]: IFilterState;
