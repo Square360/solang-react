@@ -7,7 +7,6 @@ import {
   createApp,
   processFacetFilter,
   processPager,
-  processSimpleFilter,
   processSort, refreshResults, processCustomFilter,
 } from "../lib/solang/store/solang.slice";
 import { TestSolang } from "./components/TestSolang/TestSolang";
@@ -114,7 +113,6 @@ function App() {
     dispatch(refreshResults({appId: 'searchApp'}));
   }
 
-  // setupQuerySync(store, 'searchApp', Object.keys(searchFilters));
   return (
     <div className="App">
       <header className="App-header">
