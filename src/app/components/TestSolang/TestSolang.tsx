@@ -14,6 +14,7 @@ import SortSelect from "../../../lib/solang/components/SortSelect/SortSelect";
 import './TestSolang.scss';
 import FacetCheckbox from "../../../lib/solang/components/FacetCheckbox/FacetCheckbox";
 import {facetFilterGetCountsFromAppState, IFacetFilterState} from "../../../lib/solang/filters/FacetFilter";
+import SortRadio from "../../../lib/solang/components/SortRadio/SortRadio";
 
 
 export const TestSolang = () => {
@@ -96,6 +97,9 @@ export const TestSolang = () => {
       <p>Showing {results.length} of {numFound} results. Page {currentPage}</p>
 
       <SortSelect appId={APP_ID} alias={'sort'}/>
+
+      <SortRadio appId={APP_ID} alias="sort" inputName={'sort-radio'}></SortRadio>
+
       { results && (
         <ul>
           {results.map(item => (
@@ -103,6 +107,7 @@ export const TestSolang = () => {
           ))}
         </ul>
       )}
+
 
       <SimplePager appId={APP_ID} alias={'page'}/>
 
