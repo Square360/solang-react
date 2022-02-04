@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import {getAppFromState, getFilterFromState, ISolangState, setParam} from "../../store/solang.slice";
-import { getCountFromResponse } from "../../filters/SimplePager";
 import { ISortState } from "../../filters/Sort";
 import { ChangeEvent, ChangeEventHandler } from "react";
 
@@ -31,7 +30,7 @@ const SortSelect = ({appId, alias}: MyProps) => {
 
   return (
     <div className={CLASS}>
-      <select className={`${CLASS}__input`} defaultValue={defaultValue} onChange={updateHandler}>
+      <select className={`${CLASS}__input`} value={defaultValue} onChange={updateHandler}>
         { filterState.config.options.map(item => (
             <option key={item.value} value={item.value} className={`${CLASS}__option`}>{item.label}</option>
         ))}
