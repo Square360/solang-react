@@ -16,7 +16,7 @@ interface MyProps {
  * @param alias
  * @constructor
  */
-const SortSelect = ({appId, alias, inputName}: MyProps) => {
+const SortRadio = ({appId, alias, inputName}: MyProps) => {
 
   const CLASS = 'solang-radio-options';
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const SortSelect = ({appId, alias, inputName}: MyProps) => {
   return (
     <div className={CLASS}>
         { filterState.config.options.map((item, index) => (
-            <span className={`${CLASS}__item`}>
+            <span key={item.value} className={`${CLASS}__item`}>
               <label htmlFor={`${inputName}--${index}`} className={`${CLASS}__label`}>{item.label}</label>
               <input
                   type="radio"
@@ -51,4 +51,4 @@ const SortSelect = ({appId, alias, inputName}: MyProps) => {
 
 };
 
-export default SortSelect;
+export default SortRadio;
