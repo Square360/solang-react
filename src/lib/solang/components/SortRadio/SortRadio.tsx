@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import {getAppFromState, getFilterFromState, ISolangState, setParam} from "../../store/solang.slice";
-import { getCountFromResponse } from "../../filters/SimplePager";
 import { ISortState } from "../../filters/Sort";
 import { ChangeEvent, ChangeEventHandler } from "react";
 
