@@ -61,7 +61,7 @@ const FacetCheckbox = ({appId, filterState, facetCounts}: MyProps) => {
                   name={alias}/>
                 <span className={`${CLASS}__desc`}>
                   <span className={`${CLASS}__value`} dangerouslySetInnerHTML={{__html: option.value}}></span>
-                  <span className={`${CLASS}__count`}>{option.count}</span>
+                  <span className={`${CLASS}__count`} aria-label={`${option.count} results`}>{option.count}</span>
                 </span>
               </label>
             </li>
