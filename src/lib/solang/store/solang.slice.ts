@@ -7,6 +7,7 @@ import { ISimplePagerState, simplePagerProcessParams, simplePagerProcessQuery } 
 import { ISortState, sortProcessParams, sortProcessQuery } from "../filters/Sort";
 import {customFilterProcessParams, customFilterProcessQuery, ICustomFilterState} from "../filters/CustomFilter";
 import logger from "../logger";
+import {IOptionsListState, optionsListProcessParams} from "../filters/OptionsList";
 
 //////////////////////////////////////
 // Helper Functions
@@ -68,6 +69,7 @@ export interface ISolangState {
 /**
  * Detects if the pager must be reset.
  * Any change to the param list not accompanied be a change in page should reset the pager to 0.
+ * @param alias
  * @param existingParams
  * @param submittedParams
  */
@@ -320,6 +322,11 @@ export const SolangSlice = createSlice({
       sortProcessQuery(app.filters[action.payload.filter] as ISortState, app.query || createEmptySolrQuery());
     },
 
+    processOptionsList: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => {
+      let app = getAppFromState(state, action.payload.appId);
+      optionsListProcessParams(app, action.payload.filter, app.params);
+    },
+
     /**
      * processCustomSearch reducer
      * @param state
@@ -345,7 +352,8 @@ export const {
   processSimpleFilter,
   processCustomFilter,
   processPager,
-  processSort
+  processSort,
+  processOptionsList
 } = SolangSlice.actions;
 
 

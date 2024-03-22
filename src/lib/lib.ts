@@ -30,6 +30,7 @@ import SolangFacet from './solang/components/SolangFacet/SolangFacet';
 import SimplePager from "./solang/components/SimplePager/SimplePager";
 import SortSelect from "./solang/components/SortSelect/SortSelect";
 import SortRadio from "./solang/components/SortRadio/SortRadio";
+import OptionsList from "./solang/components/OptionsList/OptionsList";
 
 import {
   // Types
@@ -71,6 +72,7 @@ export {
   processSort,
   // Components
   FacetCheckbox,
+  OptionsList,
   SolangFacet,
   SortSelect,
   SortRadio,

@@ -7,11 +7,15 @@ import {
   createApp,
   processFacetFilter,
   processPager,
-  processSort, refreshResults, processCustomFilter,
+  processSort,
+  refreshResults,
+  processCustomFilter,
+  processOptionsList
 } from "../lib/solang/store/solang.slice";
 import { TestSolang } from "./components/TestSolang/TestSolang";
 import {ArrayParam, StringParam, useQueryParams, withDefault} from "use-query-params";
 import {ISolrQuery} from "../lib/solang/solang.types";
+import {optionsListProcessParams} from "../lib/solang/filters/OptionsList";
 
 function App() {
 
@@ -48,6 +52,16 @@ function App() {
         },
         processQueryActions: [processCustomFilter.type],
         value: queryParams.searchText || ''
+      },
+      options: {
+        config: {
+          map: {
+            searchText : 'Keywords',
+            city: 'City',
+            country: 'Country',
+           }
+        },
+        processQueryActions: [processOptionsList.type]
       },
       country: { // type: facet filter
         config: {

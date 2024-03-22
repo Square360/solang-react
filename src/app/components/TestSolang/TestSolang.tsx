@@ -15,6 +15,7 @@ import './TestSolang.scss';
 import FacetCheckbox from "../../../lib/solang/components/FacetCheckbox/FacetCheckbox";
 import {facetFilterGetCountsFromAppState, IFacetFilterState} from "../../../lib/solang/filters/FacetFilter";
 import SortRadio from "../../../lib/solang/components/SortRadio/SortRadio";
+import {OptionsList} from "../../../lib/lib";
 
 
 export const TestSolang = () => {
@@ -96,8 +97,12 @@ export const TestSolang = () => {
 
       <p>Showing {results.length} of {numFound} results. Page {currentPage}</p>
 
-      <SortSelect appId={APP_ID} alias={'sort'}/>
+      <OptionsList appId={APP_ID} alias={'options'}></OptionsList>
 
+      <label htmlFor="sort_a">Sort</label>
+      <SortSelect appId={APP_ID} alias={'sort'} id="sort_a"/>
+
+      <label>Sort Radio</label>
       <SortRadio appId={APP_ID} alias="sort" inputName={'sort-radio'}></SortRadio>
 
       { results && (
