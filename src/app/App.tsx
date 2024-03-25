@@ -19,10 +19,14 @@ import {optionsListProcessParams} from "../lib/solang/filters/OptionsList";
 
 function App() {
 
+  // Get the dispatch to apply changes to state such as updating parameters.
   const dispatch = useAppDispatch();
+
+  // We get a search application from the app state, note the searchApp identifier.
   const searchApp = useAppSelector((state: RootState) => getAppFromState(state.solang, 'searchApp') );
 
-  // Setup listener for query params on route
+  // Setup the listener for our application parameters on the application route.
+  // Any parameters must be registered here if we want to see them in the app.
   const [queryParams, setQuery] = useQueryParams({
     searchText: withDefault(StringParam, 'Dav'),
     country: withDefault(ArrayParam, []),
@@ -31,6 +35,7 @@ function App() {
     sort: withDefault(StringParam, ''),
   });
 
+  // A custom function we will use to preprocess the query before it is sent to the server.
   const preprocessQuery = (query: ISolrQuery) => {
     if (process.env.NODE_ENV === 'production') {
       const newQuery = {...query};
@@ -43,6 +48,11 @@ function App() {
     }
   }
 
+  // We define all the filter processors we will use here. Each processor can:
+  //  1. React to parameter changes (and update it's internal state)
+  //  2. Make changes to the query on the basis of the parameters (& state).
+  // Each processor defines a specific filter type (processQueryActions) which contains the functionality
+  // and some configuration which typically determines the solr fields, the URL alias and other behaviours.
   if (!searchApp) {
     const searchFilters = {
       searchText: {
@@ -110,6 +120,7 @@ function App() {
       },
     };
 
+    // Create our application
     dispatch(createApp({
       id: 'searchApp',
       endpoint: process.env.REACT_APP_SOLR_ENDPOINT as string,
