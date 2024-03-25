@@ -2,6 +2,10 @@ import { ISolangApp, ISolrQuery } from "./solang.types";
 
 import { ajax } from 'rxjs/ajax';
 
+/**
+ * Creates a solr query observable from the applications query object.
+ * @param app
+ */
 export const createSolrQueryObs = function(app: ISolangApp) {
 
   const query: ISolrQuery = {...app.query};
@@ -37,6 +41,10 @@ export const createSolrQueryObs = function(app: ISolangApp) {
   return ajax$;
 }
 
+/**
+ * Prepare solr query object parameters.
+ * @param query
+ */
 export const prepareQuery = function(query: ISolrQuery) {
 
   const params: any = {...query};

@@ -4,6 +4,7 @@ import { ISortState } from "../../filters/Sort";
 import { ChangeEvent, ChangeEventHandler } from "react";
 
 interface MyProps {
+  id?: string;
   appId: string
   alias: string
   next?: string;
@@ -16,7 +17,7 @@ interface MyProps {
  * @param alias
  * @constructor
  */
-const SortSelect = ({appId, alias}: MyProps) => {
+const SortSelect = ({appId, alias, id}: MyProps) => {
 
   const CLASS = 'solang-sort-select';
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const SortSelect = ({appId, alias}: MyProps) => {
 
   return (
     <div className={CLASS}>
-      <select className={`${CLASS}__input`} value={defaultValue} onChange={updateHandler}>
+      <select id={id} className={`${CLASS}__input`} value={defaultValue} onChange={updateHandler}>
         { filterState.config.options.map(item => (
             <option key={item.value} value={item.value} className={`${CLASS}__option`}>{item.label}</option>
         ))}
