@@ -61,6 +61,8 @@ export const TestSolang = () => {
     dispatch(setParams({appId: APP_ID, params: {}}));
   }
 
+  const today = new Date().toISOString();
+  const todayAsYYYYMM = today.substring(0,7);
 
   return (
     <div className={'TestSolang'}>
@@ -90,7 +92,15 @@ export const TestSolang = () => {
       <div><strong>Internal param value:</strong> {getSearchString}</div>
       <div><strong>Solang value:</strong> {searchParameter}</div>
 
-      <DateRange appId={APP_ID} alias={'published'}></DateRange>
+      <DateRange
+        appId={APP_ID} alias={'published'}
+        id="published-date"
+        type='month'
+        minFrom={'1960-01'}
+        maxFrom={todayAsYYYYMM}
+        minTo={'1960-01'}
+        maxTo={todayAsYYYYMM}
+      ></DateRange>
       <FacetCheckbox
         appId={APP_ID}
         filterState={getFilterFromApp(searchApp, 'country') as IFacetFilterState}

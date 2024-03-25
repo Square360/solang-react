@@ -4,17 +4,28 @@ import {getFilterFromState, ISolangState, setParam} from "../../store/solang.sli
 import {IDateRangeState} from "../../filters/DateRangeFilter";
 
 interface MyProps {
+  id?: string;
   appId: string;
   alias: string;
+  type: 'date'|'month'|'datetime-local';
+  minTo?: string;
+  maxTo?: string;
+  minFrom?: string;
+  maxFrom?: string;
 }
 
 /**
  * Provides checkbox filter for categories with result counts.
  * @param appId
  * @param alias
+ * @param type
+ * @param minTo
+ * @param maxTo
+ * @param minFrom
+ * @param maxFrom
  * @constructor
  */
-const DateRange = ({appId, alias}: MyProps) => {
+const DateRange = ({appId, alias, type, minTo, maxTo, minFrom, maxFrom}: MyProps) => {
 
   const CLASS = 'solang-date-range';
   const dispatch = useDispatch();
@@ -34,12 +45,21 @@ const DateRange = ({appId, alias}: MyProps) => {
   const from = filterState.from;
   const to = filterState.to;
 
+  const calcMaxFrom = (to?? '') > (maxFrom ?? '') ? maxFrom : to;
+  const calcMinTo = (from ?? '') > (minTo ?? '') ? from : minTo;
+
   return (
     <div className={CLASS}>
       <label className={`{$CLASS}__label-from`} htmlFor={`${alias}-from`}>From</label>
-      <input className={`${CLASS}__from`} type="date" id={`${alias}-from`} onChange={handleFromChange} defaultValue={from}/>
+      <input className={`${CLASS}__from`} id={`${alias}-from`}
+             type={type} min={minFrom} max={calcMaxFrom}
+             defaultValue={from}
+             onChange={handleFromChange} />
       <label className={`{$CLASS}__label-to`} htmlFor={`${alias}-to`}>To</label>
-      <input className={`${CLASS}__to`} type="date" id={`${alias}-to`} onChange={handleToChange} defaultValue={to}/>
+      <input className={`${CLASS}__to`} id={`${alias}-to`}
+             type={type} min={calcMinTo} max={maxTo}
+             defaultValue={to}
+             onChange={handleToChange}/>
     </div>
   );
 
