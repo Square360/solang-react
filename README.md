@@ -40,6 +40,10 @@ docker cp assets/solr/web.xml solang:/opt/solr-8.11.3/server/solr-webapp/webapp/
 
 ```
 
+### Test Data
+Please note dates are only applied to the first 3 items. They also demonstrate different date formats accepted by solr version at time of writing.
+
+
 ## Original Bootstrap instructions
 
 ## Available Scripts

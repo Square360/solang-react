@@ -8,6 +8,7 @@ import { ISortState, sortProcessParams, sortProcessQuery } from "../filters/Sort
 import {customFilterProcessParams, customFilterProcessQuery, ICustomFilterState} from "../filters/CustomFilter";
 import logger from "../logger";
 import {IOptionsListState, optionsListProcessParams} from "../filters/OptionsList";
+import {dateRangeFilterProcessParams, dateRangeFilterProcessQuery, IDateRangeState} from "../filters/DateRangeFilter";
 
 //////////////////////////////////////
 // Helper Functions
@@ -337,6 +338,18 @@ export const SolangSlice = createSlice({
       customFilterProcessParams(app, action.payload.filter, app.params);
       customFilterProcessQuery(app.filters[action.payload.filter] as ICustomFilterState, app.query || createEmptySolrQuery());
     },
+
+    /**
+     * processDateRange reducer
+     * @param state
+     * @param action
+     */
+    processDateRangeFilter: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => {
+      let app = getAppFromState(state, action.payload.appId);
+      dateRangeFilterProcessParams(app, action.payload.filter, app.params);
+      dateRangeFilterProcessQuery(app.filters[action.payload.filter] as IDateRangeState, app.query || createEmptySolrQuery());
+    },
+
   }
 });
 
@@ -353,7 +366,8 @@ export const {
   processCustomFilter,
   processPager,
   processSort,
-  processOptionsList
+  processOptionsList,
+  processDateRangeFilter
 } = SolangSlice.actions;
 
 

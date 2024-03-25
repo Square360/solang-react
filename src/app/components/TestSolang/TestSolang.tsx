@@ -16,6 +16,7 @@ import FacetCheckbox from "../../../lib/solang/components/FacetCheckbox/FacetChe
 import {facetFilterGetCountsFromAppState, IFacetFilterState} from "../../../lib/solang/filters/FacetFilter";
 import SortRadio from "../../../lib/solang/components/SortRadio/SortRadio";
 import {OptionsList} from "../../../lib/lib";
+import DateRange from "../../../lib/solang/components/DateRange/DateRange";
 
 
 export const TestSolang = () => {
@@ -89,6 +90,7 @@ export const TestSolang = () => {
       <div><strong>Internal param value:</strong> {getSearchString}</div>
       <div><strong>Solang value:</strong> {searchParameter}</div>
 
+      <DateRange appId={APP_ID} alias={'published'}></DateRange>
       <FacetCheckbox
         appId={APP_ID}
         filterState={getFilterFromApp(searchApp, 'country') as IFacetFilterState}

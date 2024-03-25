@@ -10,12 +10,12 @@ import {
   processSort,
   refreshResults,
   processCustomFilter,
-  processOptionsList
+  processOptionsList,
+  processDateRangeFilter
 } from "../lib/solang/store/solang.slice";
 import { TestSolang } from "./components/TestSolang/TestSolang";
 import {ArrayParam, StringParam, useQueryParams, withDefault} from "use-query-params";
 import {ISolrQuery} from "../lib/solang/solang.types";
-import {optionsListProcessParams} from "../lib/solang/filters/OptionsList";
 
 function App() {
 
@@ -33,6 +33,8 @@ function App() {
     city: withDefault(ArrayParam, []),
     page: withDefault(StringParam, '0'),
     sort: withDefault(StringParam, ''),
+    publishedTo: withDefault(StringParam, ''),
+    publishedFrom: withDefault(StringParam, ''),
   });
 
   // A custom function we will use to preprocess the query before it is sent to the server.
@@ -72,6 +74,13 @@ function App() {
            }
         },
         processQueryActions: [processOptionsList.type]
+      },
+      published: {
+        config: {
+          alias: 'published',
+          solrField: 'date_dt',
+        },
+        processQueryActions: [processDateRangeFilter.type]
       },
       country: { // type: facet filter
         config: {
