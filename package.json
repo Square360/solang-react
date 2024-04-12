@@ -1,7 +1,7 @@
 {
-  "name": "@solang",
+  "name": "solang-react",
   "description": "Solang React Library",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "author": "douglas.mcgilvray",
   "license": "none",
   "main": "build/lib.js",
