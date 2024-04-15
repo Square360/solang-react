@@ -69,12 +69,6 @@ export const prepareQuery = function(query: ISolrQuery) {
     });
     delete params.legacy;
   }
-  /**
-   * json.nl=arrmap will format as [{"facetValue1": facetCount1}, {"facetValue2": facetCount2}].
-   * json.nl=map will format as {"facetValue1": facetCount1, "facetValue2": facetCount2}
-   * @type {string}
-   */
-  params['json.nl'] = 'map';
 
   return params;
 }

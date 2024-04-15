@@ -1,6 +1,6 @@
 import { filterProcessParams, IFacetOption, IFilterState } from "./filter";
 import {ISolangApp, ISolangParamList, ISolrQuery, SolangState} from "../solang.types";
-import {getAppFromState, getFilterFromApp, getFilterFromState} from "../store/solang.slice";
+import {getAppFromState, getFilterFromApp} from "../store/solang.slice";
 
 export interface IFacetFilterConfig {
   // solrField determines the field which will be filtered
@@ -138,9 +138,13 @@ export const facetFilterGetCountsFromAppState = (app: ISolangApp, filterAlias: s
     const solrField: string = filter.config.solrField;
     if (app.response.facet_counts.facet_fields[solrField]) {
       const counts = app.response.facet_counts.facet_fields[solrField];
-      Object.keys(app.response.facet_counts.facet_fields[solrField]).forEach( (value: string) => {
-        facetOptions[value] = counts[value];
-      });
+      // NB We are expecting flat array of label1, count1, label2, count2, ...
+      for (let i=0; i < counts.length; i+=2) {
+        const key = counts[i];
+        const count = counts[i+1];
+        console.log('iterating ' + key + ' ' + count);
+        facetOptions[key] = counts[count];
+      }
     }
   }
 

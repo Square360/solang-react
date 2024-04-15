@@ -33,8 +33,6 @@ export const prepareQuery = function (query) {
     }
     if (!params.q)
         params.q = '*';
-    // Give us nested list json
-    params.wt = 'json';
     // Prepare json.facet
     if (params['json.facet'] && typeof params['json.facet'] === 'object') {
         const json = JSON.stringify(params['json.facet']);
