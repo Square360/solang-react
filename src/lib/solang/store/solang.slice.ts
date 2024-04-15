@@ -7,7 +7,7 @@ import { ISimplePagerState, simplePagerProcessParams, simplePagerProcessQuery } 
 import { ISortState, sortProcessParams, sortProcessQuery } from "../filters/Sort";
 import {customFilterProcessParams, customFilterProcessQuery, ICustomFilterState} from "../filters/CustomFilter";
 import logger from "../logger";
-import {IOptionsListState, optionsListProcessParams} from "../filters/OptionsList";
+import { optionsListProcessParams} from "../filters/OptionsList";
 import {dateRangeFilterProcessParams, dateRangeFilterProcessQuery, IDateRangeState} from "../filters/DateRangeFilter";
 
 //////////////////////////////////////

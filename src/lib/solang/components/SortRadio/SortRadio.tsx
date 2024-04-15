@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import {getAppFromState, getFilterFromState, ISolangState, setParam} from "../../store/solang.slice";
 import { ISortState } from "../../filters/Sort";
-import { ChangeEvent, ChangeEventHandler } from "react";
+import { ChangeEvent } from "react";
 
 interface MyProps {
   appId: string;

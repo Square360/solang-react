@@ -21,7 +21,7 @@ export function dateRangeFilterProcessParams (app: ISolangApp, filterId: string,
   const filterState = getFilterFromApp(app, filterId) as IDateRangeState;
   const alias = filterState.config.alias;
 
-  const myParams = {...params};
+  // const myParams = {...params};
   const fromIndex = `${alias}From`;
   const toIndex = `${alias}To`;
   console.log(params)
