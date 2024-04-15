@@ -22,6 +22,7 @@ export interface ISolangState {
 /**
  * Detects if the pager must be reset.
  * Any change to the param list not accompanied be a change in page should reset the pager to 0.
+ * @param alias
  * @param existingParams
  * @param submittedParams
  */
@@ -128,12 +129,19 @@ export declare const SolangSlice: import("@reduxjs/toolkit").Slice<SolangState, 
      */
     processPager: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => void;
     processSort: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => void;
+    processOptionsList: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => void;
     /**
      * processCustomSearch reducer
      * @param state
      * @param action
      */
     processCustomFilter: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => void;
+    /**
+     * processDateRange reducer
+     * @param state
+     * @param action
+     */
+    processDateRangeFilter: (state: SolangState, action: PayloadAction<IProcessFilterPayload>) => void;
 }, "solang">;
-export declare const createApp: import("@reduxjs/toolkit").ActionCreatorWithPayload<ICreateAppPayload, string>, setParam: import("@reduxjs/toolkit").ActionCreatorWithPayload<ISetParamPayload, string>, setParams: import("@reduxjs/toolkit").ActionCreatorWithPayload<ISetParamsPayload, string>, buildQuery: import("@reduxjs/toolkit").ActionCreatorWithPayload<IBuildQueryPayload, string>, sendQuery: import("@reduxjs/toolkit").ActionCreatorWithPayload<iSendQueryPayload, string>, refreshResults: import("@reduxjs/toolkit").ActionCreatorWithPayload<iRefreshResultsPayload, string>, resultsReceived: import("@reduxjs/toolkit").ActionCreatorWithPayload<any, string>, processFacetFilter: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, string>, processSimpleFilter: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, string>, processCustomFilter: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, string>, processPager: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, string>, processSort: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, string>;
+export declare const createApp: import("@reduxjs/toolkit").ActionCreatorWithPayload<ICreateAppPayload, "solang/createApp">, setParam: import("@reduxjs/toolkit").ActionCreatorWithPayload<ISetParamPayload, "solang/setParam">, setParams: import("@reduxjs/toolkit").ActionCreatorWithPayload<ISetParamsPayload, "solang/setParams">, buildQuery: import("@reduxjs/toolkit").ActionCreatorWithPayload<IBuildQueryPayload, "solang/buildQuery">, sendQuery: import("@reduxjs/toolkit").ActionCreatorWithPayload<iSendQueryPayload, "solang/sendQuery">, refreshResults: import("@reduxjs/toolkit").ActionCreatorWithPayload<iRefreshResultsPayload, "solang/refreshResults">, resultsReceived: import("@reduxjs/toolkit").ActionCreatorWithPayload<any, "solang/resultsReceived">, processFacetFilter: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, "solang/processFacetFilter">, processSimpleFilter: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, "solang/processSimpleFilter">, processCustomFilter: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, "solang/processCustomFilter">, processPager: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, "solang/processPager">, processSort: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, "solang/processSort">, processOptionsList: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, "solang/processOptionsList">, processDateRangeFilter: import("@reduxjs/toolkit").ActionCreatorWithPayload<IProcessFilterPayload, "solang/processDateRangeFilter">;
 export declare const SolangReducer: import("redux").Reducer<SolangState, import("redux").AnyAction>;

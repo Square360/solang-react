@@ -45,10 +45,9 @@ export const processQueryEpic = (action$, state$) => {
         // Get the state for this application
         const app = getAppFromState(state$.value.solang, action.payload.appId);
         if (!app) {
-            throw new Error('No app ${action.payload.appId} in buildQueryEpic');
+            throw new Error(`No app ${action.payload.appId} in buildQueryEpic`);
         }
         // Iterate through the filters, run the appropriate reducers for each.
-        const params = app.params;
         let query = {};
         const processActions = [];
         Object.keys(app.filters).forEach(key => {

@@ -1,4 +1,5 @@
 interface MyProps {
+    id?: string;
     appId: string;
     alias: string;
     next?: string;
@@ -10,5 +11,5 @@ interface MyProps {
  * @param alias
  * @constructor
  */
-declare const SortSelect: ({ appId, alias }: MyProps) => JSX.Element;
+declare const SortSelect: ({ appId, alias, id }: MyProps) => JSX.Element;
 export default SortSelect;

@@ -9,5 +9,5 @@ interface MyProps {
  * @param alias
  * @constructor
  */
-declare const SortSelect: ({ appId, alias, inputName }: MyProps) => JSX.Element;
-export default SortSelect;
+declare const SortRadio: ({ appId, alias, inputName }: MyProps) => JSX.Element;
+export default SortRadio;

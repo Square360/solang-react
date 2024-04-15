@@ -5,6 +5,8 @@ import { simplePagerProcessParams, simplePagerProcessQuery } from "../filters/Si
 import { sortProcessParams, sortProcessQuery } from "../filters/Sort";
 import { customFilterProcessParams, customFilterProcessQuery } from "../filters/CustomFilter";
 import logger from "../logger";
+import { optionsListProcessParams } from "../filters/OptionsList";
+import { dateRangeFilterProcessParams, dateRangeFilterProcessQuery } from "../filters/DateRangeFilter";
 //////////////////////////////////////
 // Helper Functions
 //////////////////////////////////////
@@ -55,6 +57,7 @@ export const createEmptySolrQuery = () => {
 /**
  * Detects if the pager must be reset.
  * Any change to the param list not accompanied be a change in page should reset the pager to 0.
+ * @param alias
  * @param existingParams
  * @param submittedParams
  */
@@ -220,6 +223,10 @@ export const SolangSlice = createSlice({
             sortProcessParams(app, action.payload.filter, app.params);
             sortProcessQuery(app.filters[action.payload.filter], app.query || createEmptySolrQuery());
         },
+        processOptionsList: (state, action) => {
+            let app = getAppFromState(state, action.payload.appId);
+            optionsListProcessParams(app, action.payload.filter, app.params);
+        },
         /**
          * processCustomSearch reducer
          * @param state
@@ -230,8 +237,18 @@ export const SolangSlice = createSlice({
             customFilterProcessParams(app, action.payload.filter, app.params);
             customFilterProcessQuery(app.filters[action.payload.filter], app.query || createEmptySolrQuery());
         },
+        /**
+         * processDateRange reducer
+         * @param state
+         * @param action
+         */
+        processDateRangeFilter: (state, action) => {
+            let app = getAppFromState(state, action.payload.appId);
+            dateRangeFilterProcessParams(app, action.payload.filter, app.params);
+            dateRangeFilterProcessQuery(app.filters[action.payload.filter], app.query || createEmptySolrQuery());
+        },
     }
 });
-export const { createApp, setParam, setParams, buildQuery, sendQuery, refreshResults, resultsReceived, processFacetFilter, processSimpleFilter, processCustomFilter, processPager, processSort } = SolangSlice.actions;
+export const { createApp, setParam, setParams, buildQuery, sendQuery, refreshResults, resultsReceived, processFacetFilter, processSimpleFilter, processCustomFilter, processPager, processSort, processOptionsList, processDateRangeFilter } = SolangSlice.actions;
 export const SolangReducer = SolangSlice.reducer;
 //# sourceMappingURL=solang.slice.js.map

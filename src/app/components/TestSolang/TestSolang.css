@@ -1,8 +1,13 @@
 .TestSolang {
-  margin: 1rem; }
-  .TestSolang .row {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start; }
-  .TestSolang .row > * {
-    margin-right: 4px; }
+  margin: 1rem;
+}
+.TestSolang .row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.TestSolang .row > * {
+  margin-right: 4px;
+}
+
+/*# sourceMappingURL=TestSolang.css.map */
