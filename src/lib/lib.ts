@@ -32,6 +32,7 @@ import SimplePager from "./solang/components/SimplePager/SimplePager";
 import SortSelect from "./solang/components/SortSelect/SortSelect";
 import SortRadio from "./solang/components/SortRadio/SortRadio";
 import OptionsList from "./solang/components/OptionsList/OptionsList";
+import {facetFilterGetCountsFromAppState, IFacetFilterState} from "./solang/filters/FacetFilter";
 
 import {
   // Types
@@ -72,6 +73,8 @@ export {
   processCustomFilter,
   processPager,
   processSort,
+  // Filter helpers
+  facetFilterGetCountsFromAppState,
   // Components
   FacetCheckbox,
   OptionsList,
@@ -90,5 +93,6 @@ export type {
   IBuildQueryPayload,
   iSendQueryPayload,
   IResultsReceivedPayload,
-  IProcessFilterPayload
+  IProcessFilterPayload,
+  IFacetFilterState,
 };

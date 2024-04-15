@@ -13,6 +13,7 @@ import SimplePager from "./solang/components/SimplePager/SimplePager";
 import SortSelect from "./solang/components/SortSelect/SortSelect";
 import SortRadio from "./solang/components/SortRadio/SortRadio";
 import OptionsList from "./solang/components/OptionsList/OptionsList";
+import { facetFilterGetCountsFromAppState } from "./solang/filters/FacetFilter";
 export { SolangEpic, 
 // Redux
 SolangReducer, SolangSlice, getAppFromState, getFilterFromApp, getFilterFromState, createEmptySolrQuery, 
@@ -22,6 +23,8 @@ createSolrQueryObs, prepareQuery, createApp,
 setParam, setParams, buildQuery, sendQuery, refreshResults, resultsReceived, 
 // Filter Reduces
 processFacetFilter, processSimpleFilter, processCustomFilter, processPager, processSort, 
+// Filter helpers
+facetFilterGetCountsFromAppState, 
 // Components
 FacetCheckbox, OptionsList, SolangFacet, SortSelect, SortRadio, SimplePager };
 //# sourceMappingURL=lib.js.map
