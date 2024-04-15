@@ -1,0 +1,40 @@
+
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# build
+# Ignore built css files
+app/*.css
+lib/*.css
+
+
+
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.tsx.swp
+
+# YARN/NPM
+# Stick to yarn, avoid npm
+package-lock.json
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+.yarn.lock
+
+#IDE
+/.idea
+/bundle-analysis.html
+/.vscode
