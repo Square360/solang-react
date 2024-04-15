@@ -142,7 +142,6 @@ export const facetFilterGetCountsFromAppState = (app: ISolangApp, filterAlias: s
       for (let i=0; i < counts.length; i+=2) {
         const key = counts[i];
         const count = counts[i+1];
-        console.log('iterating ' + key + ' ' + count);
         facetOptions[key] = counts[count];
       }
     }
