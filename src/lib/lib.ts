@@ -5,6 +5,7 @@ import {
   // Helper functions
   getAppFromState,
   getFilterFromState,
+  getFilterFromApp,
   createEmptySolrQuery,
   // Filters
   createApp,
@@ -51,6 +52,7 @@ export {
   SolangReducer,
   SolangSlice,
   getAppFromState,
+  getFilterFromApp,
   getFilterFromState,
   createEmptySolrQuery,
   // Helper functions

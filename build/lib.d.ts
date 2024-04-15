@@ -1,4 +1,4 @@
-import { SolangSlice, SolangReducer, getAppFromState, getFilterFromState, createEmptySolrQuery, createApp, setParam, setParams, buildQuery, sendQuery, refreshResults, resultsReceived, processFacetFilter, processSimpleFilter, processCustomFilter, processPager, processSort } from './solang/store/solang.slice';
+import { SolangSlice, SolangReducer, getAppFromState, getFilterFromState, getFilterFromApp, createEmptySolrQuery, createApp, setParam, setParams, buildQuery, sendQuery, refreshResults, resultsReceived, processFacetFilter, processSimpleFilter, processCustomFilter, processPager, processSort } from './solang/store/solang.slice';
 import { SolangEpic } from './solang/store/solang.epic';
 import { createSolrQueryObs, prepareQuery } from "./solang/solang.api";
 import FacetCheckbox from "./solang/components/FacetCheckbox/FacetCheckbox";
@@ -8,5 +8,5 @@ import SortSelect from "./solang/components/SortSelect/SortSelect";
 import SortRadio from "./solang/components/SortRadio/SortRadio";
 import OptionsList from "./solang/components/OptionsList/OptionsList";
 import { ISolangState, ICreateAppPayload, ISetParamsPayload, ISetParamPayload, IBuildQueryPayload, iSendQueryPayload, IResultsReceivedPayload, IProcessFilterPayload } from './solang/store/solang.slice';
-export { SolangEpic, SolangReducer, SolangSlice, getAppFromState, getFilterFromState, createEmptySolrQuery, createSolrQueryObs, prepareQuery, createApp, setParam, setParams, buildQuery, sendQuery, refreshResults, resultsReceived, processFacetFilter, processSimpleFilter, processCustomFilter, processPager, processSort, FacetCheckbox, OptionsList, SolangFacet, SortSelect, SortRadio, SimplePager };
+export { SolangEpic, SolangReducer, SolangSlice, getAppFromState, getFilterFromApp, getFilterFromState, createEmptySolrQuery, createSolrQueryObs, prepareQuery, createApp, setParam, setParams, buildQuery, sendQuery, refreshResults, resultsReceived, processFacetFilter, processSimpleFilter, processCustomFilter, processPager, processSort, FacetCheckbox, OptionsList, SolangFacet, SortSelect, SortRadio, SimplePager };
 export type { ISolangState, ICreateAppPayload, ISetParamsPayload, ISetParamPayload, IBuildQueryPayload, iSendQueryPayload, IResultsReceivedPayload, IProcessFilterPayload };

@@ -2,7 +2,7 @@ import {
 // Redux
 SolangSlice, SolangReducer, 
 // Helper functions
-getAppFromState, getFilterFromState, createEmptySolrQuery, 
+getAppFromState, getFilterFromState, getFilterFromApp, createEmptySolrQuery, 
 // Filters
 createApp, setParam, setParams, buildQuery, sendQuery, refreshResults, resultsReceived, processFacetFilter, processSimpleFilter, processCustomFilter, processPager, processSort } from './solang/store/solang.slice';
 import { SolangEpic } from './solang/store/solang.epic';
@@ -15,7 +15,7 @@ import SortRadio from "./solang/components/SortRadio/SortRadio";
 import OptionsList from "./solang/components/OptionsList/OptionsList";
 export { SolangEpic, 
 // Redux
-SolangReducer, SolangSlice, getAppFromState, getFilterFromState, createEmptySolrQuery, 
+SolangReducer, SolangSlice, getAppFromState, getFilterFromApp, getFilterFromState, createEmptySolrQuery, 
 // Helper functions
 createSolrQueryObs, prepareQuery, createApp, 
 // App Reducers
