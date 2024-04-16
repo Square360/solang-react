@@ -6,10 +6,6 @@
   "license": "none",
   "main": "build/lib.js",
   "types": "build/lib.d.ts",
-  "files": [
-    "dist",
-    "README.md"
-  ],
   "outputDir": "./dist",
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.1",
